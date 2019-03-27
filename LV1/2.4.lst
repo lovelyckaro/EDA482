@@ -1,0 +1,33 @@
+
+2.4.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <main>:
+@	Uppgift 2.4
+@
+
+
+
+main:	LDR	R1,=c		@ c -> R1
+20000000:	4903      	ldr	r1, [pc, #12]	; (20000010 <c+0x2>)
+	LDR	R2,=s		@ s -> R2
+20000002:	4a04      	ldr	r2, [pc, #16]	; (20000014 <c+0x6>)
+	LDR	R3,=0		@ 0  -> R3
+20000004:	4b04      	ldr	r3, [pc, #16]	; (20000018 <c+0xa>)
+	LDRB	R0,[R1,R3]	@ M(R1 + R3) -> R0 (Signed byte)
+20000006:	5cc8      	ldrb	r0, [r1, r3]
+	STRH	R0,[R2]		@ R0 -> M(R2)
+20000008:	8010      	strh	r0, [r2, #0]
+	B	main
+2000000a:	e7f9      	b.n	20000000 <main>
+
+2000000c <s>:
+	...
+
+2000000e <c>:
+2000000e:	0080      	.short	0x0080
+20000010:	2000000e 	.word	0x2000000e
+20000014:	2000000c 	.word	0x2000000c
+20000018:	00000000 	.word	0x00000000
