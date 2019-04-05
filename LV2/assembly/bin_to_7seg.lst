@@ -1,0 +1,60 @@
+
+bin_to_7seg.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <init>:
+@
+@	binary input to 7 seg output, uppgift 2.8
+@
+
+
+init:		LDR	R0,=0x40020C00
+20000000:	480b      	ldr	r0, [pc, #44]	; (20000030 <segCodes+0x10>)
+		LDR	R1,=0x55555555
+20000002:	490c      	ldr	r1, [pc, #48]	; (20000034 <segCodes+0x14>)
+		STR	R1,[R0]		@ D = output
+20000004:	6001      	str	r1, [r0, #0]
+		LDR	R5,=0x40020C14	@ R5 = adress to GPIO_D , b0-7 (Output)
+20000006:	4d0c      	ldr	r5, [pc, #48]	; (20000038 <segCodes+0x18>)
+		LDR	R6,=0x40021010	@ R6 = adress to GPIO_E , b0-7 (input)
+20000008:	4e0c      	ldr	r6, [pc, #48]	; (2000003c <segCodes+0x1c>)
+		LDR	R4,=segCodes	@ R4 = adress to array of segcodes
+2000000a:	4c0d      	ldr	r4, [pc, #52]	; (20000040 <segCodes+0x20>)
+
+2000000c <main>:
+main:		LDR	R0,[R6]
+2000000c:	6830      	ldr	r0, [r6, #0]
+		CMP	R0,#16
+2000000e:	2810      	cmp	r0, #16
+		BCC	true
+20000010:	d302      	bcc.n	20000018 <true>
+
+20000012 <false>:
+false:		MOV	R0,#0
+20000012:	2000      	movs	r0, #0
+		STR	R0,[R5]
+20000014:	6028      	str	r0, [r5, #0]
+		B	main
+20000016:	e7f9      	b.n	2000000c <main>
+
+20000018 <true>:
+true:		LDRB	R0,[R4,R0]
+20000018:	5c20      	ldrb	r0, [r4, r0]
+		STRB	R0,[R5]
+2000001a:	7028      	strb	r0, [r5, #0]
+		B	main
+2000001c:	e7f6      	b.n	2000000c <main>
+2000001e:	46c0      	nop			; (mov r8, r8)
+
+20000020 <segCodes>:
+20000020:	4f5b063f 	.word	0x4f5b063f
+20000024:	077d6d66 	.word	0x077d6d66
+20000028:	7c776f7f 	.word	0x7c776f7f
+2000002c:	71795e39 	.word	0x71795e39
+20000030:	40020c00 	.word	0x40020c00
+20000034:	55555555 	.word	0x55555555
+20000038:	40020c14 	.word	0x40020c14
+2000003c:	40021010 	.word	0x40021010
+20000040:	20000020 	.word	0x20000020

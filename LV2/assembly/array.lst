@@ -1,0 +1,17 @@
+
+array.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <start>:
+start:	MOV	R1,#1
+20000000:	2101      	movs	r1, #1
+	MOV	R0,#0
+20000002:	2000      	movs	r0, #0
+
+20000004 <main>:
+main:	ADD	R0,R0,R1
+20000004:	1840      	adds	r0, r0, r1
+	B	main
+20000006:	e7fd      	b.n	20000004 <main>
