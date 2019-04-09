@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="codelite" Database="" Version="10.0.0">
+  <Project Name="basic_io" Path="basic_io/basic_io.project" Active="No"/>
+  <Project Name="basic_io_labb1" Path="basic_io_labb1/basic_io_labb1.project" Active="No"/>
+  <Project Name="delay" Path="delay/delay.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Environment/>
+      <Project Name="basic_io" ConfigName="Debug"/>
+      <Project Name="basic_io_labb1" ConfigName="Debug"/>
+      <Project Name="delay" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Environment/>
+      <Project Name="basic_io" ConfigName="Release"/>
+      <Project Name="basic_io_labb1" ConfigName="Release"/>
+      <Project Name="delay" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>
