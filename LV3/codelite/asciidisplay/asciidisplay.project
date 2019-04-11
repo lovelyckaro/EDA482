@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="basic_io_labb1" Version="10.0.0" InternalType="User templates">
+<CodeLite_Project Name="asciidisplay" Version="10.0.0" InternalType="User templates">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00010001N0005Debug000000000000]]>
@@ -129,6 +129,13 @@ ARM_GCC_M4FPLIB=$(GccArmDir)/lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m]]>
     </Configuration>
   </Settings>
   <VirtualDirectory Name="src">
+    <File Name="GPIO.c"/>
+    <File Name="GPIO.h"/>
+    <File Name="ascii.c"/>
+    <File Name="delay.c"/>
+    <File Name="delay.h"/>
+    <File Name="STK.h"/>
+    <File Name="ascii.h"/>
     <File Name="startup.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
