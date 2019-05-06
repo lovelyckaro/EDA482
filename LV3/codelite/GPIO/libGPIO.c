@@ -120,9 +120,7 @@ void GPIO_init_seven_seg(volatile GPIO* port, bool high) {
 }
 
 void GPIO_put_seven_seg(volatile GPIO* port, bool high, uint8_t value) {
-    port->odr_low = 0x3F;
-    
-    /*int8_t seg_codes[] = {0x3F, 0x6, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x7, 0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71};
+    int8_t seg_codes[] = {0x3F, 0x6, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x7, 0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71};
     volatile uint8_t* odr;
     if (high) {
         odr = &(port->odr_high);
@@ -134,5 +132,5 @@ void GPIO_put_seven_seg(volatile GPIO* port, bool high, uint8_t value) {
         *odr = seg_codes[value];
     }else {
         *odr = 0;
-    }*/
+    }
 }

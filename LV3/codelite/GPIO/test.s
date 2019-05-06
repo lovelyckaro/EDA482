@@ -378,31 +378,75 @@
  400              		.thumb_func
  401              		.fpu softvfp
  403              	GPIO_put_seven_seg:
- 404              		@ args = 0, pretend = 0, frame = 0
+ 404              		@ args = 0, pretend = 0, frame = 16
  405              		@ frame_needed = 0, uses_anonymous_args = 0
- 406              		@ link register save eliminated.
- 407 01a0 3F23     		movs	r3, #63
- 408              		@ sp needed
- 409 01a2 0375     		strb	r3, [r0, #20]
- 410 01a4 7047     		bx	lr
- 412 01a6 C046     		.section	.rodata
- 413              		.align	2
- 414              		.set	.LANCHOR0,. + 0
- 415              	.LC0:
- 416 0000 01       		.byte	1
- 417 0001 02       		.byte	2
- 418 0002 03       		.byte	3
- 419 0003 0A       		.byte	10
- 420 0004 04       		.byte	4
- 421 0005 05       		.byte	5
- 422 0006 06       		.byte	6
- 423 0007 0B       		.byte	11
- 424 0008 07       		.byte	7
- 425 0009 08       		.byte	8
- 426 000a 09       		.byte	9
- 427 000b 0C       		.byte	12
- 428 000c 0E       		.byte	14
- 429 000d 00       		.byte	0
- 430 000e 0F       		.byte	15
- 431 000f 0D       		.byte	13
- 432              		.ident	"GCC: (Arch Repository) 8.3.0"
+ 406 01a0 F0B5     		push	{r4, r5, r6, r7, lr}
+ 407 01a2 85B0     		sub	sp, sp, #20
+ 408 01a4 6C46     		mov	r4, sp
+ 409 01a6 8C46     		mov	ip, r1
+ 410 01a8 2500     		movs	r5, r4
+ 411 01aa 0A4B     		ldr	r3, .L70
+ 412 01ac 1033     		adds	r3, r3, #16
+ 413 01ae C2CB     		ldmia	r3!, {r1, r6, r7}
+ 414 01b0 C2C5     		stmia	r5!, {r1, r6, r7}
+ 415 01b2 6146     		mov	r1, ip
+ 416 01b4 1B68     		ldr	r3, [r3]
+ 417 01b6 2B60     		str	r3, [r5]
+ 418 01b8 4B1E     		subs	r3, r1, #1
+ 419 01ba 9941     		sbcs	r1, r1, r3
+ 420 01bc 4118     		adds	r1, r0, r1
+ 421 01be 1431     		adds	r1, r1, #20
+ 422 01c0 0F2A     		cmp	r2, #15
+ 423 01c2 03D8     		bhi	.L68
+ 424 01c4 A35C     		ldrb	r3, [r4, r2]
+ 425 01c6 0B70     		strb	r3, [r1]
+ 426              	.L65:
+ 427 01c8 05B0     		add	sp, sp, #20
+ 428              		@ sp needed
+ 429 01ca F0BD     		pop	{r4, r5, r6, r7, pc}
+ 430              	.L68:
+ 431 01cc 0023     		movs	r3, #0
+ 432 01ce 0B70     		strb	r3, [r1]
+ 433 01d0 FAE7     		b	.L65
+ 434              	.L71:
+ 435 01d2 C046     		.align	2
+ 436              	.L70:
+ 437 01d4 00000000 		.word	.LANCHOR0
+ 439              		.section	.rodata
+ 440              		.align	2
+ 441              		.set	.LANCHOR0,. + 0
+ 442              	.LC0:
+ 443 0000 01       		.byte	1
+ 444 0001 02       		.byte	2
+ 445 0002 03       		.byte	3
+ 446 0003 0A       		.byte	10
+ 447 0004 04       		.byte	4
+ 448 0005 05       		.byte	5
+ 449 0006 06       		.byte	6
+ 450 0007 0B       		.byte	11
+ 451 0008 07       		.byte	7
+ 452 0009 08       		.byte	8
+ 453 000a 09       		.byte	9
+ 454 000b 0C       		.byte	12
+ 455 000c 0E       		.byte	14
+ 456 000d 00       		.byte	0
+ 457 000e 0F       		.byte	15
+ 458 000f 0D       		.byte	13
+ 459              	.LC1:
+ 460 0010 3F       		.byte	63
+ 461 0011 06       		.byte	6
+ 462 0012 5B       		.byte	91
+ 463 0013 4F       		.byte	79
+ 464 0014 66       		.byte	102
+ 465 0015 6D       		.byte	109
+ 466 0016 7D       		.byte	125
+ 467 0017 07       		.byte	7
+ 468 0018 7F       		.byte	127
+ 469 0019 6F       		.byte	111
+ 470 001a 77       		.byte	119
+ 471 001b 7C       		.byte	124
+ 472 001c 39       		.byte	57
+ 473 001d 5E       		.byte	94
+ 474 001e 79       		.byte	121
+ 475 001f 71       		.byte	113
+ 476              		.ident	"GCC: (Arch Repository) 8.3.0"
