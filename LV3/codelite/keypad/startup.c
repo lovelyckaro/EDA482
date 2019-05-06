@@ -20,9 +20,7 @@ asm volatile(
 
 int main(void)
 {
-    #ifdef USBDM
-        GPIO_clock_start();
-    #endif
+    GPIO_clock_start();
     GPIO_init_seven_seg(GPIO_D, false);
     GPIO_init_keypad(GPIO_D, true);
     

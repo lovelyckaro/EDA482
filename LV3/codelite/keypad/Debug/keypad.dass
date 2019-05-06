@@ -30,291 +30,290 @@ int main(void)
 {
 20000010:	b580      	push	{r7, lr}
 20000012:	af00      	add	r7, sp, #0
-    #ifdef USBDM
-        GPIO_clock_start();
-    #endif
+    GPIO_clock_start();
+20000014:	f000 f83a 	bl	2000008c <GPIO_clock_start>
     GPIO_init_seven_seg(GPIO_D, false);
-20000014:	4b0b      	ldr	r3, [pc, #44]	; (20000044 <main+0x34>)
-20000016:	2100      	movs	r1, #0
-20000018:	0018      	movs	r0, r3
-2000001a:	f000 f8d7 	bl	200001cc <GPIO_init_seven_seg>
+20000018:	4b0b      	ldr	r3, [pc, #44]	; (20000048 <main+0x38>)
+2000001a:	2100      	movs	r1, #0
+2000001c:	0018      	movs	r0, r3
+2000001e:	f000 f8d7 	bl	200001d0 <GPIO_init_seven_seg>
     GPIO_init_keypad(GPIO_D, true);
-2000001e:	4b09      	ldr	r3, [pc, #36]	; (20000044 <main+0x34>)
-20000020:	2101      	movs	r1, #1
-20000022:	0018      	movs	r0, r3
-20000024:	f000 f836 	bl	20000094 <GPIO_init_keypad>
+20000022:	4b09      	ldr	r3, [pc, #36]	; (20000048 <main+0x38>)
+20000024:	2101      	movs	r1, #1
+20000026:	0018      	movs	r0, r3
+20000028:	f000 f836 	bl	20000098 <GPIO_init_keypad>
     
     while(true) {
         GPIO_put_seven_seg(GPIO_D, false, GPIO_read_keypad(GPIO_D, true));
-20000028:	4b06      	ldr	r3, [pc, #24]	; (20000044 <main+0x34>)
-2000002a:	2101      	movs	r1, #1
-2000002c:	0018      	movs	r0, r3
-2000002e:	f000 f88f 	bl	20000150 <GPIO_read_keypad>
-20000032:	0003      	movs	r3, r0
-20000034:	001a      	movs	r2, r3
-20000036:	4b03      	ldr	r3, [pc, #12]	; (20000044 <main+0x34>)
-20000038:	2100      	movs	r1, #0
-2000003a:	0018      	movs	r0, r3
-2000003c:	f000 f8d4 	bl	200001e8 <GPIO_put_seven_seg>
-20000040:	e7f2      	b.n	20000028 <main+0x18>
-20000042:	46c0      	nop			; (mov r8, r8)
-20000044:	40020c00 	andmi	r0, r2, r0, lsl #24
+2000002c:	4b06      	ldr	r3, [pc, #24]	; (20000048 <main+0x38>)
+2000002e:	2101      	movs	r1, #1
+20000030:	0018      	movs	r0, r3
+20000032:	f000 f88f 	bl	20000154 <GPIO_read_keypad>
+20000036:	0003      	movs	r3, r0
+20000038:	001a      	movs	r2, r3
+2000003a:	4b03      	ldr	r3, [pc, #12]	; (20000048 <main+0x38>)
+2000003c:	2100      	movs	r1, #0
+2000003e:	0018      	movs	r0, r3
+20000040:	f000 f8d4 	bl	200001ec <GPIO_put_seven_seg>
+20000044:	e7f2      	b.n	2000002c <main+0x1c>
+20000046:	46c0      	nop			; (mov r8, r8)
+20000048:	40020c00 	andmi	r0, r2, r0, lsl #24
 
-20000048 <init_GPIO>:
-20000048:	6001      	str	r1, [r0, #0]
-2000004a:	4770      	bx	lr
+2000004c <init_GPIO>:
+2000004c:	6001      	str	r1, [r0, #0]
+2000004e:	4770      	bx	lr
 
-2000004c <GPIO_split_mode>:
-2000004c:	424b      	negs	r3, r1
-2000004e:	4159      	adcs	r1, r3
-20000050:	4b05      	ldr	r3, [pc, #20]	; (20000068 <GPIO_split_mode+0x1c>)
-20000052:	4249      	negs	r1, r1
-20000054:	4019      	ands	r1, r3
-20000056:	4b05      	ldr	r3, [pc, #20]	; (2000006c <GPIO_split_mode+0x20>)
-20000058:	469c      	mov	ip, r3
-2000005a:	4461      	add	r1, ip
-2000005c:	2a00      	cmp	r2, #0
-2000005e:	d001      	beq.n	20000064 <GPIO_split_mode+0x18>
-20000060:	4b03      	ldr	r3, [pc, #12]	; (20000070 <GPIO_split_mode+0x24>)
-20000062:	4319      	orrs	r1, r3
-20000064:	6001      	str	r1, [r0, #0]
-20000066:	4770      	bx	lr
-20000068:	aaab0000 	bge	1eac0070 <startup-0x153ff90>
-2000006c:	55550000 	ldrbpl	r0, [r5, #-0]
-20000070:	00005555 	andeq	r5, r0, r5, asr r5
+20000050 <GPIO_split_mode>:
+20000050:	424b      	negs	r3, r1
+20000052:	4159      	adcs	r1, r3
+20000054:	4b05      	ldr	r3, [pc, #20]	; (2000006c <GPIO_split_mode+0x1c>)
+20000056:	4249      	negs	r1, r1
+20000058:	4019      	ands	r1, r3
+2000005a:	4b05      	ldr	r3, [pc, #20]	; (20000070 <GPIO_split_mode+0x20>)
+2000005c:	469c      	mov	ip, r3
+2000005e:	4461      	add	r1, ip
+20000060:	2a00      	cmp	r2, #0
+20000062:	d001      	beq.n	20000068 <GPIO_split_mode+0x18>
+20000064:	4b03      	ldr	r3, [pc, #12]	; (20000074 <GPIO_split_mode+0x24>)
+20000066:	4319      	orrs	r1, r3
+20000068:	6001      	str	r1, [r0, #0]
+2000006a:	4770      	bx	lr
+2000006c:	aaab0000 	bge	1eac0074 <startup-0x153ff8c>
+20000070:	55550000 	ldrbpl	r0, [r5, #-0]
+20000074:	00005555 	andeq	r5, r0, r5, asr r5
 
-20000074 <GPIO_output>:
-20000074:	4b01      	ldr	r3, [pc, #4]	; (2000007c <GPIO_output+0x8>)
-20000076:	6003      	str	r3, [r0, #0]
-20000078:	4770      	bx	lr
-2000007a:	46c0      	nop			; (mov r8, r8)
-2000007c:	55555555 	ldrbpl	r5, [r5, #-1365]	; 0xfffffaab
+20000078 <GPIO_output>:
+20000078:	4b01      	ldr	r3, [pc, #4]	; (20000080 <GPIO_output+0x8>)
+2000007a:	6003      	str	r3, [r0, #0]
+2000007c:	4770      	bx	lr
+2000007e:	46c0      	nop			; (mov r8, r8)
+20000080:	55555555 	ldrbpl	r5, [r5, #-1365]	; 0xfffffaab
 
-20000080 <GPIO_input>:
-20000080:	2300      	movs	r3, #0
-20000082:	6003      	str	r3, [r0, #0]
-20000084:	4770      	bx	lr
-20000086:	46c0      	nop			; (mov r8, r8)
+20000084 <GPIO_input>:
+20000084:	2300      	movs	r3, #0
+20000086:	6003      	str	r3, [r0, #0]
+20000088:	4770      	bx	lr
+2000008a:	46c0      	nop			; (mov r8, r8)
 
-20000088 <GPIO_clock_start>:
-20000088:	2218      	movs	r2, #24
-2000008a:	4b01      	ldr	r3, [pc, #4]	; (20000090 <GPIO_clock_start+0x8>)
-2000008c:	601a      	str	r2, [r3, #0]
-2000008e:	4770      	bx	lr
-20000090:	40023830 	andmi	r3, r2, r0, lsr r8
+2000008c <GPIO_clock_start>:
+2000008c:	2218      	movs	r2, #24
+2000008e:	4b01      	ldr	r3, [pc, #4]	; (20000094 <GPIO_clock_start+0x8>)
+20000090:	601a      	str	r2, [r3, #0]
+20000092:	4770      	bx	lr
+20000094:	40023830 	andmi	r3, r2, r0, lsr r8
 
-20000094 <GPIO_init_keypad>:
-20000094:	b570      	push	{r4, r5, r6, lr}
-20000096:	2900      	cmp	r1, #0
-20000098:	d113      	bne.n	200000c2 <GPIO_init_keypad+0x2e>
-2000009a:	23ff      	movs	r3, #255	; 0xff
-2000009c:	26aa      	movs	r6, #170	; 0xaa
-2000009e:	25aa      	movs	r5, #170	; 0xaa
-200000a0:	4c0c      	ldr	r4, [pc, #48]	; (200000d4 <GPIO_init_keypad+0x40>)
-200000a2:	310f      	adds	r1, #15
-200000a4:	021b      	lsls	r3, r3, #8
-200000a6:	01f6      	lsls	r6, r6, #7
-200000a8:	6802      	ldr	r2, [r0, #0]
-200000aa:	4022      	ands	r2, r4
-200000ac:	4332      	orrs	r2, r6
-200000ae:	6002      	str	r2, [r0, #0]
-200000b0:	8882      	ldrh	r2, [r0, #4]
-200000b2:	401a      	ands	r2, r3
-200000b4:	430a      	orrs	r2, r1
-200000b6:	8082      	strh	r2, [r0, #4]
-200000b8:	68c3      	ldr	r3, [r0, #12]
-200000ba:	4023      	ands	r3, r4
-200000bc:	432b      	orrs	r3, r5
-200000be:	60c3      	str	r3, [r0, #12]
-200000c0:	bd70      	pop	{r4, r5, r6, pc}
-200000c2:	21f0      	movs	r1, #240	; 0xf0
-200000c4:	25aa      	movs	r5, #170	; 0xaa
-200000c6:	26aa      	movs	r6, #170	; 0xaa
-200000c8:	0109      	lsls	r1, r1, #4
-200000ca:	23ff      	movs	r3, #255	; 0xff
-200000cc:	042d      	lsls	r5, r5, #16
-200000ce:	05f6      	lsls	r6, r6, #23
-200000d0:	4c01      	ldr	r4, [pc, #4]	; (200000d8 <GPIO_init_keypad+0x44>)
-200000d2:	e7e9      	b.n	200000a8 <GPIO_init_keypad+0x14>
-200000d4:	ffff0000 			; <UNDEFINED> instruction: 0xffff0000
-200000d8:	0000ffff 	strdeq	pc, [r0], -pc	; <UNPREDICTABLE>
+20000098 <GPIO_init_keypad>:
+20000098:	b570      	push	{r4, r5, r6, lr}
+2000009a:	2900      	cmp	r1, #0
+2000009c:	d113      	bne.n	200000c6 <GPIO_init_keypad+0x2e>
+2000009e:	23ff      	movs	r3, #255	; 0xff
+200000a0:	26aa      	movs	r6, #170	; 0xaa
+200000a2:	25aa      	movs	r5, #170	; 0xaa
+200000a4:	4c0c      	ldr	r4, [pc, #48]	; (200000d8 <GPIO_init_keypad+0x40>)
+200000a6:	310f      	adds	r1, #15
+200000a8:	021b      	lsls	r3, r3, #8
+200000aa:	01f6      	lsls	r6, r6, #7
+200000ac:	6802      	ldr	r2, [r0, #0]
+200000ae:	4022      	ands	r2, r4
+200000b0:	4332      	orrs	r2, r6
+200000b2:	6002      	str	r2, [r0, #0]
+200000b4:	8882      	ldrh	r2, [r0, #4]
+200000b6:	401a      	ands	r2, r3
+200000b8:	430a      	orrs	r2, r1
+200000ba:	8082      	strh	r2, [r0, #4]
+200000bc:	68c3      	ldr	r3, [r0, #12]
+200000be:	4023      	ands	r3, r4
+200000c0:	432b      	orrs	r3, r5
+200000c2:	60c3      	str	r3, [r0, #12]
+200000c4:	bd70      	pop	{r4, r5, r6, pc}
+200000c6:	21f0      	movs	r1, #240	; 0xf0
+200000c8:	25aa      	movs	r5, #170	; 0xaa
+200000ca:	26aa      	movs	r6, #170	; 0xaa
+200000cc:	0109      	lsls	r1, r1, #4
+200000ce:	23ff      	movs	r3, #255	; 0xff
+200000d0:	042d      	lsls	r5, r5, #16
+200000d2:	05f6      	lsls	r6, r6, #23
+200000d4:	4c01      	ldr	r4, [pc, #4]	; (200000dc <GPIO_init_keypad+0x44>)
+200000d6:	e7e9      	b.n	200000ac <GPIO_init_keypad+0x14>
+200000d8:	ffff0000 			; <UNDEFINED> instruction: 0xffff0000
+200000dc:	0000ffff 	strdeq	pc, [r0], -pc	; <UNPREDICTABLE>
 
-200000dc <activate_row>:
-200000dc:	2308      	movs	r3, #8
-200000de:	4093      	lsls	r3, r2
-200000e0:	b2db      	uxtb	r3, r3
-200000e2:	2900      	cmp	r1, #0
-200000e4:	d001      	beq.n	200000ea <activate_row+0xe>
-200000e6:	7543      	strb	r3, [r0, #21]
-200000e8:	4770      	bx	lr
-200000ea:	7503      	strb	r3, [r0, #20]
-200000ec:	e7fc      	b.n	200000e8 <activate_row+0xc>
-200000ee:	46c0      	nop			; (mov r8, r8)
+200000e0 <activate_row>:
+200000e0:	2308      	movs	r3, #8
+200000e2:	4093      	lsls	r3, r2
+200000e4:	b2db      	uxtb	r3, r3
+200000e6:	2900      	cmp	r1, #0
+200000e8:	d001      	beq.n	200000ee <activate_row+0xe>
+200000ea:	7543      	strb	r3, [r0, #21]
+200000ec:	4770      	bx	lr
+200000ee:	7503      	strb	r3, [r0, #20]
+200000f0:	e7fc      	b.n	200000ec <activate_row+0xc>
+200000f2:	46c0      	nop			; (mov r8, r8)
 
-200000f0 <read_column>:
-200000f0:	2900      	cmp	r1, #0
-200000f2:	d00a      	beq.n	2000010a <read_column+0x1a>
-200000f4:	230f      	movs	r3, #15
-200000f6:	7c42      	ldrb	r2, [r0, #17]
-200000f8:	4013      	ands	r3, r2
-200000fa:	2000      	movs	r0, #0
-200000fc:	2b00      	cmp	r3, #0
-200000fe:	d003      	beq.n	20000108 <read_column+0x18>
-20000100:	3001      	adds	r0, #1
-20000102:	b240      	sxtb	r0, r0
-20000104:	085b      	lsrs	r3, r3, #1
-20000106:	d1fb      	bne.n	20000100 <read_column+0x10>
-20000108:	4770      	bx	lr
-2000010a:	230f      	movs	r3, #15
-2000010c:	7c02      	ldrb	r2, [r0, #16]
-2000010e:	4013      	ands	r3, r2
-20000110:	e7f3      	b.n	200000fa <read_column+0xa>
-20000112:	46c0      	nop			; (mov r8, r8)
+200000f4 <read_column>:
+200000f4:	2900      	cmp	r1, #0
+200000f6:	d00a      	beq.n	2000010e <read_column+0x1a>
+200000f8:	230f      	movs	r3, #15
+200000fa:	7c42      	ldrb	r2, [r0, #17]
+200000fc:	4013      	ands	r3, r2
+200000fe:	2000      	movs	r0, #0
+20000100:	2b00      	cmp	r3, #0
+20000102:	d003      	beq.n	2000010c <read_column+0x18>
+20000104:	3001      	adds	r0, #1
+20000106:	b240      	sxtb	r0, r0
+20000108:	085b      	lsrs	r3, r3, #1
+2000010a:	d1fb      	bne.n	20000104 <read_column+0x10>
+2000010c:	4770      	bx	lr
+2000010e:	230f      	movs	r3, #15
+20000110:	7c02      	ldrb	r2, [r0, #16]
+20000112:	4013      	ands	r3, r2
+20000114:	e7f3      	b.n	200000fe <read_column+0xa>
+20000116:	46c0      	nop			; (mov r8, r8)
 
-20000114 <key_value>:
-20000114:	b5f0      	push	{r4, r5, r6, r7, lr}
-20000116:	b085      	sub	sp, #20
-20000118:	466a      	mov	r2, sp
-2000011a:	0014      	movs	r4, r2
-2000011c:	4b0b      	ldr	r3, [pc, #44]	; (2000014c <key_value+0x38>)
-2000011e:	3801      	subs	r0, #1
-20000120:	cbe0      	ldmia	r3!, {r5, r6, r7}
-20000122:	c4e0      	stmia	r4!, {r5, r6, r7}
-20000124:	681b      	ldr	r3, [r3, #0]
-20000126:	6023      	str	r3, [r4, #0]
-20000128:	b2c3      	uxtb	r3, r0
-2000012a:	2b03      	cmp	r3, #3
-2000012c:	d80a      	bhi.n	20000144 <key_value+0x30>
-2000012e:	1e4b      	subs	r3, r1, #1
-20000130:	b2db      	uxtb	r3, r3
-20000132:	2b03      	cmp	r3, #3
-20000134:	d806      	bhi.n	20000144 <key_value+0x30>
-20000136:	0080      	lsls	r0, r0, #2
-20000138:	1812      	adds	r2, r2, r0
-2000013a:	2001      	movs	r0, #1
-2000013c:	1852      	adds	r2, r2, r1
-2000013e:	4240      	negs	r0, r0
-20000140:	5610      	ldrsb	r0, [r2, r0]
-20000142:	e000      	b.n	20000146 <key_value+0x32>
-20000144:	2000      	movs	r0, #0
-20000146:	b005      	add	sp, #20
-20000148:	bdf0      	pop	{r4, r5, r6, r7, pc}
-2000014a:	46c0      	nop			; (mov r8, r8)
-2000014c:	20000220 	andcs	r0, r0, r0, lsr #4
+20000118 <key_value>:
+20000118:	b5f0      	push	{r4, r5, r6, r7, lr}
+2000011a:	b085      	sub	sp, #20
+2000011c:	466a      	mov	r2, sp
+2000011e:	0014      	movs	r4, r2
+20000120:	4b0b      	ldr	r3, [pc, #44]	; (20000150 <key_value+0x38>)
+20000122:	3801      	subs	r0, #1
+20000124:	cbe0      	ldmia	r3!, {r5, r6, r7}
+20000126:	c4e0      	stmia	r4!, {r5, r6, r7}
+20000128:	681b      	ldr	r3, [r3, #0]
+2000012a:	6023      	str	r3, [r4, #0]
+2000012c:	b2c3      	uxtb	r3, r0
+2000012e:	2b03      	cmp	r3, #3
+20000130:	d80a      	bhi.n	20000148 <key_value+0x30>
+20000132:	1e4b      	subs	r3, r1, #1
+20000134:	b2db      	uxtb	r3, r3
+20000136:	2b03      	cmp	r3, #3
+20000138:	d806      	bhi.n	20000148 <key_value+0x30>
+2000013a:	0080      	lsls	r0, r0, #2
+2000013c:	1812      	adds	r2, r2, r0
+2000013e:	2001      	movs	r0, #1
+20000140:	1852      	adds	r2, r2, r1
+20000142:	4240      	negs	r0, r0
+20000144:	5610      	ldrsb	r0, [r2, r0]
+20000146:	e000      	b.n	2000014a <key_value+0x32>
+20000148:	2000      	movs	r0, #0
+2000014a:	b005      	add	sp, #20
+2000014c:	bdf0      	pop	{r4, r5, r6, r7, pc}
+2000014e:	46c0      	nop			; (mov r8, r8)
+20000150:	20000224 	andcs	r0, r0, r4, lsr #4
 
-20000150 <GPIO_read_keypad>:
-20000150:	2301      	movs	r3, #1
-20000152:	b5f0      	push	{r4, r5, r6, r7, lr}
-20000154:	46c6      	mov	lr, r8
-20000156:	0005      	movs	r5, r0
-20000158:	469c      	mov	ip, r3
-2000015a:	2708      	movs	r7, #8
-2000015c:	260f      	movs	r6, #15
-2000015e:	b500      	push	{lr}
-20000160:	b084      	sub	sp, #16
-20000162:	003b      	movs	r3, r7
-20000164:	4662      	mov	r2, ip
-20000166:	4093      	lsls	r3, r2
-20000168:	b2db      	uxtb	r3, r3
-2000016a:	2900      	cmp	r1, #0
-2000016c:	d017      	beq.n	2000019e <GPIO_read_keypad+0x4e>
-2000016e:	756b      	strb	r3, [r5, #21]
-20000170:	7c68      	ldrb	r0, [r5, #17]
-20000172:	4030      	ands	r0, r6
-20000174:	2800      	cmp	r0, #0
-20000176:	d007      	beq.n	20000188 <GPIO_read_keypad+0x38>
-20000178:	2300      	movs	r3, #0
-2000017a:	b2da      	uxtb	r2, r3
-2000017c:	1c53      	adds	r3, r2, #1
-2000017e:	b25b      	sxtb	r3, r3
-20000180:	0840      	lsrs	r0, r0, #1
-20000182:	d1fa      	bne.n	2000017a <GPIO_read_keypad+0x2a>
-20000184:	2b00      	cmp	r3, #0
-20000186:	d10e      	bne.n	200001a6 <GPIO_read_keypad+0x56>
-20000188:	2301      	movs	r3, #1
-2000018a:	4698      	mov	r8, r3
-2000018c:	44c4      	add	ip, r8
-2000018e:	4663      	mov	r3, ip
-20000190:	2b05      	cmp	r3, #5
-20000192:	d1e6      	bne.n	20000162 <GPIO_read_keypad+0x12>
-20000194:	2010      	movs	r0, #16
-20000196:	b004      	add	sp, #16
-20000198:	bc04      	pop	{r2}
-2000019a:	4690      	mov	r8, r2
-2000019c:	bdf0      	pop	{r4, r5, r6, r7, pc}
-2000019e:	752b      	strb	r3, [r5, #20]
-200001a0:	7c28      	ldrb	r0, [r5, #16]
-200001a2:	4030      	ands	r0, r6
-200001a4:	e7e6      	b.n	20000174 <GPIO_read_keypad+0x24>
-200001a6:	46e8      	mov	r8, sp
-200001a8:	4646      	mov	r6, r8
-200001aa:	4d07      	ldr	r5, [pc, #28]	; (200001c8 <GPIO_read_keypad+0x78>)
-200001ac:	cd92      	ldmia	r5!, {r1, r4, r7}
-200001ae:	c692      	stmia	r6!, {r1, r4, r7}
-200001b0:	682d      	ldr	r5, [r5, #0]
-200001b2:	6035      	str	r5, [r6, #0]
-200001b4:	2a03      	cmp	r2, #3
-200001b6:	d8ee      	bhi.n	20000196 <GPIO_read_keypad+0x46>
-200001b8:	4664      	mov	r4, ip
-200001ba:	3c01      	subs	r4, #1
-200001bc:	00a4      	lsls	r4, r4, #2
-200001be:	4444      	add	r4, r8
-200001c0:	18e3      	adds	r3, r4, r3
-200001c2:	3b01      	subs	r3, #1
-200001c4:	7818      	ldrb	r0, [r3, #0]
-200001c6:	e7e6      	b.n	20000196 <GPIO_read_keypad+0x46>
-200001c8:	20000220 	andcs	r0, r0, r0, lsr #4
+20000154 <GPIO_read_keypad>:
+20000154:	2301      	movs	r3, #1
+20000156:	b5f0      	push	{r4, r5, r6, r7, lr}
+20000158:	46c6      	mov	lr, r8
+2000015a:	0005      	movs	r5, r0
+2000015c:	469c      	mov	ip, r3
+2000015e:	2708      	movs	r7, #8
+20000160:	260f      	movs	r6, #15
+20000162:	b500      	push	{lr}
+20000164:	b084      	sub	sp, #16
+20000166:	003b      	movs	r3, r7
+20000168:	4662      	mov	r2, ip
+2000016a:	4093      	lsls	r3, r2
+2000016c:	b2db      	uxtb	r3, r3
+2000016e:	2900      	cmp	r1, #0
+20000170:	d017      	beq.n	200001a2 <GPIO_read_keypad+0x4e>
+20000172:	756b      	strb	r3, [r5, #21]
+20000174:	7c68      	ldrb	r0, [r5, #17]
+20000176:	4030      	ands	r0, r6
+20000178:	2800      	cmp	r0, #0
+2000017a:	d007      	beq.n	2000018c <GPIO_read_keypad+0x38>
+2000017c:	2300      	movs	r3, #0
+2000017e:	b2da      	uxtb	r2, r3
+20000180:	1c53      	adds	r3, r2, #1
+20000182:	b25b      	sxtb	r3, r3
+20000184:	0840      	lsrs	r0, r0, #1
+20000186:	d1fa      	bne.n	2000017e <GPIO_read_keypad+0x2a>
+20000188:	2b00      	cmp	r3, #0
+2000018a:	d10e      	bne.n	200001aa <GPIO_read_keypad+0x56>
+2000018c:	2301      	movs	r3, #1
+2000018e:	4698      	mov	r8, r3
+20000190:	44c4      	add	ip, r8
+20000192:	4663      	mov	r3, ip
+20000194:	2b05      	cmp	r3, #5
+20000196:	d1e6      	bne.n	20000166 <GPIO_read_keypad+0x12>
+20000198:	2010      	movs	r0, #16
+2000019a:	b004      	add	sp, #16
+2000019c:	bc04      	pop	{r2}
+2000019e:	4690      	mov	r8, r2
+200001a0:	bdf0      	pop	{r4, r5, r6, r7, pc}
+200001a2:	752b      	strb	r3, [r5, #20]
+200001a4:	7c28      	ldrb	r0, [r5, #16]
+200001a6:	4030      	ands	r0, r6
+200001a8:	e7e6      	b.n	20000178 <GPIO_read_keypad+0x24>
+200001aa:	46e8      	mov	r8, sp
+200001ac:	4646      	mov	r6, r8
+200001ae:	4d07      	ldr	r5, [pc, #28]	; (200001cc <GPIO_read_keypad+0x78>)
+200001b0:	cd92      	ldmia	r5!, {r1, r4, r7}
+200001b2:	c692      	stmia	r6!, {r1, r4, r7}
+200001b4:	682d      	ldr	r5, [r5, #0]
+200001b6:	6035      	str	r5, [r6, #0]
+200001b8:	2a03      	cmp	r2, #3
+200001ba:	d8ee      	bhi.n	2000019a <GPIO_read_keypad+0x46>
+200001bc:	4664      	mov	r4, ip
+200001be:	3c01      	subs	r4, #1
+200001c0:	00a4      	lsls	r4, r4, #2
+200001c2:	4444      	add	r4, r8
+200001c4:	18e3      	adds	r3, r4, r3
+200001c6:	3b01      	subs	r3, #1
+200001c8:	7818      	ldrb	r0, [r3, #0]
+200001ca:	e7e6      	b.n	2000019a <GPIO_read_keypad+0x46>
+200001cc:	20000224 	andcs	r0, r0, r4, lsr #4
 
-200001cc <GPIO_init_seven_seg>:
-200001cc:	1e4b      	subs	r3, r1, #1
-200001ce:	4199      	sbcs	r1, r3
-200001d0:	4b03      	ldr	r3, [pc, #12]	; (200001e0 <GPIO_init_seven_seg+0x14>)
-200001d2:	4249      	negs	r1, r1
-200001d4:	4019      	ands	r1, r3
-200001d6:	4b03      	ldr	r3, [pc, #12]	; (200001e4 <GPIO_init_seven_seg+0x18>)
-200001d8:	469c      	mov	ip, r3
-200001da:	4461      	add	r1, ip
-200001dc:	6001      	str	r1, [r0, #0]
-200001de:	4770      	bx	lr
-200001e0:	5554aaab 	ldrbpl	sl, [r4, #-2731]	; 0xfffff555
-200001e4:	00005555 	andeq	r5, r0, r5, asr r5
+200001d0 <GPIO_init_seven_seg>:
+200001d0:	1e4b      	subs	r3, r1, #1
+200001d2:	4199      	sbcs	r1, r3
+200001d4:	4b03      	ldr	r3, [pc, #12]	; (200001e4 <GPIO_init_seven_seg+0x14>)
+200001d6:	4249      	negs	r1, r1
+200001d8:	4019      	ands	r1, r3
+200001da:	4b03      	ldr	r3, [pc, #12]	; (200001e8 <GPIO_init_seven_seg+0x18>)
+200001dc:	469c      	mov	ip, r3
+200001de:	4461      	add	r1, ip
+200001e0:	6001      	str	r1, [r0, #0]
+200001e2:	4770      	bx	lr
+200001e4:	5554aaab 	ldrbpl	sl, [r4, #-2731]	; 0xfffff555
+200001e8:	00005555 	andeq	r5, r0, r5, asr r5
 
-200001e8 <GPIO_put_seven_seg>:
-200001e8:	b5f0      	push	{r4, r5, r6, r7, lr}
-200001ea:	b085      	sub	sp, #20
-200001ec:	466c      	mov	r4, sp
-200001ee:	468c      	mov	ip, r1
-200001f0:	0025      	movs	r5, r4
-200001f2:	4b0a      	ldr	r3, [pc, #40]	; (2000021c <GPIO_put_seven_seg+0x34>)
-200001f4:	3310      	adds	r3, #16
-200001f6:	cbc2      	ldmia	r3!, {r1, r6, r7}
-200001f8:	c5c2      	stmia	r5!, {r1, r6, r7}
-200001fa:	4661      	mov	r1, ip
-200001fc:	681b      	ldr	r3, [r3, #0]
-200001fe:	602b      	str	r3, [r5, #0]
-20000200:	1e4b      	subs	r3, r1, #1
-20000202:	4199      	sbcs	r1, r3
-20000204:	1841      	adds	r1, r0, r1
-20000206:	3114      	adds	r1, #20
-20000208:	2a0f      	cmp	r2, #15
-2000020a:	d803      	bhi.n	20000214 <GPIO_put_seven_seg+0x2c>
-2000020c:	5ca3      	ldrb	r3, [r4, r2]
-2000020e:	700b      	strb	r3, [r1, #0]
-20000210:	b005      	add	sp, #20
-20000212:	bdf0      	pop	{r4, r5, r6, r7, pc}
-20000214:	2300      	movs	r3, #0
-20000216:	700b      	strb	r3, [r1, #0]
-20000218:	e7fa      	b.n	20000210 <GPIO_put_seven_seg+0x28>
-2000021a:	46c0      	nop			; (mov r8, r8)
-2000021c:	20000220 	andcs	r0, r0, r0, lsr #4
-20000220:	0a030201 	beq	200c0a2c <GPIO_put_seven_seg+0xc0844>
-20000224:	0b060504 	bleq	2018163c <GPIO_put_seven_seg+0x181454>
-20000228:	0c090807 	stceq	8, cr0, [r9], {7}
-2000022c:	0d0f000e 	stceq	0, cr0, [pc, #-56]	; 200001fc <GPIO_put_seven_seg+0x14>
-20000230:	4f5b063f 	svcmi	0x005b063f
-20000234:	077d6d66 	ldrbeq	r6, [sp, -r6, ror #26]!
-20000238:	7c776f7f 	ldclvc	15, cr6, [r7], #-508	; 0xfffffe04
-2000023c:	71795e39 	cmnvc	r9, r9, lsr lr
+200001ec <GPIO_put_seven_seg>:
+200001ec:	b5f0      	push	{r4, r5, r6, r7, lr}
+200001ee:	b085      	sub	sp, #20
+200001f0:	466c      	mov	r4, sp
+200001f2:	468c      	mov	ip, r1
+200001f4:	0025      	movs	r5, r4
+200001f6:	4b0a      	ldr	r3, [pc, #40]	; (20000220 <GPIO_put_seven_seg+0x34>)
+200001f8:	3310      	adds	r3, #16
+200001fa:	cbc2      	ldmia	r3!, {r1, r6, r7}
+200001fc:	c5c2      	stmia	r5!, {r1, r6, r7}
+200001fe:	4661      	mov	r1, ip
+20000200:	681b      	ldr	r3, [r3, #0]
+20000202:	602b      	str	r3, [r5, #0]
+20000204:	1e4b      	subs	r3, r1, #1
+20000206:	4199      	sbcs	r1, r3
+20000208:	1841      	adds	r1, r0, r1
+2000020a:	3114      	adds	r1, #20
+2000020c:	2a0f      	cmp	r2, #15
+2000020e:	d803      	bhi.n	20000218 <GPIO_put_seven_seg+0x2c>
+20000210:	5ca3      	ldrb	r3, [r4, r2]
+20000212:	700b      	strb	r3, [r1, #0]
+20000214:	b005      	add	sp, #20
+20000216:	bdf0      	pop	{r4, r5, r6, r7, pc}
+20000218:	2300      	movs	r3, #0
+2000021a:	700b      	strb	r3, [r1, #0]
+2000021c:	e7fa      	b.n	20000214 <GPIO_put_seven_seg+0x28>
+2000021e:	46c0      	nop			; (mov r8, r8)
+20000220:	20000224 	andcs	r0, r0, r4, lsr #4
+20000224:	0a030201 	beq	200c0a30 <GPIO_put_seven_seg+0xc0844>
+20000228:	0b060504 	bleq	20181640 <GPIO_put_seven_seg+0x181454>
+2000022c:	0c090807 	stceq	8, cr0, [r9], {7}
+20000230:	0d0f000e 	stceq	0, cr0, [pc, #-56]	; 20000200 <GPIO_put_seven_seg+0x14>
+20000234:	4f5b063f 	svcmi	0x005b063f
+20000238:	077d6d66 	ldrbeq	r6, [sp, -r6, ror #26]!
+2000023c:	7c776f7f 	ldclvc	15, cr6, [r7], #-508	; 0xfffffe04
+20000240:	71795e39 	cmnvc	r9, r9, lsr lr
 
 Disassembly of section .debug_info:
 
@@ -408,7 +407,7 @@ Disassembly of section .debug_info:
  160:	05150100 	ldreq	r0, [r5, #-256]	; 0xffffff00
  164:	00000081 	andeq	r0, r0, r1, lsl #1
  168:	20000010 	andcs	r0, r0, r0, lsl r0
- 16c:	00000038 	andeq	r0, r0, r8, lsr r0
+ 16c:	0000003c 	andeq	r0, r0, ip, lsr r0
  170:	26089c01 	strcs	r9, [r8], -r1, lsl #24
  174:	01000001 	tsteq	r0, r1
  178:	0000060b 	andeq	r0, r0, fp, lsl #12
@@ -465,7 +464,7 @@ Disassembly of section .debug_aranges:
    8:	00040000 	andeq	r0, r4, r0
    c:	00000000 	andeq	r0, r0, r0
   10:	20000010 	andcs	r0, r0, r0, lsl r0
-  14:	00000038 	andeq	r0, r0, r8, lsr r0
+  14:	0000003c 	andeq	r0, r0, ip, lsr r0
   18:	20000000 	andcs	r0, r0, r0
   1c:	0000000c 	andeq	r0, r0, ip
 	...
@@ -474,7 +473,7 @@ Disassembly of section .debug_ranges:
 
 00000000 <.debug_ranges>:
    0:	20000010 	andcs	r0, r0, r0, lsl r0
-   4:	20000048 	andcs	r0, r0, r8, asr #32
+   4:	2000004c 	andcs	r0, r0, ip, asr #32
    8:	20000000 	andcs	r0, r0, r0
    c:	2000000c 	andcs	r0, r0, ip
 	...
@@ -482,7 +481,7 @@ Disassembly of section .debug_ranges:
 Disassembly of section .debug_line:
 
 00000000 <.debug_line>:
-   0:	0000012a 	andeq	r0, r0, sl, lsr #2
+   0:	0000012b 	andeq	r0, r0, fp, lsr #2
    4:	00f50003 	rscseq	r0, r5, r3
    8:	01020000 	mrseq	r0, (UNDEF: 2)
    c:	000d0efb 	strdeq	r0, [sp], -fp
@@ -554,9 +553,9 @@ Disassembly of section .debug_line:
  114:	10020500 	andne	r0, r2, r0, lsl #10
  118:	03200000 	nopeq	{0}	; <UNPREDICTABLE>
  11c:	05050115 	streq	r0, [r5, #-277]	; 0xfffffeeb
- 120:	09055932 	stmdbeq	r5, {r1, r4, r5, r8, fp, ip, lr}
- 124:	01040200 	mrseq	r0, R12_usr
- 128:	0010025b 	andseq	r0, r0, fp, asr r2
+ 120:	05592f2f 	ldrbeq	r2, [r9, #-3887]	; 0xfffff0d1
+ 124:	04020009 	streq	r0, [r2], #-9
+ 128:	10025b01 	andne	r5, r2, r1, lsl #22
  12c:	Address 0x000000000000012c is out of bounds.
 
 
@@ -573,13 +572,13 @@ Disassembly of section .debug_str:
   1c:	68676968 	stmdavs	r7!, {r3, r5, r6, r8, fp, sp, lr}^
   20:	79746f00 	ldmdbvc	r4!, {r8, r9, sl, fp, sp, lr}^
   24:	00726570 	rsbseq	r6, r2, r0, ror r5
-  28:	6d6f682f 	stclvs	8, cr6, [pc, #-188]!	; ffffff74 <GPIO_put_seven_seg+0xdffffd8c>
+  28:	6d6f682f 	stclvs	8, cr6, [pc, #-188]!	; ffffff74 <GPIO_put_seven_seg+0xdffffd88>
   2c:	6f6c2f65 	svcvs	0x006c2f65
   30:	442f6576 	strtmi	r6, [pc], #-1398	; 38 <startup-0x1fffffc8>
   34:	6d75636f 	ldclvs	3, cr6, [r5, #-444]!	; 0xfffffe44
   38:	73746e65 	cmnvc	r4, #1616	; 0x650
   3c:	6f6b732f 	svcvs	0x006b732f
-  40:	452f616c 	strmi	r6, [pc, #-364]!	; fffffedc <GPIO_put_seven_seg+0xdffffcf4>
+  40:	452f616c 	strmi	r6, [pc, #-364]!	; fffffedc <GPIO_put_seven_seg+0xdffffcf0>
   44:	38344144 	ldmdacc	r4!, {r2, r6, r8, lr}
   48:	564c2f32 			; <UNDEFINED> instruction: 0x564c2f32
   4c:	6f632f33 	svcvs	0x00632f33
@@ -589,13 +588,13 @@ Disassembly of section .debug_str:
   5c:	74732f64 	ldrbtvc	r2, [r3], #-3940	; 0xfffff09c
   60:	75747261 	ldrbvc	r7, [r4, #-609]!	; 0xfffffd9f
   64:	00632e70 	rsbeq	r2, r3, r0, ror lr
-  68:	6d6f682f 	stclvs	8, cr6, [pc, #-188]!	; ffffffb4 <GPIO_put_seven_seg+0xdffffdcc>
+  68:	6d6f682f 	stclvs	8, cr6, [pc, #-188]!	; ffffffb4 <GPIO_put_seven_seg+0xdffffdc8>
   6c:	6f6c2f65 	svcvs	0x006c2f65
   70:	442f6576 	strtmi	r6, [pc], #-1398	; 78 <startup-0x1fffff88>
   74:	6d75636f 	ldclvs	3, cr6, [r5, #-444]!	; 0xfffffe44
   78:	73746e65 	cmnvc	r4, #1616	; 0x650
   7c:	6f6b732f 	svcvs	0x006b732f
-  80:	452f616c 	strmi	r6, [pc, #-364]!	; ffffff1c <GPIO_put_seven_seg+0xdffffd34>
+  80:	452f616c 	strmi	r6, [pc, #-364]!	; ffffff1c <GPIO_put_seven_seg+0xdffffd30>
   84:	38344144 	ldmdacc	r4!, {r2, r6, r8, lr}
   88:	564c2f32 			; <UNDEFINED> instruction: 0x564c2f32
   8c:	6f632f33 	svcvs	0x00632f33
@@ -710,7 +709,7 @@ Disassembly of section .debug_frame:
   20:	00000018 	andeq	r0, r0, r8, lsl r0
   24:	00000000 	andeq	r0, r0, r0
   28:	20000010 	andcs	r0, r0, r0, lsl r0
-  2c:	00000038 	andeq	r0, r0, r8, lsr r0
+  2c:	0000003c 	andeq	r0, r0, ip, lsr r0
   30:	40080e41 	andmi	r0, r8, r1, asr #28
   34:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
   38:	070d4101 	streq	r4, [sp, -r1, lsl #2]

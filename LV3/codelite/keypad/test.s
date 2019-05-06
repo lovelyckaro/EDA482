@@ -83,44 +83,44 @@
   64              		.cfi_offset 14, -4
   65 0002 00AF     		add	r7, sp, #0
   66              		.cfi_def_cfa_register 7
-  23:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     #ifdef USBDM
-  24:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****         GPIO_clock_start();
-  25:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     #endif
-  26:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     GPIO_init_seven_seg(GPIO_D, false);
-  67              		.loc 1 26 5
-  68 0004 0B4B     		ldr	r3, .L4
-  69 0006 0021     		movs	r1, #0
-  70 0008 1800     		movs	r0, r3
-  71 000a FFF7FEFF 		bl	GPIO_init_seven_seg
-  27:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     GPIO_init_keypad(GPIO_D, true);
-  72              		.loc 1 27 5
-  73 000e 094B     		ldr	r3, .L4
-  74 0010 0121     		movs	r1, #1
-  75 0012 1800     		movs	r0, r3
-  76 0014 FFF7FEFF 		bl	GPIO_init_keypad
-  77              	.L3:
-  28:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     
-  29:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     while(true) {
-  30:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****         GPIO_put_seven_seg(GPIO_D, false, GPIO_read_keypad(GPIO_D, true));
-  78              		.loc 1 30 9 discriminator 1
-  79 0018 064B     		ldr	r3, .L4
-  80 001a 0121     		movs	r1, #1
-  81 001c 1800     		movs	r0, r3
-  82 001e FFF7FEFF 		bl	GPIO_read_keypad
-  83 0022 0300     		movs	r3, r0
-  84 0024 1A00     		movs	r2, r3
-  85 0026 034B     		ldr	r3, .L4
-  86 0028 0021     		movs	r1, #0
-  87 002a 1800     		movs	r0, r3
-  88 002c FFF7FEFF 		bl	GPIO_put_seven_seg
-  89 0030 F2E7     		b	.L3
-  90              	.L5:
-  91 0032 C046     		.align	2
-  92              	.L4:
-  93 0034 000C0240 		.word	1073875968
-  94              		.cfi_endproc
-  95              	.LFE1:
-  97              	.Letext0:
-  98              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
-  99              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
- 100              		.file 4 "/home/love/Documents/skola/EDA482/libs/include/libGPIO.h"
+  23:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     GPIO_clock_start();
+  67              		.loc 1 23 5
+  68 0004 FFF7FEFF 		bl	GPIO_clock_start
+  24:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     GPIO_init_seven_seg(GPIO_D, false);
+  69              		.loc 1 24 5
+  70 0008 0B4B     		ldr	r3, .L4
+  71 000a 0021     		movs	r1, #0
+  72 000c 1800     		movs	r0, r3
+  73 000e FFF7FEFF 		bl	GPIO_init_seven_seg
+  25:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     GPIO_init_keypad(GPIO_D, true);
+  74              		.loc 1 25 5
+  75 0012 094B     		ldr	r3, .L4
+  76 0014 0121     		movs	r1, #1
+  77 0016 1800     		movs	r0, r3
+  78 0018 FFF7FEFF 		bl	GPIO_init_keypad
+  79              	.L3:
+  26:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     
+  27:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****     while(true) {
+  28:/home/love/Documents/skola/EDA482/LV3/codelite/keypad/startup.c ****         GPIO_put_seven_seg(GPIO_D, false, GPIO_read_keypad(GPIO_D, true));
+  80              		.loc 1 28 9 discriminator 1
+  81 001c 064B     		ldr	r3, .L4
+  82 001e 0121     		movs	r1, #1
+  83 0020 1800     		movs	r0, r3
+  84 0022 FFF7FEFF 		bl	GPIO_read_keypad
+  85 0026 0300     		movs	r3, r0
+  86 0028 1A00     		movs	r2, r3
+  87 002a 034B     		ldr	r3, .L4
+  88 002c 0021     		movs	r1, #0
+  89 002e 1800     		movs	r0, r3
+  90 0030 FFF7FEFF 		bl	GPIO_put_seven_seg
+  91 0034 F2E7     		b	.L3
+  92              	.L5:
+  93 0036 C046     		.align	2
+  94              	.L4:
+  95 0038 000C0240 		.word	1073875968
+  96              		.cfi_endproc
+  97              	.LFE1:
+  99              	.Letext0:
+ 100              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 101              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 102              		.file 4 "/home/love/Documents/skola/EDA482/libs/include/libGPIO.h"
