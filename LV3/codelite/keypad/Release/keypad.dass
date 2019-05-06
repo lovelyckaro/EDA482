@@ -7,7 +7,7 @@ Disassembly of section .text:
 20000000 <startup>:
 20000000:	e59f0008 	ldr	r0, [pc, #8]	; 20000010 <startup+0x10>
 20000004:	e1a0d000 	mov	sp, r0
-20000008:	eb000077 	bl	200001ec <main>
+20000008:	eb00006b 	bl	200001bc <main>
 2000000c:	eafffffe 	b	2000000c <startup+0xc>
 20000010:	2001c000 	andcs	ip, r1, r0
 
@@ -151,7 +151,7 @@ Disassembly of section .text:
 20000112:	b005      	add	sp, #20
 20000114:	bdf0      	pop	{r4, r5, r6, r7, pc}
 20000116:	46c0      	nop			; (mov r8, r8)
-20000118:	20000270 	andcs	r0, r0, r0, ror r2
+20000118:	20000258 	andcs	r0, r0, r8, asr r2
 
 2000011c <GPIO_read_keypad>:
 2000011c:	2301      	movs	r3, #1
@@ -214,7 +214,7 @@ Disassembly of section .text:
 2000018e:	3b01      	subs	r3, #1
 20000190:	7818      	ldrb	r0, [r3, #0]
 20000192:	e7e6      	b.n	20000162 <GPIO_read_keypad+0x46>
-20000194:	20000270 	andcs	r0, r0, r0, ror r2
+20000194:	20000258 	andcs	r0, r0, r8, asr r2
 
 20000198 <GPIO_init_seven_seg>:
 20000198:	1e4b      	subs	r3, r1, #1
@@ -231,81 +231,61 @@ Disassembly of section .text:
 200001b0:	00005555 	andeq	r5, r0, r5, asr r5
 
 200001b4 <GPIO_put_seven_seg>:
-200001b4:	b5f0      	push	{r4, r5, r6, r7, lr}
-200001b6:	b085      	sub	sp, #20
-200001b8:	466c      	mov	r4, sp
-200001ba:	468c      	mov	ip, r1
-200001bc:	0025      	movs	r5, r4
-200001be:	4b0a      	ldr	r3, [pc, #40]	; (200001e8 <GPIO_put_seven_seg+0x34>)
-200001c0:	3310      	adds	r3, #16
-200001c2:	cbc2      	ldmia	r3!, {r1, r6, r7}
-200001c4:	c5c2      	stmia	r5!, {r1, r6, r7}
-200001c6:	4661      	mov	r1, ip
-200001c8:	681b      	ldr	r3, [r3, #0]
-200001ca:	602b      	str	r3, [r5, #0]
-200001cc:	1e4b      	subs	r3, r1, #1
-200001ce:	4199      	sbcs	r1, r3
-200001d0:	1841      	adds	r1, r0, r1
-200001d2:	3114      	adds	r1, #20
-200001d4:	2a0f      	cmp	r2, #15
-200001d6:	d803      	bhi.n	200001e0 <GPIO_put_seven_seg+0x2c>
-200001d8:	5ca3      	ldrb	r3, [r4, r2]
-200001da:	700b      	strb	r3, [r1, #0]
-200001dc:	b005      	add	sp, #20
-200001de:	bdf0      	pop	{r4, r5, r6, r7, pc}
-200001e0:	2300      	movs	r3, #0
-200001e2:	700b      	strb	r3, [r1, #0]
-200001e4:	e7fa      	b.n	200001dc <GPIO_put_seven_seg+0x28>
-200001e6:	46c0      	nop			; (mov r8, r8)
-200001e8:	20000270 	andcs	r0, r0, r0, ror r2
+200001b4:	233f      	movs	r3, #63	; 0x3f
+200001b6:	7503      	strb	r3, [r0, #20]
+200001b8:	4770      	bx	lr
+200001ba:	46c0      	nop			; (mov r8, r8)
 
-200001ec <main>:
-200001ec:	e92d4010 	push	{r4, lr}
-200001f0:	e3a01000 	mov	r1, #0
-200001f4:	e59f0030 	ldr	r0, [pc, #48]	; 2000022c <main+0x40>
-200001f8:	eb000015 	bl	20000254 <__GPIO_init_seven_seg_from_arm>
-200001fc:	e3a01001 	mov	r1, #1
-20000200:	e59f0024 	ldr	r0, [pc, #36]	; 2000022c <main+0x40>
-20000204:	eb00000c 	bl	2000023c <__GPIO_init_keypad_from_arm>
-20000208:	e59f401c 	ldr	r4, [pc, #28]	; 2000022c <main+0x40>
-2000020c:	e3a01001 	mov	r1, #1
-20000210:	e1a00004 	mov	r0, r4
-20000214:	eb00000b 	bl	20000248 <__GPIO_read_keypad_from_arm>
-20000218:	e3a01000 	mov	r1, #0
-2000021c:	e1a02000 	mov	r2, r0
-20000220:	e1a00004 	mov	r0, r4
-20000224:	eb000001 	bl	20000230 <__GPIO_put_seven_seg_from_arm>
-20000228:	eafffff7 	b	2000020c <main+0x20>
-2000022c:	40020c00 	andmi	r0, r2, r0, lsl #24
+200001bc <main>:
+200001bc:	e92d4010 	push	{r4, lr}
+200001c0:	eb000019 	bl	2000022c <__GPIO_clock_start_from_arm>
+200001c4:	e3a01000 	mov	r1, #0
+200001c8:	e59f0030 	ldr	r0, [pc, #48]	; 20000200 <main+0x44>
+200001cc:	eb000019 	bl	20000238 <__GPIO_init_seven_seg_from_arm>
+200001d0:	e3a01001 	mov	r1, #1
+200001d4:	e59f0024 	ldr	r0, [pc, #36]	; 20000200 <main+0x44>
+200001d8:	eb00000d 	bl	20000214 <__GPIO_init_keypad_from_arm>
+200001dc:	e59f401c 	ldr	r4, [pc, #28]	; 20000200 <main+0x44>
+200001e0:	e3a01001 	mov	r1, #1
+200001e4:	e1a00004 	mov	r0, r4
+200001e8:	eb00000c 	bl	20000220 <__GPIO_read_keypad_from_arm>
+200001ec:	e3a01000 	mov	r1, #0
+200001f0:	e1a02000 	mov	r2, r0
+200001f4:	e1a00004 	mov	r0, r4
+200001f8:	eb000002 	bl	20000208 <__GPIO_put_seven_seg_from_arm>
+200001fc:	eafffff7 	b	200001e0 <main+0x24>
+20000200:	40020c00 	andmi	r0, r2, r0, lsl #24
+20000204:	00000000 	andeq	r0, r0, r0
 
-20000230 <__GPIO_put_seven_seg_from_arm>:
-20000230:	e59fc000 	ldr	ip, [pc]	; 20000238 <__GPIO_put_seven_seg_from_arm+0x8>
-20000234:	e12fff1c 	bx	ip
-20000238:	200001b5 			; <UNDEFINED> instruction: 0x200001b5
+20000208 <__GPIO_put_seven_seg_from_arm>:
+20000208:	e59fc000 	ldr	ip, [pc]	; 20000210 <__GPIO_put_seven_seg_from_arm+0x8>
+2000020c:	e12fff1c 	bx	ip
+20000210:	200001b5 			; <UNDEFINED> instruction: 0x200001b5
 
-2000023c <__GPIO_init_keypad_from_arm>:
-2000023c:	e59fc000 	ldr	ip, [pc]	; 20000244 <__GPIO_init_keypad_from_arm+0x8>
-20000240:	e12fff1c 	bx	ip
-20000244:	20000061 	andcs	r0, r0, r1, rrx
+20000214 <__GPIO_init_keypad_from_arm>:
+20000214:	e59fc000 	ldr	ip, [pc]	; 2000021c <__GPIO_init_keypad_from_arm+0x8>
+20000218:	e12fff1c 	bx	ip
+2000021c:	20000061 	andcs	r0, r0, r1, rrx
 
-20000248 <__GPIO_read_keypad_from_arm>:
-20000248:	e59fc000 	ldr	ip, [pc]	; 20000250 <__GPIO_read_keypad_from_arm+0x8>
-2000024c:	e12fff1c 	bx	ip
-20000250:	2000011d 	andcs	r0, r0, sp, lsl r1
+20000220 <__GPIO_read_keypad_from_arm>:
+20000220:	e59fc000 	ldr	ip, [pc]	; 20000228 <__GPIO_read_keypad_from_arm+0x8>
+20000224:	e12fff1c 	bx	ip
+20000228:	2000011d 	andcs	r0, r0, sp, lsl r1
 
-20000254 <__GPIO_init_seven_seg_from_arm>:
-20000254:	e59fc000 	ldr	ip, [pc]	; 2000025c <__GPIO_init_seven_seg_from_arm+0x8>
-20000258:	e12fff1c 	bx	ip
-2000025c:	20000199 	mulcs	r0, r9, r1
+2000022c <__GPIO_clock_start_from_arm>:
+2000022c:	e59fc000 	ldr	ip, [pc]	; 20000234 <__GPIO_clock_start_from_arm+0x8>
+20000230:	e12fff1c 	bx	ip
+20000234:	20000055 	andcs	r0, r0, r5, asr r0
+
+20000238 <__GPIO_init_seven_seg_from_arm>:
+20000238:	e59fc000 	ldr	ip, [pc]	; 20000240 <__GPIO_init_seven_seg_from_arm+0x8>
+2000023c:	e12fff1c 	bx	ip
+20000240:	20000199 	mulcs	r0, r9, r1
 	...
-20000270:	0a030201 	beq	200c0a7c <__GPIO_init_seven_seg_from_arm+0xc0828>
-20000274:	0b060504 	bleq	2018168c <__GPIO_init_seven_seg_from_arm+0x181438>
-20000278:	0c090807 	stceq	8, cr0, [r9], {7}
-2000027c:	0d0f000e 	stceq	0, cr0, [pc, #-56]	; 2000024c <__GPIO_read_keypad_from_arm+0x4>
-20000280:	4f5b063f 	svcmi	0x005b063f
-20000284:	077d6d66 	ldrbeq	r6, [sp, -r6, ror #26]!
-20000288:	7c776f7f 	ldclvc	15, cr6, [r7], #-508	; 0xfffffe04
-2000028c:	71795e39 	cmnvc	r9, r9, lsr lr
+20000258:	0a030201 	beq	200c0a64 <__GPIO_init_seven_seg_from_arm+0xc082c>
+2000025c:	0b060504 	bleq	20181674 <__GPIO_init_seven_seg_from_arm+0x18143c>
+20000260:	0c090807 	stceq	8, cr0, [r9], {7}
+20000264:	0d0f000e 	stceq	0, cr0, [pc, #-56]	; 20000234 <__GPIO_clock_start_from_arm+0x8>
 
 Disassembly of section .comment:
 

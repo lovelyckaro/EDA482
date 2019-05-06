@@ -30,8 +30,11 @@ void GPIO_input(volatile GPIO* port); // entire port as input
 void GPIO_clock_start();
 
 // Helper functions for different IO-devices
+
+// Keypad
 void GPIO_init_keypad(volatile GPIO* port, bool high); // init moder, pudpr, and otyper for keypad in a port. If not high, uses low
 uint8_t GPIO_read_keypad(volatile GPIO* port, bool high);
 
+// Seven segment display
 void GPIO_init_seven_seg(volatile GPIO* port, bool high);
 void GPIO_put_seven_seg(volatile GPIO* port, bool high, uint8_t value); // Print value to seven_seg display, values over 15 clear display
