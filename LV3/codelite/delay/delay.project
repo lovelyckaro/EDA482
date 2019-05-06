@@ -2,7 +2,7 @@
 <CodeLite_Project Name="delay" Version="10.0.0" InternalType="User templates">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00010001N0005Debug000000000000]]>
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
     </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
@@ -19,7 +19,13 @@
   </Plugins>
   <Description/>
   <Dependencies/>
-  <Settings Type="Executable">
+  <VirtualDirectory Name="src">
+    <File Name="libdelay.c"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="include">
+    <File Name="libdelay.h"/>
+  </VirtualDirectory>
+  <Settings Type="Static Library">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
         <IncludePath Value="."/>
@@ -29,33 +35,25 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="Debug" CompilerType="Cross GCC ( arm-none-eabi )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-mthumb;-Wall;-march=armv6-m;-msoft-float;-Wa,-adhln=test.s" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+    <Configuration Name="Debug" CompilerType="Cross GCC ( arm-none-eabi )" DebuggerType="GNU gdb debugger" Type="Static Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-W" C_Options="-g;-O0;-mthumb;-W;-std=c99;-march=armv6-m;-msoft-float;-Wa,-adhln=test.s" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
       </Compiler>
-      <Linker Options="-T$(ProjectPath)/md407-ram.x;-L$(ARM_V6LIB) -L$(ARM_GCC_V6LIB);-nostdlib" Required="yes">
-        <Library Value="gcc"/>
-        <Library Value="c_nano"/>
-      </Linker>
+      <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(IntermediateDirectory)/$(ProjectName).elf" IntermediateDirectory="./Debug" Command="$(ProjectPath)/$(IntermediateDirectory)/$(ProjectName).elf" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)d.a" IntermediateDirectory="./Debug" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="no" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
-        <![CDATA[ARM_V6LIB=$(GccArmDir)/arm-none-eabi/lib/thumb/v6-m
-ARM_GCC_V6LIB=$(GccArmDir)/lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m
-ARM_M4FPLIB=$(GccArmDir)/arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard
-ARM_GCC_M4FPLIB=$(GccArmDir)/lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m]]>
+        <![CDATA[]]>
       </Environment>
-      <Debugger IsRemote="yes" RemoteHostName="localhost" RemoteHostPort="1234" DebuggerPath="" IsExtended="no">
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
         <DebuggerSearchPaths/>
-        <PostConnectCommands>load
-monitor restart</PostConnectCommands>
+        <PostConnectCommands/>
         <StartupCommands/>
       </Debugger>
       <PreBuild/>
       <PostBuild>
-        <Command Enabled="yes">$(GccArmDir)/bin/arm-none-eabi-objcopy -S -O srec  $(IntermediateDirectory)/$(ProjectName).elf $(IntermediateDirectory)/$(ProjectName).s19</Command>
-        <Command Enabled="yes">$(GccArmDir)/bin/arm-none-eabi-objdump -D -S $(IntermediateDirectory)/$(ProjectName).elf &gt; $(IntermediateDirectory)/$(ProjectName).dass</Command>
+        <Command Enabled="yes"/>
       </PostBuild>
       <CustomBuild Enabled="no">
         <RebuildCommand/>
@@ -78,23 +76,18 @@ monitor restart</PostConnectCommands>
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="Cross GCC ( arm-none-eabi )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+    <Configuration Name="Release" CompilerType="Cross GCC ( arm-none-eabi )" DebuggerType="GNU gdb debugger" Type="Static Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2" C_Options="-O2;-mthumb;-W;-march=armv6-m;-msoft-float;-Wa,-adhln=test.s" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
-      <Linker Options="-T$(ProjectPath)/md407-ram.x;-L$(ARM_V6LIB) -L$(ARM_GCC_V6LIB);-nostdlib" Required="yes">
-        <Library Value="gcc"/>
-        <Library Value="c_nano"/>
-      </Linker>
+      <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(IntermediateDirectory)/$(ProjectName).elf" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName).a" IntermediateDirectory="./Release" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="no" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
-        <![CDATA[ARM_V6LIB=$(GccArmDir)/arm-none-eabi/lib/thumb/v6-m
-ARM_GCC_V6LIB=$(GccArmDir)/lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m
-ARM_M4FPLIB=$(GccArmDir)/arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard
-ARM_GCC_M4FPLIB=$(GccArmDir)/lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m]]>
+        <![CDATA[lib_destination=/home/love/Documents/skola/EDA482/libs/lib/
+include_destination=/home/love/Documents/skola/EDA482/libs/include/]]>
       </Environment>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
         <DebuggerSearchPaths/>
@@ -103,8 +96,8 @@ ARM_GCC_M4FPLIB=$(GccArmDir)/lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m]]>
       </Debugger>
       <PreBuild/>
       <PostBuild>
-        <Command Enabled="yes">$(GccArmDir)/bin/arm-none-eabi-objcopy -S -O srec  $(IntermediateDirectory)/$(ProjectName).elf $(IntermediateDirectory)/$(ProjectName).s19</Command>
-        <Command Enabled="yes">$(GccArmDir)/bin/arm-none-eabi-objdump -D -S $(IntermediateDirectory)/$(ProjectName).elf &gt; $(IntermediateDirectory)/$(ProjectName).dass</Command>
+        <Command Enabled="yes">cp Release/$(ProjectName).a $(lib_destination)lib$(ProjectName).a</Command>
+        <Command Enabled="yes">cp lib$(ProjectName).h $(include_destination)</Command>
       </PostBuild>
       <CustomBuild Enabled="no">
         <RebuildCommand/>
@@ -128,12 +121,6 @@ ARM_GCC_M4FPLIB=$(GccArmDir)/lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m]]>
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="src">
-    <File Name="startup.c"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="resources">
-    <File Name="md407-ram.x"/>
-  </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
 </CodeLite_Project>

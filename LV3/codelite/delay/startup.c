@@ -21,6 +21,8 @@ asm volatile(
 #define GPIO_D (volatile unsigned char *) 0x40020C14 // GPIO_D b0-7
 #define GPIO_D_MODER (volatile unsigned long *) 0x40020C00 // Config for GPIO_D b0-7
 
+//#define SIMULATOR
+
 void delay_250ns(void) 
 {
     *STK_CTRL = 0;
@@ -45,21 +47,28 @@ void delay_micros(unsigned int u) {
     }
 }
 
+void delay_millis(unsigned int m) 
+{
+    delay_micros(m * 1000);
+}
+
+void init_app() {
+    *GPIO_D_MODER = 0x55555555;
+    #ifdef USBDM
+        *((unsigned long *) 0x40023830) = 0x18;
+        asm volatile("LDR R0,=0x08000209\n BKX R0\n");
+    #endif
+}
+
 
 int main(void)
 {
-    *GPIO_D_MODER = 0x55555555;
+    init_app();
     while(1) {
-        unsigned int inp = (unsigned int) *GPIO_E;
-        if (inp == 0x81) 
-        {
-            break;
-        }
-        inp *= 10;
         *GPIO_D = 0xFF;
-        delay_micros(inp);
+        delay_micros(500);
         *GPIO_D = 0;
-        delay_micros(inp);
+        delay_micros(500);
     }
     return 0;
 }

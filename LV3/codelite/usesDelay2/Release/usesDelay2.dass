@@ -1,0 +1,197 @@
+
+./Release/usesDelay2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <startup>:
+20000000:	e59f0008 	ldr	r0, [pc, #8]	; 20000010 <startup+0x10>
+20000004:	e1a0d000 	mov	sp, r0
+20000008:	eb00003b 	bl	200000fc <main>
+2000000c:	eafffffe 	b	2000000c <startup+0xc>
+20000010:	2001c000 	andcs	ip, r1, r0
+
+20000014 <init_GPIO>:
+20000014:	6001      	str	r1, [r0, #0]
+20000016:	4770      	bx	lr
+
+20000018 <GPIO_split_mode>:
+20000018:	424b      	negs	r3, r1
+2000001a:	4159      	adcs	r1, r3
+2000001c:	4b05      	ldr	r3, [pc, #20]	; (20000034 <GPIO_split_mode+0x1c>)
+2000001e:	4249      	negs	r1, r1
+20000020:	4019      	ands	r1, r3
+20000022:	4b05      	ldr	r3, [pc, #20]	; (20000038 <GPIO_split_mode+0x20>)
+20000024:	469c      	mov	ip, r3
+20000026:	4461      	add	r1, ip
+20000028:	2a00      	cmp	r2, #0
+2000002a:	d001      	beq.n	20000030 <GPIO_split_mode+0x18>
+2000002c:	4b03      	ldr	r3, [pc, #12]	; (2000003c <GPIO_split_mode+0x24>)
+2000002e:	4319      	orrs	r1, r3
+20000030:	6001      	str	r1, [r0, #0]
+20000032:	4770      	bx	lr
+20000034:	aaab0000 	bge	1eac003c <startup-0x153ffc4>
+20000038:	55550000 	ldrbpl	r0, [r5, #-0]
+2000003c:	00005555 	andeq	r5, r0, r5, asr r5
+
+20000040 <GPIO_output>:
+20000040:	4b01      	ldr	r3, [pc, #4]	; (20000048 <GPIO_output+0x8>)
+20000042:	6003      	str	r3, [r0, #0]
+20000044:	4770      	bx	lr
+20000046:	46c0      	nop			; (mov r8, r8)
+20000048:	55555555 	ldrbpl	r5, [r5, #-1365]	; 0xfffffaab
+
+2000004c <GPIO_input>:
+2000004c:	2300      	movs	r3, #0
+2000004e:	6003      	str	r3, [r0, #0]
+20000050:	4770      	bx	lr
+20000052:	46c0      	nop			; (mov r8, r8)
+
+20000054 <GPIO_clock_start>:
+20000054:	2218      	movs	r2, #24
+20000056:	4b01      	ldr	r3, [pc, #4]	; (2000005c <GPIO_clock_start+0x8>)
+20000058:	601a      	str	r2, [r3, #0]
+2000005a:	4770      	bx	lr
+2000005c:	40023830 	andmi	r3, r2, r0, lsr r8
+
+20000060 <delay_250ns>:
+20000060:	2300      	movs	r3, #0
+20000062:	2129      	movs	r1, #41	; 0x29
+20000064:	4a06      	ldr	r2, [pc, #24]	; (20000080 <delay_250ns+0x20>)
+20000066:	6013      	str	r3, [r2, #0]
+20000068:	6051      	str	r1, [r2, #4]
+2000006a:	2180      	movs	r1, #128	; 0x80
+2000006c:	6093      	str	r3, [r2, #8]
+2000006e:	3305      	adds	r3, #5
+20000070:	6013      	str	r3, [r2, #0]
+20000072:	0249      	lsls	r1, r1, #9
+20000074:	6813      	ldr	r3, [r2, #0]
+20000076:	420b      	tst	r3, r1
+20000078:	d0fc      	beq.n	20000074 <delay_250ns+0x14>
+2000007a:	2300      	movs	r3, #0
+2000007c:	6013      	str	r3, [r2, #0]
+2000007e:	4770      	bx	lr
+20000080:	e000e010 	and	lr, r0, r0, lsl r0
+
+20000084 <delay_500ns>:
+20000084:	2300      	movs	r3, #0
+20000086:	2153      	movs	r1, #83	; 0x53
+20000088:	4a06      	ldr	r2, [pc, #24]	; (200000a4 <delay_500ns+0x20>)
+2000008a:	6013      	str	r3, [r2, #0]
+2000008c:	6051      	str	r1, [r2, #4]
+2000008e:	2180      	movs	r1, #128	; 0x80
+20000090:	6093      	str	r3, [r2, #8]
+20000092:	3305      	adds	r3, #5
+20000094:	6013      	str	r3, [r2, #0]
+20000096:	0249      	lsls	r1, r1, #9
+20000098:	6813      	ldr	r3, [r2, #0]
+2000009a:	420b      	tst	r3, r1
+2000009c:	d0fc      	beq.n	20000098 <delay_500ns+0x14>
+2000009e:	2300      	movs	r3, #0
+200000a0:	6013      	str	r3, [r2, #0]
+200000a2:	4770      	bx	lr
+200000a4:	e000e010 	and	lr, r0, r0, lsl r0
+
+200000a8 <delay_micros>:
+200000a8:	b5f0      	push	{r4, r5, r6, r7, lr}
+200000aa:	1e44      	subs	r4, r0, #1
+200000ac:	2800      	cmp	r0, #0
+200000ae:	d018      	beq.n	200000e2 <delay_micros+0x3a>
+200000b0:	2280      	movs	r2, #128	; 0x80
+200000b2:	2000      	movs	r0, #0
+200000b4:	2700      	movs	r7, #0
+200000b6:	2653      	movs	r6, #83	; 0x53
+200000b8:	2505      	movs	r5, #5
+200000ba:	4b0a      	ldr	r3, [pc, #40]	; (200000e4 <delay_micros+0x3c>)
+200000bc:	0252      	lsls	r2, r2, #9
+200000be:	601f      	str	r7, [r3, #0]
+200000c0:	605e      	str	r6, [r3, #4]
+200000c2:	609f      	str	r7, [r3, #8]
+200000c4:	601d      	str	r5, [r3, #0]
+200000c6:	6819      	ldr	r1, [r3, #0]
+200000c8:	4211      	tst	r1, r2
+200000ca:	d0fc      	beq.n	200000c6 <delay_micros+0x1e>
+200000cc:	6018      	str	r0, [r3, #0]
+200000ce:	6018      	str	r0, [r3, #0]
+200000d0:	605e      	str	r6, [r3, #4]
+200000d2:	6098      	str	r0, [r3, #8]
+200000d4:	601d      	str	r5, [r3, #0]
+200000d6:	6819      	ldr	r1, [r3, #0]
+200000d8:	4211      	tst	r1, r2
+200000da:	d0fc      	beq.n	200000d6 <delay_micros+0x2e>
+200000dc:	6018      	str	r0, [r3, #0]
+200000de:	3c01      	subs	r4, #1
+200000e0:	d2ed      	bcs.n	200000be <delay_micros+0x16>
+200000e2:	bdf0      	pop	{r4, r5, r6, r7, pc}
+200000e4:	e000e010 	and	lr, r0, r0, lsl r0
+
+200000e8 <delay_millis>:
+200000e8:	b510      	push	{r4, lr}
+200000ea:	0143      	lsls	r3, r0, #5
+200000ec:	1a1b      	subs	r3, r3, r0
+200000ee:	009b      	lsls	r3, r3, #2
+200000f0:	1818      	adds	r0, r3, r0
+200000f2:	00c0      	lsls	r0, r0, #3
+200000f4:	f7ff ffd8 	bl	200000a8 <delay_micros>
+200000f8:	bd10      	pop	{r4, pc}
+200000fa:	46c0      	nop			; (mov r8, r8)
+
+200000fc <main>:
+200000fc:	e92d4070 	push	{r4, r5, r6, lr}
+20000100:	e59f0030 	ldr	r0, [pc, #48]	; 20000138 <main+0x3c>
+20000104:	eb000010 	bl	2000014c <__GPIO_output_from_arm>
+20000108:	e3a04008 	mov	r4, #8
+2000010c:	e3a05080 	mov	r5, #128	; 0x80
+20000110:	e59f6020 	ldr	r6, [pc, #32]	; 20000138 <main+0x3c>
+20000114:	e5c65014 	strb	r5, [r6, #20]
+20000118:	e3a00f7d 	mov	r0, #500	; 0x1f4
+2000011c:	eb000007 	bl	20000140 <__delay_micros_from_arm>
+20000120:	e2544001 	subs	r4, r4, #1
+20000124:	e1a050a5 	lsr	r5, r5, #1
+20000128:	1afffff9 	bne	20000114 <main+0x18>
+2000012c:	e1a00004 	mov	r0, r4
+20000130:	e8bd4070 	pop	{r4, r5, r6, lr}
+20000134:	e12fff1e 	bx	lr
+20000138:	40020c00 	andmi	r0, r2, r0, lsl #24
+2000013c:	00000000 	andeq	r0, r0, r0
+
+20000140 <__delay_micros_from_arm>:
+20000140:	e59fc000 	ldr	ip, [pc]	; 20000148 <__delay_micros_from_arm+0x8>
+20000144:	e12fff1c 	bx	ip
+20000148:	200000a9 	andcs	r0, r0, r9, lsr #1
+
+2000014c <__GPIO_output_from_arm>:
+2000014c:	e59fc000 	ldr	ip, [pc]	; 20000154 <__GPIO_output_from_arm+0x8>
+20000150:	e12fff1c 	bx	ip
+20000154:	20000041 	andcs	r0, r0, r1, asr #32
+	...
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <startup-0x1ef2f2dc>
+   4:	72412820 	subvc	r2, r1, #32, 16	; 0x200000
+   8:	52206863 	eorpl	r6, r0, #6488064	; 0x630000
+   c:	736f7065 	cmnvc	pc, #101	; 0x65
+  10:	726f7469 	rsbvc	r7, pc, #1761607680	; 0x69000000
+  14:	38202979 	stmdacc	r0!, {r0, r3, r4, r5, r6, r8, fp, sp}
+  18:	302e332e 	eorcc	r3, lr, lr, lsr #6
+	...
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00003041 	andeq	r3, r0, r1, asr #32
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000026 	andeq	r0, r0, r6, lsr #32
+  10:	4d524105 	ldfmie	f4, [r2, #-20]	; 0xffffffec
+  14:	4b367620 	blmi	d9d89c <startup-0x1f262764>
+  18:	07090600 	streq	r0, [r9, -r0, lsl #12]
+  1c:	0901084d 	stmdbeq	r1, {r0, r2, r3, r6, fp}
+  20:	14041201 	strne	r1, [r4], #-513	; 0xfffffdff
+  24:	17011501 	strne	r1, [r1, -r1, lsl #10]
+  28:	19011803 	stmdbne	r1, {r0, r1, fp, ip}
+  2c:	1e011a01 	vmlane.f32	s2, s2, s2
+  30:	Address 0x0000000000000030 is out of bounds.
+

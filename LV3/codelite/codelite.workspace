@@ -3,7 +3,14 @@
   <Project Name="basic_io" Path="basic_io/basic_io.project" Active="No"/>
   <Project Name="basic_io_labb1" Path="basic_io_labb1/basic_io_labb1.project" Active="No"/>
   <Project Name="delay" Path="delay/delay.project" Active="No"/>
-  <Project Name="asciidisplay" Path="asciidisplay/asciidisplay.project" Active="Yes"/>
+  <Project Name="asciidisplay" Path="asciidisplay/asciidisplay.project" Active="No"/>
+  <Project Name="keypad" Path="keypad/keypad.project" Active="Yes"/>
+  <Project Name="GPIO" Path="GPIO/GPIO.project" Active="No"/>
+  <Project Name="delay" Path="delay/delay.project" Active="No"/>
+  <Project Name="usesDelay" Path="usesDelay/usesDelay.project" Active="No"/>
+  <Project Name="md407_startup_with_libraries" Path="md407_startup_with_libraries/md407_startup_with_libraries.project" Active="No"/>
+  <Project Name="usesDelay2" Path="usesDelay2/usesDelay2.project" Active="No"/>
+  <Project Name="md407_static_library_CUSTOM" Path="md407_static_library_CUSTOM/md407_static_library_CUSTOM.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
@@ -11,13 +18,27 @@
       <Project Name="basic_io_labb1" ConfigName="Debug"/>
       <Project Name="delay" ConfigName="Debug"/>
       <Project Name="asciidisplay" ConfigName="Debug"/>
+      <Project Name="keypad" ConfigName="Debug"/>
+      <Project Name="GPIO" ConfigName="Debug"/>
+      <Project Name="delay" ConfigName="Debug"/>
+      <Project Name="usesDelay" ConfigName="Debug"/>
+      <Project Name="md407_startup_with_libraries" ConfigName="Debug"/>
+      <Project Name="usesDelay2" ConfigName="Debug"/>
+      <Project Name="md407_static_library_CUSTOM" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="basic_io" ConfigName="Release"/>
       <Project Name="basic_io_labb1" ConfigName="Release"/>
       <Project Name="delay" ConfigName="Release"/>
       <Project Name="asciidisplay" ConfigName="Release"/>
+      <Project Name="keypad" ConfigName="Release"/>
+      <Project Name="GPIO" ConfigName="Release"/>
+      <Project Name="delay" ConfigName="Release"/>
+      <Project Name="usesDelay" ConfigName="Release"/>
+      <Project Name="md407_startup_with_libraries" ConfigName="Release"/>
+      <Project Name="usesDelay2" ConfigName="Release"/>
+      <Project Name="md407_static_library_CUSTOM" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

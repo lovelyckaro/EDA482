@@ -1,1 +1,1 @@
-./Debug/startup.c.o
+./Release/libdelay.c.o
