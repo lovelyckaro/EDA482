@@ -99,6 +99,7 @@ monitor restart</PostConnectCommands>
         <LibraryPath Value="/home/love/Documents/skola/EDA482/libs/lib/"/>
         <Library Value="gcc"/>
         <Library Value="c_nano"/>
+        <Library Value="GPIO"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName).elf" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>

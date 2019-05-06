@@ -1,1 +1,1 @@
-./Debug/startup.c.o
+./Release/startup.c.o

@@ -12,7 +12,7 @@
   <Project Name="usesDelay2" Path="usesDelay2/usesDelay2.project" Active="No"/>
   <Project Name="md407_static_library_CUSTOM" Path="md407_static_library_CUSTOM/md407_static_library_CUSTOM.project" Active="No"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="basic_io" ConfigName="Debug"/>
       <Project Name="basic_io_labb1" ConfigName="Debug"/>
@@ -26,7 +26,7 @@
       <Project Name="usesDelay2" ConfigName="Debug"/>
       <Project Name="md407_static_library_CUSTOM" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="no">
+    <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
       <Project Name="basic_io" ConfigName="Release"/>
       <Project Name="basic_io_labb1" ConfigName="Release"/>
