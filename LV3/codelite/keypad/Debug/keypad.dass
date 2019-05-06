@@ -199,7 +199,7 @@ int main(void)
 2000014a:	b005      	add	sp, #20
 2000014c:	bdf0      	pop	{r4, r5, r6, r7, pc}
 2000014e:	46c0      	nop			; (mov r8, r8)
-20000150:	20000224 	andcs	r0, r0, r4, lsr #4
+20000150:	200001f4 	strdcs	r0, [r0], -r4
 
 20000154 <GPIO_read_keypad>:
 20000154:	2301      	movs	r3, #1
@@ -262,7 +262,7 @@ int main(void)
 200001c6:	3b01      	subs	r3, #1
 200001c8:	7818      	ldrb	r0, [r3, #0]
 200001ca:	e7e6      	b.n	2000019a <GPIO_read_keypad+0x46>
-200001cc:	20000224 	andcs	r0, r0, r4, lsr #4
+200001cc:	200001f4 	strdcs	r0, [r0], -r4
 
 200001d0 <GPIO_init_seven_seg>:
 200001d0:	1e4b      	subs	r3, r1, #1
@@ -279,41 +279,14 @@ int main(void)
 200001e8:	00005555 	andeq	r5, r0, r5, asr r5
 
 200001ec <GPIO_put_seven_seg>:
-200001ec:	b5f0      	push	{r4, r5, r6, r7, lr}
-200001ee:	b085      	sub	sp, #20
-200001f0:	466c      	mov	r4, sp
-200001f2:	468c      	mov	ip, r1
-200001f4:	0025      	movs	r5, r4
-200001f6:	4b0a      	ldr	r3, [pc, #40]	; (20000220 <GPIO_put_seven_seg+0x34>)
-200001f8:	3310      	adds	r3, #16
-200001fa:	cbc2      	ldmia	r3!, {r1, r6, r7}
-200001fc:	c5c2      	stmia	r5!, {r1, r6, r7}
-200001fe:	4661      	mov	r1, ip
-20000200:	681b      	ldr	r3, [r3, #0]
-20000202:	602b      	str	r3, [r5, #0]
-20000204:	1e4b      	subs	r3, r1, #1
-20000206:	4199      	sbcs	r1, r3
-20000208:	1841      	adds	r1, r0, r1
-2000020a:	3114      	adds	r1, #20
-2000020c:	2a0f      	cmp	r2, #15
-2000020e:	d803      	bhi.n	20000218 <GPIO_put_seven_seg+0x2c>
-20000210:	5ca3      	ldrb	r3, [r4, r2]
-20000212:	700b      	strb	r3, [r1, #0]
-20000214:	b005      	add	sp, #20
-20000216:	bdf0      	pop	{r4, r5, r6, r7, pc}
-20000218:	2300      	movs	r3, #0
-2000021a:	700b      	strb	r3, [r1, #0]
-2000021c:	e7fa      	b.n	20000214 <GPIO_put_seven_seg+0x28>
-2000021e:	46c0      	nop			; (mov r8, r8)
-20000220:	20000224 	andcs	r0, r0, r4, lsr #4
-20000224:	0a030201 	beq	200c0a30 <GPIO_put_seven_seg+0xc0844>
-20000228:	0b060504 	bleq	20181640 <GPIO_put_seven_seg+0x181454>
-2000022c:	0c090807 	stceq	8, cr0, [r9], {7}
-20000230:	0d0f000e 	stceq	0, cr0, [pc, #-56]	; 20000200 <GPIO_put_seven_seg+0x14>
-20000234:	4f5b063f 	svcmi	0x005b063f
-20000238:	077d6d66 	ldrbeq	r6, [sp, -r6, ror #26]!
-2000023c:	7c776f7f 	ldclvc	15, cr6, [r7], #-508	; 0xfffffe04
-20000240:	71795e39 	cmnvc	r9, r9, lsr lr
+200001ec:	233f      	movs	r3, #63	; 0x3f
+200001ee:	7503      	strb	r3, [r0, #20]
+200001f0:	4770      	bx	lr
+200001f2:	46c0      	nop			; (mov r8, r8)
+200001f4:	0a030201 	beq	200c0a00 <GPIO_put_seven_seg+0xc0814>
+200001f8:	0b060504 	bleq	20181610 <GPIO_put_seven_seg+0x181424>
+200001fc:	0c090807 	stceq	8, cr0, [r9], {7}
+20000200:	0d0f000e 	stceq	0, cr0, [pc, #-56]	; 200001d0 <GPIO_init_seven_seg>
 
 Disassembly of section .debug_info:
 
