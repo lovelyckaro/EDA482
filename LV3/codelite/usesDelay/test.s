@@ -86,43 +86,39 @@
   22:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****     while(1){
   23:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****         GPIO_output(GPIO_D);
   68              		.loc 1 23 9 discriminator 1
-  69 0004 0A4B     		ldr	r3, .L4
+  69 0004 084B     		ldr	r3, .L4
   70 0006 1800     		movs	r0, r3
   71 0008 FFF7FEFF 		bl	GPIO_output
   24:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****         GPIO_D->odr_low = 0xFF;
   72              		.loc 1 24 15 discriminator 1
-  73 000c 084B     		ldr	r3, .L4
+  73 000c 064B     		ldr	r3, .L4
   74              		.loc 1 24 25 discriminator 1
   75 000e FF22     		movs	r2, #255
   76 0010 1A75     		strb	r2, [r3, #20]
-  25:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****         delay_micros(500);
+  25:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****         delay_millis(1);
   77              		.loc 1 25 9 discriminator 1
-  78 0012 FA23     		movs	r3, #250
-  79 0014 5B00     		lsls	r3, r3, #1
-  80 0016 1800     		movs	r0, r3
-  81 0018 FFF7FEFF 		bl	delay_micros
+  78 0012 0120     		movs	r0, #1
+  79 0014 FFF7FEFF 		bl	delay_millis
   26:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****         GPIO_D->odr_low = 0x00;
-  82              		.loc 1 26 15 discriminator 1
-  83 001c 044B     		ldr	r3, .L4
-  84              		.loc 1 26 25 discriminator 1
-  85 001e 0022     		movs	r2, #0
-  86 0020 1A75     		strb	r2, [r3, #20]
-  27:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****         delay_micros(500);
-  87              		.loc 1 27 9 discriminator 1
-  88 0022 FA23     		movs	r3, #250
-  89 0024 5B00     		lsls	r3, r3, #1
-  90 0026 1800     		movs	r0, r3
-  91 0028 FFF7FEFF 		bl	delay_micros
+  80              		.loc 1 26 15 discriminator 1
+  81 0018 034B     		ldr	r3, .L4
+  82              		.loc 1 26 25 discriminator 1
+  83 001a 0022     		movs	r2, #0
+  84 001c 1A75     		strb	r2, [r3, #20]
+  27:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****         delay_millis(1);
+  85              		.loc 1 27 9 discriminator 1
+  86 001e 0120     		movs	r0, #1
+  87 0020 FFF7FEFF 		bl	delay_millis
   23:/home/love/Documents/skola/EDA482/LV3/codelite/usesDelay/startup.c ****         GPIO_D->odr_low = 0xFF;
-  92              		.loc 1 23 9 discriminator 1
-  93 002c EAE7     		b	.L3
-  94              	.L5:
-  95 002e C046     		.align	2
-  96              	.L4:
-  97 0030 000C0240 		.word	1073875968
-  98              		.cfi_endproc
-  99              	.LFE1:
- 101              	.Letext0:
- 102              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 103              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
- 104              		.file 4 "/home/love/Documents/skola/EDA482/libs/include/libGPIO.h"
+  88              		.loc 1 23 9 discriminator 1
+  89 0024 EEE7     		b	.L3
+  90              	.L5:
+  91 0026 C046     		.align	2
+  92              	.L4:
+  93 0028 000C0240 		.word	1073875968
+  94              		.cfi_endproc
+  95              	.LFE1:
+  97              	.Letext0:
+  98              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+  99              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 100              		.file 4 "/home/love/Documents/skola/EDA482/libs/include/libGPIO.h"

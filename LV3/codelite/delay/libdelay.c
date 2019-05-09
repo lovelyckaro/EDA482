@@ -45,7 +45,7 @@ void delay_500ns(void)
 void delay_micros(unsigned int u) 
 {
     #ifdef SIMULATOR
-        u /= 1000;
+        u = u >> 10;
         u++;
     #endif
     while (u--)

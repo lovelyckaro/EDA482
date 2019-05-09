@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Love Lyckaro
-Date                   :=05/01/19
+Date                   :=05/09/19
 CodeLitePath           :=/home/love/.codelite
 LinkerName             :=/usr/bin/arm-none-eabi-g++
 SharedObjectLinkerName :=/usr/bin/arm-none-eabi-g++ -shared -fPIC
@@ -28,14 +28,14 @@ LibraryPathSwitch      :=-L
 PreprocessorSwitch     :=-D
 SourceSwitch           :=-c 
 OutputFile             :=$(IntermediateDirectory)/$(ProjectName).a
-Preprocessors          :=$(PreprocessorSwitch)NDEBUG 
+Preprocessors          :=$(PreprocessorSwitch)NDEBUG $(PreprocessorSwitch)SIMULATOR 
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
 ObjectsFileList        :="delay.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
-LinkOptions            :=  
+LinkOptions            :=  -nostdlib
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
 RcIncludePath          := 
@@ -51,7 +51,7 @@ AR       := /usr/bin/arm-none-eabi-ar rcu
 CXX      := /usr/bin/arm-none-eabi-g++
 CC       := /usr/bin/arm-none-eabi-gcc
 CXXFLAGS :=  -O2 $(Preprocessors)
-CFLAGS   :=  -O2 -mthumb -W -march=armv6-m -msoft-float -Wa,-adhln=test.s $(Preprocessors)
+CFLAGS   :=  -O2 -mthumb -W -march=armv6-m -msoft-float -Wa,-adhln=test.s -nostdlib $(Preprocessors)
 ASFLAGS  := 
 AS       := /usr/bin/arm-none-eabi-as
 

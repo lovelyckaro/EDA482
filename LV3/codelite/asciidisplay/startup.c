@@ -22,7 +22,7 @@ int main(void)
 {
     #ifdef USBDM
         GPIO_clock_start();
-        asm volatile("LDR R0,=0x08000209\n BKX R0\n");
+        asm volatile("LDR R0,=0x08000209\n BLX R0\n");
     #endif
     GPIO_output(GPIO_E); // GPIO_E is output by default
     ascii_init();

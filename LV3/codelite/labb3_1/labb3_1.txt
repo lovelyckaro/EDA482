@@ -1,0 +1,1 @@
+./Debug/graphics.c.o ./Debug/startup.c.o

@@ -86,62 +86,59 @@
   91              	delay_micros:
   92              		@ args = 0, pretend = 0, frame = 0
   93              		@ frame_needed = 0, uses_anonymous_args = 0
-  94 0048 F0B5     		push	{r4, r5, r6, r7, lr}
-  95 004a 441E     		subs	r4, r0, #1
-  96 004c 0028     		cmp	r0, #0
-  97 004e 18D0     		beq	.L14
-  98 0050 8022     		movs	r2, #128
-  99 0052 0020     		movs	r0, #0
- 100 0054 0027     		movs	r7, #0
- 101 0056 5326     		movs	r6, #83
- 102 0058 0525     		movs	r5, #5
- 103 005a 0A4B     		ldr	r3, .L27
- 104 005c 5202     		lsls	r2, r2, #9
- 105              	.L18:
- 106 005e 1F60     		str	r7, [r3]
- 107 0060 5E60     		str	r6, [r3, #4]
- 108 0062 9F60     		str	r7, [r3, #8]
- 109 0064 1D60     		str	r5, [r3]
- 110              	.L16:
- 111 0066 1968     		ldr	r1, [r3]
- 112 0068 1142     		tst	r1, r2
- 113 006a FCD0     		beq	.L16
- 114 006c 1860     		str	r0, [r3]
- 115 006e 1860     		str	r0, [r3]
- 116 0070 5E60     		str	r6, [r3, #4]
- 117 0072 9860     		str	r0, [r3, #8]
- 118 0074 1D60     		str	r5, [r3]
- 119              	.L17:
- 120 0076 1968     		ldr	r1, [r3]
- 121 0078 1142     		tst	r1, r2
- 122 007a FCD0     		beq	.L17
- 123 007c 1860     		str	r0, [r3]
- 124 007e 013C     		subs	r4, r4, #1
- 125 0080 EDD2     		bcs	.L18
- 126              	.L14:
- 127              		@ sp needed
- 128 0082 F0BD     		pop	{r4, r5, r6, r7, pc}
- 129              	.L28:
- 130              		.align	2
- 131              	.L27:
- 132 0084 10E000E0 		.word	-536813552
- 134              		.align	1
- 135              		.p2align 2,,3
- 136              		.global	delay_millis
- 137              		.syntax unified
- 138              		.code	16
- 139              		.thumb_func
- 140              		.fpu softvfp
- 142              	delay_millis:
- 143              		@ args = 0, pretend = 0, frame = 0
- 144              		@ frame_needed = 0, uses_anonymous_args = 0
- 145 0088 10B5     		push	{r4, lr}
- 146 008a 4301     		lsls	r3, r0, #5
- 147 008c 1B1A     		subs	r3, r3, r0
- 148 008e 9B00     		lsls	r3, r3, #2
- 149 0090 1818     		adds	r0, r3, r0
- 150 0092 C000     		lsls	r0, r0, #3
- 151 0094 FFF7FEFF 		bl	delay_micros
- 152              		@ sp needed
- 153 0098 10BD     		pop	{r4, pc}
- 155 009a C046     		.ident	"GCC: (Arch Repository) 8.3.0"
+  94 0048 8022     		movs	r2, #128
+  95 004a F0B5     		push	{r4, r5, r6, r7, lr}
+  96 004c 0024     		movs	r4, #0
+  97 004e 0027     		movs	r7, #0
+  98 0050 5326     		movs	r6, #83
+  99 0052 0525     		movs	r5, #5
+ 100 0054 0A4B     		ldr	r3, .L23
+ 101 0056 800A     		lsrs	r0, r0, #10
+ 102 0058 5202     		lsls	r2, r2, #9
+ 103              	.L17:
+ 104 005a 1F60     		str	r7, [r3]
+ 105 005c 5E60     		str	r6, [r3, #4]
+ 106 005e 9F60     		str	r7, [r3, #8]
+ 107 0060 1D60     		str	r5, [r3]
+ 108              	.L15:
+ 109 0062 1968     		ldr	r1, [r3]
+ 110 0064 1142     		tst	r1, r2
+ 111 0066 FCD0     		beq	.L15
+ 112 0068 1C60     		str	r4, [r3]
+ 113 006a 1C60     		str	r4, [r3]
+ 114 006c 5E60     		str	r6, [r3, #4]
+ 115 006e 9C60     		str	r4, [r3, #8]
+ 116 0070 1D60     		str	r5, [r3]
+ 117              	.L16:
+ 118 0072 1968     		ldr	r1, [r3]
+ 119 0074 1142     		tst	r1, r2
+ 120 0076 FCD0     		beq	.L16
+ 121 0078 1C60     		str	r4, [r3]
+ 122 007a 0138     		subs	r0, r0, #1
+ 123 007c EDD2     		bcs	.L17
+ 124              		@ sp needed
+ 125 007e F0BD     		pop	{r4, r5, r6, r7, pc}
+ 126              	.L24:
+ 127              		.align	2
+ 128              	.L23:
+ 129 0080 10E000E0 		.word	-536813552
+ 131              		.align	1
+ 132              		.p2align 2,,3
+ 133              		.global	delay_millis
+ 134              		.syntax unified
+ 135              		.code	16
+ 136              		.thumb_func
+ 137              		.fpu softvfp
+ 139              	delay_millis:
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142 0084 10B5     		push	{r4, lr}
+ 143 0086 4301     		lsls	r3, r0, #5
+ 144 0088 1B1A     		subs	r3, r3, r0
+ 145 008a 9B00     		lsls	r3, r3, #2
+ 146 008c 1818     		adds	r0, r3, r0
+ 147 008e C000     		lsls	r0, r0, #3
+ 148 0090 FFF7FEFF 		bl	delay_micros
+ 149              		@ sp needed
+ 150 0094 10BD     		pop	{r4, pc}
+ 152 0096 C046     		.ident	"GCC: (Arch Repository) 8.3.0"

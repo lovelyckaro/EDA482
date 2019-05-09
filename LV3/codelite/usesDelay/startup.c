@@ -22,9 +22,9 @@ void main(void)
     while(1){
         GPIO_output(GPIO_D);
         GPIO_D->odr_low = 0xFF;
-        delay_micros(500);
+        delay_millis(1);
         GPIO_D->odr_low = 0x00;
-        delay_micros(500);
+        delay_millis(1);
     }
 }
 

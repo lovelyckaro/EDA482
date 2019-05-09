@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Love Lyckaro
-Date                   :=05/01/19
+Date                   :=05/09/19
 CodeLitePath           :=/home/love/.codelite
 LinkerName             :=/usr/bin/arm-none-eabi-g++
 SharedObjectLinkerName :=/usr/bin/arm-none-eabi-g++ -shared -fPIC
@@ -36,12 +36,12 @@ ObjectsFileList        :="usesDelay.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
 LinkOptions            :=  -T$(ProjectPath)/md407-ram.x -L$(ARM_V6LIB) -L$(ARM_GCC_V6LIB) -nostdlib -Xlinker --verbose
-IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). $(IncludeSwitch)/home/love/Documents/skola/EDA482/libs/include 
+IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch)/home/love/Documents/skola/EDA482/libs/include $(IncludeSwitch). $(IncludeSwitch)/home/love/Documents/skola/EDA482/libs/include 
 IncludePCH             := 
 RcIncludePath          := 
 Libs                   := $(LibrarySwitch)gcc $(LibrarySwitch)c_nano $(LibrarySwitch)delay $(LibrarySwitch)GPIO 
 ArLibs                 :=  "gcc" "c_nano" "delay" "GPIO" 
-LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)/home/love/Documents/skola/EDA482/libs/lib 
+LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)/home/love/Documents/skola/EDA482/libs/lib $(LibraryPathSwitch)/home/love/Documents/skola/EDA482/libs/lib 
 
 ##
 ## Common variables
