@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Session Name="/home/love/Documents/skola/EDA482/LV3/codelite/codelite.workspace">
-  <int Value="2" Name="m_selectedTab"/>
+  <int Value="3" Name="m_selectedTab"/>
   <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/codelite.workspace" Name="m_workspaceName"/>
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
-      <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.h" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="5" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c" Name="FileName"/>
-      <int Value="187" Name="FirstVisibleLine"/>
-      <int Value="187" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c" Name="FileName"/>
-      <int Value="74" Name="FirstVisibleLine"/>
-      <int Value="79" Name="CurrentLine"/>
+      <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/labb3_1/startup.c" Name="FileName"/>
+      <int Value="15" Name="FirstVisibleLine"/>
+      <int Value="24" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/lcddisplay/startup.c" Name="FileName"/>
+      <int Value="90" Name="FirstVisibleLine"/>
+      <int Value="104" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/labb3_1/graphics.h" Name="FileName"/>
       <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="0" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c" Name="FileName"/>
+      <int Value="132" Name="FirstVisibleLine"/>
+      <int Value="145" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c" Name="FileName"/>
+      <int Value="48" Name="FirstVisibleLine"/>
       <int Value="0" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>

@@ -8,894 +8,1207 @@
    8              		.eabi_attribute 30, 6
    9              		.eabi_attribute 34, 0
   10              		.eabi_attribute 18, 4
-  11              		.file	"startup.c"
+  11              		.file	"graphics.c"
   12              		.text
   13              	.Ltext0:
   14              		.cfi_sections	.debug_frame
-  15              		.section	.start_section,"ax",%progbits
-  16              		.align	1
-  17              		.global	startup
-  18              		.syntax unified
-  19              		.code	16
-  20              		.thumb_func
-  21              		.fpu softvfp
-  23              	startup:
-  24              	.LFB0:
-  25              		.file 1 "/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c"
-   1:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** /*
-   2:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****  * 	startup.c
-   3:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****  *  
-   4:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****  */
-   5:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** #include "libGPIO.h"
-   6:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** #include "libdelay.h"
-   7:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** #include "graphics.h"
-   8:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** #include <stdint.h>
-   9:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  10:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** #define MAX_POINTS 20
-  11:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  12:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  13:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  14:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** typedef struct tpoint {
-  15:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     uint8_t x;
-  16:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     uint8_t y;
-  17:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }POINT;
-  18:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  19:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** typedef struct tShape {
-  20:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     uint8_t numPoints;
-  21:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     POINT size;
-  22:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     POINT points[MAX_POINTS];
-  23:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }SHAPE;
-  24:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  25:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** typedef struct tObj {
-  26:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     SHAPE* shape;
-  27:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     POINT velocity;
-  28:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     POINT position;
-  29:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     void (* draw) (struct tObj*);
-  30:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     void (* clear) (struct tObj*);
-  31:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     void (* move) (struct tObj*);
-  32:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     void (* set_speed) (struct tObj*, POINT);
-  33:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }OBJECT;
-  34:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  35:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** void startup(void) __attribute__((naked)) __attribute__((section (".start_section")) );
-  36:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  37:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** void startup ( void )
-  38:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** {
-  26              		.loc 1 38 1
-  27              		.cfi_startproc
-  28              		@ Naked Function: prologue and epilogue provided by programmer.
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 1, uses_anonymous_args = 0
-  39:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** asm volatile(
-  31              		.loc 1 39 1
-  32              		.syntax divided
-  33              	@ 39 "/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c" 1
-  34 0000 0248     		 LDR R0,=0x2001C000
-  35 0002 8546     	 MOV SP,R0
-  36 0004 FFF7FEFF 	 BL main
-  37 0008 FEE7     	.L1: B .L1
-  38              	
-  39              	@ 0 "" 2
-  40:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 	" LDR R0,=0x2001C000\n"		/* set stack */
-  41:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 	" MOV SP,R0\n"
-  42:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 	" BL main\n"				/* call main */
-  43:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 	".L1: B .L1\n"				/* never return */
-  44:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 	) ;
-  45:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }
-  40              		.loc 1 45 1
-  41              		.thumb
-  42              		.syntax unified
-  43 000a C046     		nop
-  44              		.cfi_endproc
-  45              	.LFE0:
-  47              		.text
-  48              		.align	1
-  49              		.global	draw_object
-  50              		.syntax unified
-  51              		.code	16
-  52              		.thumb_func
-  53              		.fpu softvfp
-  55              	draw_object:
-  56              	.LFB1:
-  46:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  47:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  48:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  49:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** void draw_object(OBJECT* self) {
-  57              		.loc 1 49 32
-  58              		.cfi_startproc
-  59              		@ args = 0, pretend = 0, frame = 24
-  60              		@ frame_needed = 1, uses_anonymous_args = 0
-  61 0000 F0B5     		push	{r4, r5, r6, r7, lr}
-  62              		.cfi_def_cfa_offset 20
-  63              		.cfi_offset 4, -20
-  64              		.cfi_offset 5, -16
-  65              		.cfi_offset 6, -12
-  66              		.cfi_offset 7, -8
-  67              		.cfi_offset 14, -4
-  68 0002 87B0     		sub	sp, sp, #28
-  69              		.cfi_def_cfa_offset 48
-  70 0004 00AF     		add	r7, sp, #0
-  71              		.cfi_def_cfa_register 7
-  72 0006 7860     		str	r0, [r7, #4]
-  50:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     SHAPE* shape = self->shape;
-  73              		.loc 1 50 12
-  74 0008 7B68     		ldr	r3, [r7, #4]
-  75 000a 1B68     		ldr	r3, [r3]
-  76 000c 3B61     		str	r3, [r7, #16]
-  77              	.LBB2:
-  51:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     for (uint8_t i = 0; i < shape->numPoints; i++) {
-  78              		.loc 1 51 18
-  79 000e 1723     		movs	r3, #23
-  80 0010 FB18     		adds	r3, r7, r3
-  81 0012 0022     		movs	r2, #0
-  82 0014 1A70     		strb	r2, [r3]
-  83              		.loc 1 51 5
-  84 0016 33E0     		b	.L3
-  85              	.L4:
-  86              	.LBB3:
-  52:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t x = shape->points[i].x;
-  87              		.loc 1 52 37 discriminator 3
-  88 0018 1724     		movs	r4, #23
-  89 001a 3B19     		adds	r3, r7, r4
-  90 001c 1A78     		ldrb	r2, [r3]
-  91              		.loc 1 52 17 discriminator 3
-  92 001e 0F20     		movs	r0, #15
-  93 0020 3B18     		adds	r3, r7, r0
-  94 0022 3969     		ldr	r1, [r7, #16]
-  95 0024 5200     		lsls	r2, r2, #1
-  96 0026 8A18     		adds	r2, r1, r2
-  97 0028 0332     		adds	r2, r2, #3
-  98 002a 1278     		ldrb	r2, [r2]
-  99 002c 1A70     		strb	r2, [r3]
-  53:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t y = shape->points[i].y;
- 100              		.loc 1 53 37 discriminator 3
- 101 002e 3B19     		adds	r3, r7, r4
- 102 0030 1A78     		ldrb	r2, [r3]
- 103              		.loc 1 53 17 discriminator 3
- 104 0032 0E25     		movs	r5, #14
- 105 0034 7B19     		adds	r3, r7, r5
- 106 0036 3969     		ldr	r1, [r7, #16]
- 107 0038 5200     		lsls	r2, r2, #1
- 108 003a 8A18     		adds	r2, r1, r2
- 109 003c 0432     		adds	r2, r2, #4
- 110 003e 1278     		ldrb	r2, [r2]
- 111 0040 1A70     		strb	r2, [r3]
-  54:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t px = self->position.x;
- 112              		.loc 1 54 17 discriminator 3
- 113 0042 0D21     		movs	r1, #13
- 114 0044 7B18     		adds	r3, r7, r1
- 115 0046 7A68     		ldr	r2, [r7, #4]
- 116 0048 9279     		ldrb	r2, [r2, #6]
- 117 004a 1A70     		strb	r2, [r3]
-  55:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t py = self->position.y;
- 118              		.loc 1 55 17 discriminator 3
- 119 004c 0C26     		movs	r6, #12
- 120 004e BB19     		adds	r3, r7, r6
- 121 0050 7A68     		ldr	r2, [r7, #4]
- 122 0052 D279     		ldrb	r2, [r2, #7]
- 123 0054 1A70     		strb	r2, [r3]
-  56:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         pixel(x + px, y + py, true);
- 124              		.loc 1 56 9 discriminator 3
- 125 0056 3A18     		adds	r2, r7, r0
- 126 0058 7B18     		adds	r3, r7, r1
- 127 005a 1278     		ldrb	r2, [r2]
- 128 005c 1B78     		ldrb	r3, [r3]
- 129 005e D318     		adds	r3, r2, r3
- 130 0060 D8B2     		uxtb	r0, r3
- 131 0062 7A19     		adds	r2, r7, r5
- 132 0064 BB19     		adds	r3, r7, r6
- 133 0066 1278     		ldrb	r2, [r2]
- 134 0068 1B78     		ldrb	r3, [r3]
- 135 006a D318     		adds	r3, r2, r3
- 136 006c DBB2     		uxtb	r3, r3
- 137 006e 0122     		movs	r2, #1
- 138 0070 1900     		movs	r1, r3
- 139 0072 FFF7FEFF 		bl	pixel
- 140              	.LBE3:
-  51:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t x = shape->points[i].x;
- 141              		.loc 1 51 48 discriminator 3
- 142 0076 3B19     		adds	r3, r7, r4
- 143 0078 1A78     		ldrb	r2, [r3]
- 144 007a 3B19     		adds	r3, r7, r4
- 145 007c 0132     		adds	r2, r2, #1
- 146 007e 1A70     		strb	r2, [r3]
- 147              	.L3:
-  51:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t x = shape->points[i].x;
- 148              		.loc 1 51 34 discriminator 1
- 149 0080 3B69     		ldr	r3, [r7, #16]
- 150 0082 1B78     		ldrb	r3, [r3]
-  51:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t x = shape->points[i].x;
- 151              		.loc 1 51 5 discriminator 1
- 152 0084 1722     		movs	r2, #23
- 153 0086 BA18     		adds	r2, r7, r2
- 154 0088 1278     		ldrb	r2, [r2]
- 155 008a 9A42     		cmp	r2, r3
- 156 008c C4D3     		bcc	.L4
- 157              	.LBE2:
-  57:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     }
-  58:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }
- 158              		.loc 1 58 1
- 159 008e C046     		nop
- 160 0090 BD46     		mov	sp, r7
- 161 0092 07B0     		add	sp, sp, #28
- 162              		@ sp needed
- 163 0094 F0BD     		pop	{r4, r5, r6, r7, pc}
- 164              		.cfi_endproc
- 165              	.LFE1:
- 167              		.align	1
- 168              		.global	clear_object
- 169              		.syntax unified
- 170              		.code	16
- 171              		.thumb_func
- 172              		.fpu softvfp
- 174              	clear_object:
- 175              	.LFB2:
-  59:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  60:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** void clear_object(OBJECT* self) {
- 176              		.loc 1 60 33
- 177              		.cfi_startproc
- 178              		@ args = 0, pretend = 0, frame = 24
- 179              		@ frame_needed = 1, uses_anonymous_args = 0
- 180 0096 F0B5     		push	{r4, r5, r6, r7, lr}
- 181              		.cfi_def_cfa_offset 20
- 182              		.cfi_offset 4, -20
- 183              		.cfi_offset 5, -16
- 184              		.cfi_offset 6, -12
- 185              		.cfi_offset 7, -8
- 186              		.cfi_offset 14, -4
- 187 0098 87B0     		sub	sp, sp, #28
- 188              		.cfi_def_cfa_offset 48
- 189 009a 00AF     		add	r7, sp, #0
- 190              		.cfi_def_cfa_register 7
- 191 009c 7860     		str	r0, [r7, #4]
-  61:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     SHAPE* shape = self->shape;
- 192              		.loc 1 61 12
- 193 009e 7B68     		ldr	r3, [r7, #4]
- 194 00a0 1B68     		ldr	r3, [r3]
- 195 00a2 3B61     		str	r3, [r7, #16]
- 196              	.LBB4:
-  62:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     for (uint8_t i = 0; i < shape->numPoints; i++) {
- 197              		.loc 1 62 18
- 198 00a4 1723     		movs	r3, #23
- 199 00a6 FB18     		adds	r3, r7, r3
- 200 00a8 0022     		movs	r2, #0
- 201 00aa 1A70     		strb	r2, [r3]
- 202              		.loc 1 62 5
- 203 00ac 33E0     		b	.L6
- 204              	.L7:
- 205              	.LBB5:
-  63:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t x = shape->points[i].x;
- 206              		.loc 1 63 37 discriminator 3
- 207 00ae 1724     		movs	r4, #23
- 208 00b0 3B19     		adds	r3, r7, r4
- 209 00b2 1A78     		ldrb	r2, [r3]
- 210              		.loc 1 63 17 discriminator 3
- 211 00b4 0F20     		movs	r0, #15
- 212 00b6 3B18     		adds	r3, r7, r0
- 213 00b8 3969     		ldr	r1, [r7, #16]
- 214 00ba 5200     		lsls	r2, r2, #1
- 215 00bc 8A18     		adds	r2, r1, r2
- 216 00be 0332     		adds	r2, r2, #3
- 217 00c0 1278     		ldrb	r2, [r2]
- 218 00c2 1A70     		strb	r2, [r3]
-  64:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t y = shape->points[i].y;
- 219              		.loc 1 64 37 discriminator 3
- 220 00c4 3B19     		adds	r3, r7, r4
- 221 00c6 1A78     		ldrb	r2, [r3]
- 222              		.loc 1 64 17 discriminator 3
- 223 00c8 0E25     		movs	r5, #14
- 224 00ca 7B19     		adds	r3, r7, r5
- 225 00cc 3969     		ldr	r1, [r7, #16]
- 226 00ce 5200     		lsls	r2, r2, #1
- 227 00d0 8A18     		adds	r2, r1, r2
- 228 00d2 0432     		adds	r2, r2, #4
- 229 00d4 1278     		ldrb	r2, [r2]
- 230 00d6 1A70     		strb	r2, [r3]
-  65:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t px = self->position.x;
- 231              		.loc 1 65 17 discriminator 3
- 232 00d8 0D21     		movs	r1, #13
- 233 00da 7B18     		adds	r3, r7, r1
- 234 00dc 7A68     		ldr	r2, [r7, #4]
- 235 00de 9279     		ldrb	r2, [r2, #6]
- 236 00e0 1A70     		strb	r2, [r3]
-  66:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t py = self->position.y;
- 237              		.loc 1 66 17 discriminator 3
- 238 00e2 0C26     		movs	r6, #12
- 239 00e4 BB19     		adds	r3, r7, r6
- 240 00e6 7A68     		ldr	r2, [r7, #4]
- 241 00e8 D279     		ldrb	r2, [r2, #7]
- 242 00ea 1A70     		strb	r2, [r3]
-  67:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         pixel(x + px, y + py, false);
- 243              		.loc 1 67 9 discriminator 3
- 244 00ec 3A18     		adds	r2, r7, r0
- 245 00ee 7B18     		adds	r3, r7, r1
- 246 00f0 1278     		ldrb	r2, [r2]
- 247 00f2 1B78     		ldrb	r3, [r3]
- 248 00f4 D318     		adds	r3, r2, r3
- 249 00f6 D8B2     		uxtb	r0, r3
- 250 00f8 7A19     		adds	r2, r7, r5
- 251 00fa BB19     		adds	r3, r7, r6
- 252 00fc 1278     		ldrb	r2, [r2]
- 253 00fe 1B78     		ldrb	r3, [r3]
- 254 0100 D318     		adds	r3, r2, r3
- 255 0102 DBB2     		uxtb	r3, r3
- 256 0104 0022     		movs	r2, #0
- 257 0106 1900     		movs	r1, r3
- 258 0108 FFF7FEFF 		bl	pixel
- 259              	.LBE5:
-  62:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t x = shape->points[i].x;
- 260              		.loc 1 62 48 discriminator 3
- 261 010c 3B19     		adds	r3, r7, r4
- 262 010e 1A78     		ldrb	r2, [r3]
- 263 0110 3B19     		adds	r3, r7, r4
- 264 0112 0132     		adds	r2, r2, #1
- 265 0114 1A70     		strb	r2, [r3]
- 266              	.L6:
-  62:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t x = shape->points[i].x;
- 267              		.loc 1 62 34 discriminator 1
- 268 0116 3B69     		ldr	r3, [r7, #16]
- 269 0118 1B78     		ldrb	r3, [r3]
-  62:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         uint8_t x = shape->points[i].x;
- 270              		.loc 1 62 5 discriminator 1
- 271 011a 1722     		movs	r2, #23
- 272 011c BA18     		adds	r2, r7, r2
- 273 011e 1278     		ldrb	r2, [r2]
- 274 0120 9A42     		cmp	r2, r3
- 275 0122 C4D3     		bcc	.L7
- 276              	.LBE4:
-  68:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     }
-  69:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }
- 277              		.loc 1 69 1
- 278 0124 C046     		nop
- 279 0126 BD46     		mov	sp, r7
- 280 0128 07B0     		add	sp, sp, #28
- 281              		@ sp needed
- 282 012a F0BD     		pop	{r4, r5, r6, r7, pc}
- 283              		.cfi_endproc
- 284              	.LFE2:
- 286              		.align	1
- 287              		.global	set_speed
- 288              		.syntax unified
- 289              		.code	16
- 290              		.thumb_func
- 291              		.fpu softvfp
- 293              	set_speed:
- 294              	.LFB3:
-  70:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  71:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** void set_speed(OBJECT* self, POINT velocity) {
- 295              		.loc 1 71 46
- 296              		.cfi_startproc
- 297              		@ args = 0, pretend = 0, frame = 8
- 298              		@ frame_needed = 1, uses_anonymous_args = 0
- 299 012c 80B5     		push	{r7, lr}
- 300              		.cfi_def_cfa_offset 8
- 301              		.cfi_offset 7, -8
- 302              		.cfi_offset 14, -4
- 303 012e 82B0     		sub	sp, sp, #8
- 304              		.cfi_def_cfa_offset 16
- 305 0130 00AF     		add	r7, sp, #0
- 306              		.cfi_def_cfa_register 7
- 307 0132 7860     		str	r0, [r7, #4]
- 308 0134 3B00     		movs	r3, r7
- 309 0136 1980     		strh	r1, [r3]
-  72:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     self->velocity = velocity;
- 310              		.loc 1 72 20
- 311 0138 7B68     		ldr	r3, [r7, #4]
- 312 013a 3A00     		movs	r2, r7
- 313 013c 1288     		ldrh	r2, [r2]
- 314 013e 9A80     		strh	r2, [r3, #4]
-  73:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }
- 315              		.loc 1 73 1
- 316 0140 C046     		nop
- 317 0142 BD46     		mov	sp, r7
- 318 0144 02B0     		add	sp, sp, #8
- 319              		@ sp needed
- 320 0146 80BD     		pop	{r7, pc}
- 321              		.cfi_endproc
- 322              	.LFE3:
- 324              		.align	1
- 325              		.global	move_object
- 326              		.syntax unified
- 327              		.code	16
- 328              		.thumb_func
- 329              		.fpu softvfp
- 331              	move_object:
- 332              	.LFB4:
-  74:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
-  75:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** void move_object(OBJECT* self) {
- 333              		.loc 1 75 32
- 334              		.cfi_startproc
- 335              		@ args = 0, pretend = 0, frame = 16
- 336              		@ frame_needed = 1, uses_anonymous_args = 0
- 337 0148 80B5     		push	{r7, lr}
- 338              		.cfi_def_cfa_offset 8
- 339              		.cfi_offset 7, -8
- 340              		.cfi_offset 14, -4
- 341 014a 84B0     		sub	sp, sp, #16
- 342              		.cfi_def_cfa_offset 24
- 343 014c 00AF     		add	r7, sp, #0
- 344              		.cfi_def_cfa_register 7
- 345 014e 7860     		str	r0, [r7, #4]
-  76:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     uint8_t newX = self->position.x + self->velocity.x;
- 346              		.loc 1 76 34
- 347 0150 7B68     		ldr	r3, [r7, #4]
- 348 0152 9979     		ldrb	r1, [r3, #6]
- 349              		.loc 1 76 53
- 350 0154 7B68     		ldr	r3, [r7, #4]
- 351 0156 1A79     		ldrb	r2, [r3, #4]
- 352              		.loc 1 76 13
- 353 0158 0E20     		movs	r0, #14
- 354 015a 3B18     		adds	r3, r7, r0
- 355 015c 8A18     		adds	r2, r1, r2
- 356 015e 1A70     		strb	r2, [r3]
-  77:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     uint8_t newY = self->position.y + self->velocity.y;
- 357              		.loc 1 77 34
- 358 0160 7B68     		ldr	r3, [r7, #4]
- 359 0162 D979     		ldrb	r1, [r3, #7]
- 360              		.loc 1 77 53
- 361 0164 7B68     		ldr	r3, [r7, #4]
- 362 0166 5A79     		ldrb	r2, [r3, #5]
- 363              		.loc 1 77 13
- 364 0168 0D23     		movs	r3, #13
- 365 016a FB18     		adds	r3, r7, r3
- 366 016c 8A18     		adds	r2, r1, r2
- 367 016e 1A70     		strb	r2, [r3]
-  78:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     bool shouldIMove = true;
- 368              		.loc 1 78 10
- 369 0170 0F23     		movs	r3, #15
- 370 0172 FB18     		adds	r3, r7, r3
- 371 0174 0122     		movs	r2, #1
- 372 0176 1A70     		strb	r2, [r3]
-  79:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     
-  80:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     if (newX < 1 || newX > 128) {
- 373              		.loc 1 80 8
- 374 0178 3B18     		adds	r3, r7, r0
- 375 017a 1B78     		ldrb	r3, [r3]
- 376 017c 002B     		cmp	r3, #0
- 377 017e 03D0     		beq	.L10
- 378              		.loc 1 80 18 discriminator 1
- 379 0180 3B18     		adds	r3, r7, r0
- 380 0182 1B78     		ldrb	r3, [r3]
- 381 0184 802B     		cmp	r3, #128
- 382 0186 09D9     		bls	.L11
- 383              	.L10:
-  81:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         self->velocity.x = -self->velocity.x;
- 384              		.loc 1 81 43
- 385 0188 7B68     		ldr	r3, [r7, #4]
- 386 018a 1B79     		ldrb	r3, [r3, #4]
- 387              		.loc 1 81 26
- 388 018c 5B42     		rsbs	r3, r3, #0
- 389 018e DAB2     		uxtb	r2, r3
- 390 0190 7B68     		ldr	r3, [r7, #4]
- 391 0192 1A71     		strb	r2, [r3, #4]
-  82:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         shouldIMove = false;
- 392              		.loc 1 82 21
- 393 0194 0F23     		movs	r3, #15
- 394 0196 FB18     		adds	r3, r7, r3
- 395 0198 0022     		movs	r2, #0
- 396 019a 1A70     		strb	r2, [r3]
- 397              	.L11:
-  83:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     }
-  84:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     if (newY < 1 || newY > 64) {
- 398              		.loc 1 84 8
- 399 019c 0D22     		movs	r2, #13
- 400 019e BB18     		adds	r3, r7, r2
- 401 01a0 1B78     		ldrb	r3, [r3]
- 402 01a2 002B     		cmp	r3, #0
- 403 01a4 03D0     		beq	.L12
- 404              		.loc 1 84 18 discriminator 1
- 405 01a6 BB18     		adds	r3, r7, r2
- 406 01a8 1B78     		ldrb	r3, [r3]
- 407 01aa 402B     		cmp	r3, #64
- 408 01ac 09D9     		bls	.L13
- 409              	.L12:
-  85:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         self->velocity.y = -self->velocity.y;
- 410              		.loc 1 85 43
- 411 01ae 7B68     		ldr	r3, [r7, #4]
- 412 01b0 5B79     		ldrb	r3, [r3, #5]
- 413              		.loc 1 85 26
- 414 01b2 5B42     		rsbs	r3, r3, #0
- 415 01b4 DAB2     		uxtb	r2, r3
- 416 01b6 7B68     		ldr	r3, [r7, #4]
- 417 01b8 5A71     		strb	r2, [r3, #5]
-  86:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         shouldIMove = false;
- 418              		.loc 1 86 21
- 419 01ba 0F23     		movs	r3, #15
- 420 01bc FB18     		adds	r3, r7, r3
- 421 01be 0022     		movs	r2, #0
- 422 01c0 1A70     		strb	r2, [r3]
- 423              	.L13:
-  87:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     }
-  88:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     if (self->velocity.x == 0 && self->velocity.y == 0) {
- 424              		.loc 1 88 23
- 425 01c2 7B68     		ldr	r3, [r7, #4]
- 426 01c4 1B79     		ldrb	r3, [r3, #4]
- 427              		.loc 1 88 8
- 428 01c6 002B     		cmp	r3, #0
- 429 01c8 07D1     		bne	.L14
- 430              		.loc 1 88 48 discriminator 1
- 431 01ca 7B68     		ldr	r3, [r7, #4]
- 432 01cc 5B79     		ldrb	r3, [r3, #5]
- 433              		.loc 1 88 31 discriminator 1
- 434 01ce 002B     		cmp	r3, #0
- 435 01d0 03D1     		bne	.L14
-  89:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         shouldIMove = false;
- 436              		.loc 1 89 21
- 437 01d2 0F23     		movs	r3, #15
- 438 01d4 FB18     		adds	r3, r7, r3
- 439 01d6 0022     		movs	r2, #0
- 440 01d8 1A70     		strb	r2, [r3]
- 441              	.L14:
-  90:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     }
-  91:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     if (shouldIMove) {
- 442              		.loc 1 91 8
- 443 01da 0F23     		movs	r3, #15
- 444 01dc FB18     		adds	r3, r7, r3
- 445 01de 1B78     		ldrb	r3, [r3]
- 446 01e0 002B     		cmp	r3, #0
- 447 01e2 13D0     		beq	.L16
-  92:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         self->clear(self);
- 448              		.loc 1 92 13
- 449 01e4 7B68     		ldr	r3, [r7, #4]
- 450 01e6 DB68     		ldr	r3, [r3, #12]
- 451              		.loc 1 92 9
- 452 01e8 7A68     		ldr	r2, [r7, #4]
- 453 01ea 1000     		movs	r0, r2
- 454 01ec 9847     		blx	r3
- 455              	.LVL0:
-  93:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         self->position.x = newX;
- 456              		.loc 1 93 26
- 457 01ee 7B68     		ldr	r3, [r7, #4]
- 458 01f0 0E22     		movs	r2, #14
- 459 01f2 BA18     		adds	r2, r7, r2
- 460 01f4 1278     		ldrb	r2, [r2]
- 461 01f6 9A71     		strb	r2, [r3, #6]
-  94:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         self->position.y = newY;
- 462              		.loc 1 94 26
- 463 01f8 7B68     		ldr	r3, [r7, #4]
- 464 01fa 0D22     		movs	r2, #13
- 465 01fc BA18     		adds	r2, r7, r2
- 466 01fe 1278     		ldrb	r2, [r2]
- 467 0200 DA71     		strb	r2, [r3, #7]
-  95:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         self->draw(self);
- 468              		.loc 1 95 13
- 469 0202 7B68     		ldr	r3, [r7, #4]
- 470 0204 9B68     		ldr	r3, [r3, #8]
- 471              		.loc 1 95 9
- 472 0206 7A68     		ldr	r2, [r7, #4]
- 473 0208 1000     		movs	r0, r2
- 474 020a 9847     		blx	r3
- 475              	.LVL1:
- 476              	.L16:
-  96:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     }
-  97:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     
-  98:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }
- 477              		.loc 1 98 1
- 478 020c C046     		nop
- 479 020e BD46     		mov	sp, r7
- 480 0210 04B0     		add	sp, sp, #16
- 481              		@ sp needed
- 482 0212 80BD     		pop	{r7, pc}
- 483              		.cfi_endproc
- 484              	.LFE4:
- 486              		.align	1
- 487              		.global	app_init
- 488              		.syntax unified
- 489              		.code	16
- 490              		.thumb_func
- 491              		.fpu softvfp
- 493              	app_init:
- 494              	.LFB5:
-  99:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
- 100:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
- 101:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
- 102:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** void app_init(void) {
- 495              		.loc 1 102 21
- 496              		.cfi_startproc
- 497              		@ args = 0, pretend = 0, frame = 0
- 498              		@ frame_needed = 1, uses_anonymous_args = 0
- 499 0214 80B5     		push	{r7, lr}
- 500              		.cfi_def_cfa_offset 8
- 501              		.cfi_offset 7, -8
- 502              		.cfi_offset 14, -4
- 503 0216 00AF     		add	r7, sp, #0
- 504              		.cfi_def_cfa_register 7
- 103:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     GPIO_E->moder = 0x55555555;
- 505              		.loc 1 103 11
- 506 0218 054B     		ldr	r3, .L18
- 507              		.loc 1 103 19
- 508 021a 064A     		ldr	r2, .L18+4
- 509 021c 1A60     		str	r2, [r3]
- 104:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     GPIO_init_keypad(GPIO_D, false);
- 510              		.loc 1 104 5
- 511 021e 064B     		ldr	r3, .L18+8
- 512 0220 0021     		movs	r1, #0
- 513 0222 1800     		movs	r0, r3
- 514 0224 FFF7FEFF 		bl	GPIO_init_keypad
- 105:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** }
- 515              		.loc 1 105 1
- 516 0228 C046     		nop
- 517 022a BD46     		mov	sp, r7
- 518              		@ sp needed
- 519 022c 80BD     		pop	{r7, pc}
- 520              	.L19:
- 521 022e C046     		.align	2
- 522              	.L18:
- 523 0230 00100240 		.word	1073876992
- 524 0234 55555555 		.word	1431655765
- 525 0238 000C0240 		.word	1073875968
- 526              		.cfi_endproc
- 527              	.LFE5:
- 529              		.align	1
- 530              		.global	main
- 531              		.syntax unified
- 532              		.code	16
- 533              		.thumb_func
- 534              		.fpu softvfp
- 536              	main:
- 537              	.LFB6:
- 106:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** 
- 107:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** int main(void)
- 108:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c **** {
- 538              		.loc 1 108 1
- 539              		.cfi_startproc
- 540              		@ args = 0, pretend = 0, frame = 24
- 541              		@ frame_needed = 1, uses_anonymous_args = 0
- 542 023c B0B5     		push	{r4, r5, r7, lr}
- 543              		.cfi_def_cfa_offset 16
- 544              		.cfi_offset 4, -16
- 545              		.cfi_offset 5, -12
- 546              		.cfi_offset 7, -8
- 547              		.cfi_offset 14, -4
- 548 023e 86B0     		sub	sp, sp, #24
- 549              		.cfi_def_cfa_offset 40
- 550 0240 00AF     		add	r7, sp, #0
- 551              		.cfi_def_cfa_register 7
- 109:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     app_init();
- 552              		.loc 1 109 5
- 553 0242 FFF7FEFF 		bl	app_init
- 110:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     graphic_init();
- 554              		.loc 1 110 5
- 555 0246 FFF7FEFF 		bl	graphic_init
- 556              	.L28:
- 111:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     #ifndef SIMULATOR
- 112:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         graphic_clear_screen();
- 113:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     #endif
- 114:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     
- 115:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     static SHAPE ball_geometry = {
- 116:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         12,
- 117:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         {10,10},
- 118:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         {
- 119:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                    {0,1}, {0,2}, 
- 120:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****             {1,0}, {1,1}, {1,2}, {1,3}, 
- 121:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****             {2,0}, {2,1}, {2,2}, {2,3},
- 122:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                    {3,1}, {3,2}
- 123:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         }
- 124:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     };
- 125:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     
- 126:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     static OBJECT ball = {
- 127:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         &ball_geometry,
- 128:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         {4,4},
- 129:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         {1,1},
- 130:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         draw_object,
- 131:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         clear_object,
- 132:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         move_object,
- 133:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         set_speed
- 134:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     };
- 135:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     uint8_t c;
- 136:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****     while (true) {
- 137:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         ball.move(&ball);
- 557              		.loc 1 137 13
- 558 024a 2E4B     		ldr	r3, .L29
- 559 024c 1B69     		ldr	r3, [r3, #16]
- 560              		.loc 1 137 9
- 561 024e 2D4A     		ldr	r2, .L29
- 562 0250 1000     		movs	r0, r2
- 563 0252 9847     		blx	r3
- 564              	.LVL2:
- 138:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         c = GPIO_read_keypad(GPIO_D, false);
- 565              		.loc 1 138 13
- 566 0254 1725     		movs	r5, #23
- 567 0256 7C19     		adds	r4, r7, r5
- 568 0258 2B4B     		ldr	r3, .L29+4
- 569 025a 0021     		movs	r1, #0
- 570 025c 1800     		movs	r0, r3
- 571 025e FFF7FEFF 		bl	GPIO_read_keypad
- 572 0262 0300     		movs	r3, r0
- 573 0264 2370     		strb	r3, [r4]
- 139:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         switch (c) {
- 574              		.loc 1 139 9
- 575 0266 7B19     		adds	r3, r7, r5
- 576 0268 1B78     		ldrb	r3, [r3]
- 577 026a 082B     		cmp	r3, #8
- 578 026c EDD8     		bhi	.L28
- 579 026e 9A00     		lsls	r2, r3, #2
- 580 0270 264B     		ldr	r3, .L29+8
- 581 0272 D318     		adds	r3, r2, r3
- 582 0274 1B68     		ldr	r3, [r3]
- 583 0276 9F46     		mov	pc, r3
- 584              		.section	.rodata
- 585              		.align	2
- 586              	.L23:
- 587 0000 4A020000 		.word	.L28
- 588 0004 4A020000 		.word	.L28
- 589 0008 C8020000 		.word	.L27
- 590 000c 4A020000 		.word	.L28
- 591 0010 AC020000 		.word	.L26
- 592 0014 78020000 		.word	.L25
- 593 0018 90020000 		.word	.L24
- 594 001c 4A020000 		.word	.L28
- 595 0020 E4020000 		.word	.L22
- 596              		.text
- 597              	.L25:
- 140:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****             case 5:
- 141:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 ball.set_speed(&ball, (POINT){0,0});
- 598              		.loc 1 141 21
- 599 0278 224B     		ldr	r3, .L29
- 600 027a 5A69     		ldr	r2, [r3, #20]
- 601              		.loc 1 141 46
- 602 027c 3B1D     		adds	r3, r7, #4
- 603 027e 0021     		movs	r1, #0
- 604 0280 1970     		strb	r1, [r3]
- 605 0282 3B1D     		adds	r3, r7, #4
- 606 0284 0021     		movs	r1, #0
- 607 0286 5970     		strb	r1, [r3, #1]
- 608              		.loc 1 141 17
- 609 0288 3B1D     		adds	r3, r7, #4
- 610 028a 1E48     		ldr	r0, .L29
- 611 028c 1968     		ldr	r1, [r3]
- 612 028e 9047     		blx	r2
- 613              	.LVL3:
- 614              	.L24:
- 142:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****             case 6:
- 143:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 ball.set_speed(&ball, (POINT){2,0});
- 615              		.loc 1 143 21
- 616 0290 1C4B     		ldr	r3, .L29
- 617 0292 5A69     		ldr	r2, [r3, #20]
- 618              		.loc 1 143 46
- 619 0294 0820     		movs	r0, #8
- 620 0296 3B18     		adds	r3, r7, r0
- 621 0298 0221     		movs	r1, #2
- 622 029a 1970     		strb	r1, [r3]
- 623 029c 3B18     		adds	r3, r7, r0
- 624 029e 0021     		movs	r1, #0
- 625 02a0 5970     		strb	r1, [r3, #1]
- 626              		.loc 1 143 17
- 627 02a2 3B18     		adds	r3, r7, r0
- 628 02a4 1748     		ldr	r0, .L29
- 629 02a6 1968     		ldr	r1, [r3]
- 630 02a8 9047     		blx	r2
- 631              	.LVL4:
- 144:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 break;
- 632              		.loc 1 144 17
- 633 02aa 29E0     		b	.L21
- 634              	.L26:
- 145:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****             case 4:
- 146:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 ball.set_speed(&ball, (POINT){-2,0});
- 635              		.loc 1 146 21
- 636 02ac 154B     		ldr	r3, .L29
- 637 02ae 5A69     		ldr	r2, [r3, #20]
- 638              		.loc 1 146 46
- 639 02b0 0C20     		movs	r0, #12
- 640 02b2 3B18     		adds	r3, r7, r0
- 641 02b4 FE21     		movs	r1, #254
- 642 02b6 1970     		strb	r1, [r3]
- 643 02b8 3B18     		adds	r3, r7, r0
- 644 02ba 0021     		movs	r1, #0
- 645 02bc 5970     		strb	r1, [r3, #1]
- 646              		.loc 1 146 17
- 647 02be 3B18     		adds	r3, r7, r0
- 648 02c0 1048     		ldr	r0, .L29
- 649 02c2 1968     		ldr	r1, [r3]
- 650 02c4 9047     		blx	r2
- 651              	.LVL5:
- 147:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 break;
- 652              		.loc 1 147 17
- 653 02c6 1BE0     		b	.L21
- 654              	.L27:
- 148:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****             case 2:
- 149:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 ball.set_speed(&ball, (POINT){0,-2});
- 655              		.loc 1 149 21
- 656 02c8 0E4B     		ldr	r3, .L29
- 657 02ca 5A69     		ldr	r2, [r3, #20]
- 658              		.loc 1 149 46
- 659 02cc 1020     		movs	r0, #16
- 660 02ce 3B18     		adds	r3, r7, r0
- 661 02d0 0021     		movs	r1, #0
- 662 02d2 1970     		strb	r1, [r3]
- 663 02d4 3B18     		adds	r3, r7, r0
- 664 02d6 FE21     		movs	r1, #254
- 665 02d8 5970     		strb	r1, [r3, #1]
- 666              		.loc 1 149 17
- 667 02da 3B18     		adds	r3, r7, r0
- 668 02dc 0948     		ldr	r0, .L29
- 669 02de 1968     		ldr	r1, [r3]
- 670 02e0 9047     		blx	r2
- 671              	.LVL6:
- 150:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 break;
- 672              		.loc 1 150 17
- 673 02e2 0DE0     		b	.L21
- 674              	.L22:
- 151:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****             case 8:
- 152:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 ball.set_speed(&ball, (POINT){0,2});
- 675              		.loc 1 152 21
- 676 02e4 074B     		ldr	r3, .L29
- 677 02e6 5A69     		ldr	r2, [r3, #20]
- 678              		.loc 1 152 46
- 679 02e8 1420     		movs	r0, #20
- 680 02ea 3B18     		adds	r3, r7, r0
- 681 02ec 0021     		movs	r1, #0
- 682 02ee 1970     		strb	r1, [r3]
- 683 02f0 3B18     		adds	r3, r7, r0
- 684 02f2 0221     		movs	r1, #2
- 685 02f4 5970     		strb	r1, [r3, #1]
- 686              		.loc 1 152 17
- 687 02f6 3B18     		adds	r3, r7, r0
- 688 02f8 0248     		ldr	r0, .L29
- 689 02fa 1968     		ldr	r1, [r3]
- 690 02fc 9047     		blx	r2
- 691              	.LVL7:
- 153:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****                 break;
- 692              		.loc 1 153 17
- 693 02fe C046     		nop
- 694              	.L21:
- 137:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/startup.c ****         c = GPIO_read_keypad(GPIO_D, false);
- 695              		.loc 1 137 9
- 696 0300 A3E7     		b	.L28
- 697              	.L30:
- 698 0302 C046     		.align	2
- 699              	.L29:
- 700 0304 00000000 		.word	ball.4360
- 701 0308 000C0240 		.word	1073875968
- 702 030c 00000000 		.word	.L23
- 703              		.cfi_endproc
- 704              	.LFE6:
- 706              		.data
- 707              		.align	2
- 710              	ball.4360:
- 711 0000 18000000 		.word	ball_geometry.4359
- 712 0004 04       		.byte	4
- 713 0005 04       		.byte	4
- 714 0006 01       		.byte	1
- 715 0007 01       		.byte	1
- 716 0008 00000000 		.word	draw_object
- 717 000c 00000000 		.word	clear_object
- 718 0010 00000000 		.word	move_object
- 719 0014 00000000 		.word	set_speed
- 720              		.align	2
- 723              	ball_geometry.4359:
- 724 0018 0C       		.byte	12
- 725 0019 0A       		.byte	10
- 726 001a 0A       		.byte	10
- 727 001b 00       		.byte	0
- 728 001c 01       		.byte	1
- 729 001d 00       		.byte	0
- 730 001e 02       		.byte	2
- 731 001f 01       		.byte	1
- 732 0020 00       		.byte	0
- 733 0021 01       		.byte	1
- 734 0022 01       		.byte	1
- 735 0023 01       		.byte	1
- 736 0024 02       		.byte	2
- 737 0025 01       		.byte	1
- 738 0026 03       		.byte	3
- 739 0027 02       		.byte	2
- 740 0028 00       		.byte	0
- 741 0029 02       		.byte	2
- 742 002a 01       		.byte	1
- 743 002b 02       		.byte	2
- 744 002c 02       		.byte	2
- 745 002d 02       		.byte	2
- 746 002e 03       		.byte	3
- 747 002f 03       		.byte	3
- 748 0030 01       		.byte	1
- 749 0031 03       		.byte	3
- 750 0032 02       		.byte	2
- 751 0033 00000000 		.space	16
- 751      00000000 
- 751      00000000 
- 751      00000000 
- 752              		.text
- 753              	.Letext0:
- 754              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 755              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
- 756              		.file 4 "/home/love/Documents/skola/EDA482/libs/include/libGPIO.h"
+  15              		.align	1
+  16              		.global	graphic_ctrl_bit_set
+  17              		.syntax unified
+  18              		.code	16
+  19              		.thumb_func
+  20              		.fpu softvfp
+  22              	graphic_ctrl_bit_set:
+  23              	.LFB0:
+  24              		.file 1 "/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c"
+   1:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #include "graphics.h"
+   2:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #include <libGPIO.h>
+   3:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #include <libdelay.h>
+   4:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+   5:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define BITMASK_E 0x40
+   6:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define BITMASK_SELECT 0x4
+   7:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define BITMASK_RW 0x2
+   8:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define BITMASK_RS 0x1
+   9:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define BITMASK_RESET 0x20
+  10:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define BITMASK_CS1 0x8
+  11:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define BITMASK_CS2 0x10
+  12:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+  13:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define LCD_ON 0x3F
+  14:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define LCD_OFF 0x3E
+  15:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define LCD_SET_ADD 0x40
+  16:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define LCD_SET_PAGE 0xB8
+  17:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define LCD_DISP_START 0xC0
+  18:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** #define LCD_BUSY 0x80
+  19:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+  20:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** // choose graphic display, and set the bits from x
+  21:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void graphic_ctrl_bit_set(uint8_t x) {
+  25              		.loc 1 21 38
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 16
+  28              		@ frame_needed = 1, uses_anonymous_args = 0
+  29 0000 80B5     		push	{r7, lr}
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 84B0     		sub	sp, sp, #16
+  34              		.cfi_def_cfa_offset 24
+  35 0004 00AF     		add	r7, sp, #0
+  36              		.cfi_def_cfa_register 7
+  37 0006 0200     		movs	r2, r0
+  38 0008 FB1D     		adds	r3, r7, #7
+  39 000a 1A70     		strb	r2, [r3]
+  22:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     uint8_t c = GPIO_E->odr_low;
+  40              		.loc 1 22 23
+  41 000c 0C4A     		ldr	r2, .L2
+  42              		.loc 1 22 13
+  43 000e 0F21     		movs	r1, #15
+  44 0010 7B18     		adds	r3, r7, r1
+  45 0012 127D     		ldrb	r2, [r2, #20]
+  46 0014 1A70     		strb	r2, [r3]
+  23:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     c |= (x & ~BITMASK_SELECT);
+  47              		.loc 1 23 13
+  48 0016 FB1D     		adds	r3, r7, #7
+  49 0018 1B78     		ldrb	r3, [r3]
+  50 001a 5BB2     		sxtb	r3, r3
+  51 001c 0422     		movs	r2, #4
+  52 001e 9343     		bics	r3, r2
+  53 0020 5AB2     		sxtb	r2, r3
+  54              		.loc 1 23 7
+  55 0022 7B18     		adds	r3, r7, r1
+  56 0024 1B78     		ldrb	r3, [r3]
+  57 0026 5BB2     		sxtb	r3, r3
+  58 0028 1343     		orrs	r3, r2
+  59 002a 5AB2     		sxtb	r2, r3
+  60 002c 7B18     		adds	r3, r7, r1
+  61 002e 1A70     		strb	r2, [r3]
+  24:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     GPIO_E->odr_low = c;
+  62              		.loc 1 24 11
+  63 0030 034A     		ldr	r2, .L2
+  64              		.loc 1 24 21
+  65 0032 7B18     		adds	r3, r7, r1
+  66 0034 1B78     		ldrb	r3, [r3]
+  67 0036 1375     		strb	r3, [r2, #20]
+  25:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+  68              		.loc 1 25 1
+  69 0038 C046     		nop
+  70 003a BD46     		mov	sp, r7
+  71 003c 04B0     		add	sp, sp, #16
+  72              		@ sp needed
+  73 003e 80BD     		pop	{r7, pc}
+  74              	.L3:
+  75              		.align	2
+  76              	.L2:
+  77 0040 00100240 		.word	1073876992
+  78              		.cfi_endproc
+  79              	.LFE0:
+  81              		.align	1
+  82              		.global	graphic_ctrl_bit_clear
+  83              		.syntax unified
+  84              		.code	16
+  85              		.thumb_func
+  86              		.fpu softvfp
+  88              	graphic_ctrl_bit_clear:
+  89              	.LFB1:
+  26:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** // Choose graphic display, and clear the bits from x
+  27:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void graphic_ctrl_bit_clear(uint8_t x) {
+  90              		.loc 1 27 40
+  91              		.cfi_startproc
+  92              		@ args = 0, pretend = 0, frame = 16
+  93              		@ frame_needed = 1, uses_anonymous_args = 0
+  94 0044 80B5     		push	{r7, lr}
+  95              		.cfi_def_cfa_offset 8
+  96              		.cfi_offset 7, -8
+  97              		.cfi_offset 14, -4
+  98 0046 84B0     		sub	sp, sp, #16
+  99              		.cfi_def_cfa_offset 24
+ 100 0048 00AF     		add	r7, sp, #0
+ 101              		.cfi_def_cfa_register 7
+ 102 004a 0200     		movs	r2, r0
+ 103 004c FB1D     		adds	r3, r7, #7
+ 104 004e 1A70     		strb	r2, [r3]
+  28:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     uint8_t c = GPIO_E->odr_low;
+ 105              		.loc 1 28 23
+ 106 0050 0C4A     		ldr	r2, .L5
+ 107              		.loc 1 28 13
+ 108 0052 0F21     		movs	r1, #15
+ 109 0054 7B18     		adds	r3, r7, r1
+ 110 0056 127D     		ldrb	r2, [r2, #20]
+ 111 0058 1A70     		strb	r2, [r3]
+  29:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     c &= (~x & ~BITMASK_SELECT); 
+ 112              		.loc 1 29 7
+ 113 005a FB1D     		adds	r3, r7, #7
+ 114 005c 1B78     		ldrb	r3, [r3]
+ 115 005e DB43     		mvns	r3, r3
+ 116 0060 DBB2     		uxtb	r3, r3
+ 117 0062 7A18     		adds	r2, r7, r1
+ 118 0064 1278     		ldrb	r2, [r2]
+ 119 0066 1340     		ands	r3, r2
+ 120 0068 DAB2     		uxtb	r2, r3
+ 121 006a 0800     		movs	r0, r1
+ 122 006c 7B18     		adds	r3, r7, r1
+ 123 006e 0421     		movs	r1, #4
+ 124 0070 8A43     		bics	r2, r1
+ 125 0072 1A70     		strb	r2, [r3]
+  30:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     GPIO_E->odr_low = c;
+ 126              		.loc 1 30 11
+ 127 0074 034A     		ldr	r2, .L5
+ 128              		.loc 1 30 21
+ 129 0076 3B18     		adds	r3, r7, r0
+ 130 0078 1B78     		ldrb	r3, [r3]
+ 131 007a 1375     		strb	r3, [r2, #20]
+  31:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 132              		.loc 1 31 1
+ 133 007c C046     		nop
+ 134 007e BD46     		mov	sp, r7
+ 135 0080 04B0     		add	sp, sp, #16
+ 136              		@ sp needed
+ 137 0082 80BD     		pop	{r7, pc}
+ 138              	.L6:
+ 139              		.align	2
+ 140              	.L5:
+ 141 0084 00100240 		.word	1073876992
+ 142              		.cfi_endproc
+ 143              	.LFE1:
+ 145              		.align	1
+ 146              		.global	select_controller
+ 147              		.syntax unified
+ 148              		.code	16
+ 149              		.thumb_func
+ 150              		.fpu softvfp
+ 152              	select_controller:
+ 153              	.LFB2:
+  32:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** // Select chip
+  33:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void select_controller(uint8_t controller) {
+ 154              		.loc 1 33 44
+ 155              		.cfi_startproc
+ 156              		@ args = 0, pretend = 0, frame = 8
+ 157              		@ frame_needed = 1, uses_anonymous_args = 0
+ 158 0088 80B5     		push	{r7, lr}
+ 159              		.cfi_def_cfa_offset 8
+ 160              		.cfi_offset 7, -8
+ 161              		.cfi_offset 14, -4
+ 162 008a 82B0     		sub	sp, sp, #8
+ 163              		.cfi_def_cfa_offset 16
+ 164 008c 00AF     		add	r7, sp, #0
+ 165              		.cfi_def_cfa_register 7
+ 166 008e 0200     		movs	r2, r0
+ 167 0090 FB1D     		adds	r3, r7, #7
+ 168 0092 1A70     		strb	r2, [r3]
+  34:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     switch (controller) {
+ 169              		.loc 1 34 5
+ 170 0094 FB1D     		adds	r3, r7, #7
+ 171 0096 1B78     		ldrb	r3, [r3]
+ 172 0098 182B     		cmp	r3, #24
+ 173 009a 1AD0     		beq	.L8
+ 174 009c 1DDC     		bgt	.L13
+ 175 009e 102B     		cmp	r3, #16
+ 176 00a0 10D0     		beq	.L10
+ 177 00a2 1ADC     		bgt	.L13
+ 178 00a4 002B     		cmp	r3, #0
+ 179 00a6 02D0     		beq	.L11
+ 180 00a8 082B     		cmp	r3, #8
+ 181 00aa 04D0     		beq	.L12
+  35:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         case 0:
+  36:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_ctrl_bit_clear (BITMASK_CS1 | BITMASK_CS2);
+  37:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             break;
+  38:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         case BITMASK_CS1:
+  39:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_ctrl_bit_set(BITMASK_CS1);
+  40:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_ctrl_bit_clear(BITMASK_CS2);
+  41:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             break;
+  42:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         case BITMASK_CS2:
+  43:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_ctrl_bit_set(BITMASK_CS2);
+  44:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_ctrl_bit_clear(BITMASK_CS1);
+  45:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             break;
+  46:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         case BITMASK_CS1 | BITMASK_CS2:
+  47:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_ctrl_bit_set(BITMASK_CS1 | BITMASK_CS2);
+  48:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             break;
+  49:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+  50:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 182              		.loc 1 50 1
+ 183 00ac 15E0     		b	.L13
+ 184              	.L11:
+  36:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             break;
+ 185              		.loc 1 36 13
+ 186 00ae 1820     		movs	r0, #24
+ 187 00b0 FFF7FEFF 		bl	graphic_ctrl_bit_clear
+  37:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         case BITMASK_CS1:
+ 188              		.loc 1 37 13
+ 189 00b4 11E0     		b	.L9
+ 190              	.L12:
+  39:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_ctrl_bit_clear(BITMASK_CS2);
+ 191              		.loc 1 39 13
+ 192 00b6 0820     		movs	r0, #8
+ 193 00b8 FFF7FEFF 		bl	graphic_ctrl_bit_set
+  40:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             break;
+ 194              		.loc 1 40 13
+ 195 00bc 1020     		movs	r0, #16
+ 196 00be FFF7FEFF 		bl	graphic_ctrl_bit_clear
+  41:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         case BITMASK_CS2:
+ 197              		.loc 1 41 13
+ 198 00c2 0AE0     		b	.L9
+ 199              	.L10:
+  43:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_ctrl_bit_clear(BITMASK_CS1);
+ 200              		.loc 1 43 13
+ 201 00c4 1020     		movs	r0, #16
+ 202 00c6 FFF7FEFF 		bl	graphic_ctrl_bit_set
+  44:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             break;
+ 203              		.loc 1 44 13
+ 204 00ca 0820     		movs	r0, #8
+ 205 00cc FFF7FEFF 		bl	graphic_ctrl_bit_clear
+  45:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         case BITMASK_CS1 | BITMASK_CS2:
+ 206              		.loc 1 45 13
+ 207 00d0 03E0     		b	.L9
+ 208              	.L8:
+  47:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             break;
+ 209              		.loc 1 47 13
+ 210 00d2 1820     		movs	r0, #24
+ 211 00d4 FFF7FEFF 		bl	graphic_ctrl_bit_set
+  48:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+ 212              		.loc 1 48 13
+ 213 00d8 C046     		nop
+ 214              	.L9:
+ 215              	.L13:
+ 216              		.loc 1 50 1
+ 217 00da C046     		nop
+ 218 00dc BD46     		mov	sp, r7
+ 219 00de 02B0     		add	sp, sp, #8
+ 220              		@ sp needed
+ 221 00e0 80BD     		pop	{r7, pc}
+ 222              		.cfi_endproc
+ 223              	.LFE2:
+ 225              		.align	1
+ 226              		.global	graphic_wait_ready
+ 227              		.syntax unified
+ 228              		.code	16
+ 229              		.thumb_func
+ 230              		.fpu softvfp
+ 232              	graphic_wait_ready:
+ 233              	.LFB3:
+  51:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+  52:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void graphic_wait_ready() {
+ 234              		.loc 1 52 27
+ 235              		.cfi_startproc
+ 236              		@ args = 0, pretend = 0, frame = 8
+ 237              		@ frame_needed = 1, uses_anonymous_args = 0
+ 238 00e2 80B5     		push	{r7, lr}
+ 239              		.cfi_def_cfa_offset 8
+ 240              		.cfi_offset 7, -8
+ 241              		.cfi_offset 14, -4
+ 242 00e4 82B0     		sub	sp, sp, #8
+ 243              		.cfi_def_cfa_offset 16
+ 244 00e6 00AF     		add	r7, sp, #0
+ 245              		.cfi_def_cfa_register 7
+  53:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_E);
+ 246              		.loc 1 53 5
+ 247 00e8 4020     		movs	r0, #64
+ 248 00ea FFF7FEFF 		bl	graphic_ctrl_bit_clear
+  54:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     GPIO_E->moder = 0x00005555;
+ 249              		.loc 1 54 11
+ 250 00ee 154B     		ldr	r3, .L16
+ 251              		.loc 1 54 19
+ 252 00f0 154A     		ldr	r2, .L16+4
+ 253 00f2 1A60     		str	r2, [r3]
+  55:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_RW);
+ 254              		.loc 1 55 5
+ 255 00f4 0220     		movs	r0, #2
+ 256 00f6 FFF7FEFF 		bl	graphic_ctrl_bit_set
+  56:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_RS);
+ 257              		.loc 1 56 5
+ 258 00fa 0120     		movs	r0, #1
+ 259 00fc FFF7FEFF 		bl	graphic_ctrl_bit_clear
+  57:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     delay_500ns();
+ 260              		.loc 1 57 5
+ 261 0100 FFF7FEFF 		bl	delay_500ns
+ 262              	.L15:
+  58:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     
+  59:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     uint8_t c;
+  60:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     do {
+  61:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_ctrl_bit_set(BITMASK_E);
+ 263              		.loc 1 61 9 discriminator 1
+ 264 0104 4020     		movs	r0, #64
+ 265 0106 FFF7FEFF 		bl	graphic_ctrl_bit_set
+  62:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         delay_500ns();
+ 266              		.loc 1 62 9 discriminator 1
+ 267 010a FFF7FEFF 		bl	delay_500ns
+  63:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         c = GPIO_E->idr_high & LCD_BUSY;
+ 268              		.loc 1 63 19 discriminator 1
+ 269 010e 0D4B     		ldr	r3, .L16
+ 270 0110 5B7C     		ldrb	r3, [r3, #17]
+ 271 0112 DAB2     		uxtb	r2, r3
+ 272              		.loc 1 63 11 discriminator 1
+ 273 0114 FB1D     		adds	r3, r7, #7
+ 274 0116 7F21     		movs	r1, #127
+ 275 0118 8A43     		bics	r2, r1
+ 276 011a 1A70     		strb	r2, [r3]
+  64:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_ctrl_bit_clear(BITMASK_E);
+ 277              		.loc 1 64 9 discriminator 1
+ 278 011c 4020     		movs	r0, #64
+ 279 011e FFF7FEFF 		bl	graphic_ctrl_bit_clear
+  65:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         delay_500ns();
+ 280              		.loc 1 65 9 discriminator 1
+ 281 0122 FFF7FEFF 		bl	delay_500ns
+  66:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }while(c);
+ 282              		.loc 1 66 5 discriminator 1
+ 283 0126 FB1D     		adds	r3, r7, #7
+ 284 0128 1B78     		ldrb	r3, [r3]
+ 285 012a 002B     		cmp	r3, #0
+ 286 012c EAD1     		bne	.L15
+  67:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     
+  68:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_E);
+ 287              		.loc 1 68 5
+ 288 012e 4020     		movs	r0, #64
+ 289 0130 FFF7FEFF 		bl	graphic_ctrl_bit_set
+  69:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     GPIO_E->moder = 0x55555555;
+ 290              		.loc 1 69 11
+ 291 0134 034B     		ldr	r3, .L16
+ 292              		.loc 1 69 19
+ 293 0136 054A     		ldr	r2, .L16+8
+ 294 0138 1A60     		str	r2, [r3]
+  70:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 295              		.loc 1 70 1
+ 296 013a C046     		nop
+ 297 013c BD46     		mov	sp, r7
+ 298 013e 02B0     		add	sp, sp, #8
+ 299              		@ sp needed
+ 300 0140 80BD     		pop	{r7, pc}
+ 301              	.L17:
+ 302 0142 C046     		.align	2
+ 303              	.L16:
+ 304 0144 00100240 		.word	1073876992
+ 305 0148 55550000 		.word	21845
+ 306 014c 55555555 		.word	1431655765
+ 307              		.cfi_endproc
+ 308              	.LFE3:
+ 310              		.align	1
+ 311              		.global	graphic_read
+ 312              		.syntax unified
+ 313              		.code	16
+ 314              		.thumb_func
+ 315              		.fpu softvfp
+ 317              	graphic_read:
+ 318              	.LFB4:
+  71:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+  72:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** uint8_t graphic_read(uint8_t controller) {
+ 319              		.loc 1 72 42
+ 320              		.cfi_startproc
+ 321              		@ args = 0, pretend = 0, frame = 16
+ 322              		@ frame_needed = 1, uses_anonymous_args = 0
+ 323 0150 80B5     		push	{r7, lr}
+ 324              		.cfi_def_cfa_offset 8
+ 325              		.cfi_offset 7, -8
+ 326              		.cfi_offset 14, -4
+ 327 0152 84B0     		sub	sp, sp, #16
+ 328              		.cfi_def_cfa_offset 24
+ 329 0154 00AF     		add	r7, sp, #0
+ 330              		.cfi_def_cfa_register 7
+ 331 0156 0200     		movs	r2, r0
+ 332 0158 FB1D     		adds	r3, r7, #7
+ 333 015a 1A70     		strb	r2, [r3]
+  73:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_E);
+ 334              		.loc 1 73 5
+ 335 015c 4020     		movs	r0, #64
+ 336 015e FFF7FEFF 		bl	graphic_ctrl_bit_clear
+  74:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     GPIO_E->moder = 0x00005555;
+ 337              		.loc 1 74 11
+ 338 0162 1C4B     		ldr	r3, .L22
+ 339              		.loc 1 74 19
+ 340 0164 1C4A     		ldr	r2, .L22+4
+ 341 0166 1A60     		str	r2, [r3]
+  75:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_RS | BITMASK_RW);
+ 342              		.loc 1 75 5
+ 343 0168 0320     		movs	r0, #3
+ 344 016a FFF7FEFF 		bl	graphic_ctrl_bit_set
+  76:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     select_controller(controller);
+ 345              		.loc 1 76 5
+ 346 016e FB1D     		adds	r3, r7, #7
+ 347 0170 1B78     		ldrb	r3, [r3]
+ 348 0172 1800     		movs	r0, r3
+ 349 0174 FFF7FEFF 		bl	select_controller
+  77:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     delay_500ns();
+ 350              		.loc 1 77 5
+ 351 0178 FFF7FEFF 		bl	delay_500ns
+  78:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_E);
+ 352              		.loc 1 78 5
+ 353 017c 4020     		movs	r0, #64
+ 354 017e FFF7FEFF 		bl	graphic_ctrl_bit_set
+  79:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     delay_500ns();
+ 355              		.loc 1 79 5
+ 356 0182 FFF7FEFF 		bl	delay_500ns
+  80:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     uint8_t returnvalue = GPIO_E->idr_high;
+ 357              		.loc 1 80 33
+ 358 0186 134A     		ldr	r2, .L22
+ 359              		.loc 1 80 13
+ 360 0188 0F23     		movs	r3, #15
+ 361 018a FB18     		adds	r3, r7, r3
+ 362 018c 527C     		ldrb	r2, [r2, #17]
+ 363 018e 1A70     		strb	r2, [r3]
+  81:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_E);
+ 364              		.loc 1 81 5
+ 365 0190 4020     		movs	r0, #64
+ 366 0192 FFF7FEFF 		bl	graphic_ctrl_bit_clear
+  82:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     GPIO_E->moder = 0x55555555;
+ 367              		.loc 1 82 11
+ 368 0196 0F4B     		ldr	r3, .L22
+ 369              		.loc 1 82 19
+ 370 0198 104A     		ldr	r2, .L22+8
+ 371 019a 1A60     		str	r2, [r3]
+  83:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     if(controller & BITMASK_CS1) {
+ 372              		.loc 1 83 19
+ 373 019c FB1D     		adds	r3, r7, #7
+ 374 019e 1B78     		ldrb	r3, [r3]
+ 375 01a0 0822     		movs	r2, #8
+ 376 01a2 1340     		ands	r3, r2
+ 377              		.loc 1 83 7
+ 378 01a4 04D0     		beq	.L19
+  84:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         select_controller(BITMASK_CS1);
+ 379              		.loc 1 84 9
+ 380 01a6 0820     		movs	r0, #8
+ 381 01a8 FFF7FEFF 		bl	select_controller
+  85:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_wait_ready();
+ 382              		.loc 1 85 9
+ 383 01ac FFF7FEFF 		bl	graphic_wait_ready
+ 384              	.L19:
+  86:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+  87:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     if(controller & BITMASK_CS2) {
+ 385              		.loc 1 87 19
+ 386 01b0 FB1D     		adds	r3, r7, #7
+ 387 01b2 1B78     		ldrb	r3, [r3]
+ 388 01b4 1022     		movs	r2, #16
+ 389 01b6 1340     		ands	r3, r2
+ 390              		.loc 1 87 7
+ 391 01b8 04D0     		beq	.L20
+  88:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         select_controller(BITMASK_CS1);
+ 392              		.loc 1 88 9
+ 393 01ba 0820     		movs	r0, #8
+ 394 01bc FFF7FEFF 		bl	select_controller
+  89:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_wait_ready();
+ 395              		.loc 1 89 9
+ 396 01c0 FFF7FEFF 		bl	graphic_wait_ready
+ 397              	.L20:
+  90:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+  91:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     return returnvalue;
+ 398              		.loc 1 91 12
+ 399 01c4 0F23     		movs	r3, #15
+ 400 01c6 FB18     		adds	r3, r7, r3
+ 401 01c8 1B78     		ldrb	r3, [r3]
+  92:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 402              		.loc 1 92 1
+ 403 01ca 1800     		movs	r0, r3
+ 404 01cc BD46     		mov	sp, r7
+ 405 01ce 04B0     		add	sp, sp, #16
+ 406              		@ sp needed
+ 407 01d0 80BD     		pop	{r7, pc}
+ 408              	.L23:
+ 409 01d2 C046     		.align	2
+ 410              	.L22:
+ 411 01d4 00100240 		.word	1073876992
+ 412 01d8 55550000 		.word	21845
+ 413 01dc 55555555 		.word	1431655765
+ 414              		.cfi_endproc
+ 415              	.LFE4:
+ 417              		.align	1
+ 418              		.global	graphic_write
+ 419              		.syntax unified
+ 420              		.code	16
+ 421              		.thumb_func
+ 422              		.fpu softvfp
+ 424              	graphic_write:
+ 425              	.LFB5:
+  93:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+  94:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void graphic_write(uint8_t value, uint8_t controller) {
+ 426              		.loc 1 94 55
+ 427              		.cfi_startproc
+ 428              		@ args = 0, pretend = 0, frame = 8
+ 429              		@ frame_needed = 1, uses_anonymous_args = 0
+ 430 01e0 80B5     		push	{r7, lr}
+ 431              		.cfi_def_cfa_offset 8
+ 432              		.cfi_offset 7, -8
+ 433              		.cfi_offset 14, -4
+ 434 01e2 82B0     		sub	sp, sp, #8
+ 435              		.cfi_def_cfa_offset 16
+ 436 01e4 00AF     		add	r7, sp, #0
+ 437              		.cfi_def_cfa_register 7
+ 438 01e6 0200     		movs	r2, r0
+ 439 01e8 FB1D     		adds	r3, r7, #7
+ 440 01ea 1A70     		strb	r2, [r3]
+ 441 01ec BB1D     		adds	r3, r7, #6
+ 442 01ee 0A1C     		adds	r2, r1, #0
+ 443 01f0 1A70     		strb	r2, [r3]
+  95:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     GPIO_E->odr_high = value;
+ 444              		.loc 1 95 11
+ 445 01f2 1A4A     		ldr	r2, .L27
+ 446              		.loc 1 95 22
+ 447 01f4 FB1D     		adds	r3, r7, #7
+ 448 01f6 1B78     		ldrb	r3, [r3]
+ 449 01f8 5375     		strb	r3, [r2, #21]
+  96:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     select_controller(controller);
+ 450              		.loc 1 96 5
+ 451 01fa BB1D     		adds	r3, r7, #6
+ 452 01fc 1B78     		ldrb	r3, [r3]
+ 453 01fe 1800     		movs	r0, r3
+ 454 0200 FFF7FEFF 		bl	select_controller
+  97:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     delay_500ns();
+ 455              		.loc 1 97 5
+ 456 0204 FFF7FEFF 		bl	delay_500ns
+  98:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_E);
+ 457              		.loc 1 98 5
+ 458 0208 4020     		movs	r0, #64
+ 459 020a FFF7FEFF 		bl	graphic_ctrl_bit_set
+  99:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     delay_500ns();
+ 460              		.loc 1 99 5
+ 461 020e FFF7FEFF 		bl	delay_500ns
+ 100:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_E);
+ 462              		.loc 1 100 5
+ 463 0212 4020     		movs	r0, #64
+ 464 0214 FFF7FEFF 		bl	graphic_ctrl_bit_clear
+ 101:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     if(controller & BITMASK_CS1) {
+ 465              		.loc 1 101 19
+ 466 0218 BB1D     		adds	r3, r7, #6
+ 467 021a 1B78     		ldrb	r3, [r3]
+ 468 021c 0822     		movs	r2, #8
+ 469 021e 1340     		ands	r3, r2
+ 470              		.loc 1 101 7
+ 471 0220 04D0     		beq	.L25
+ 102:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         select_controller(BITMASK_CS1);
+ 472              		.loc 1 102 9
+ 473 0222 0820     		movs	r0, #8
+ 474 0224 FFF7FEFF 		bl	select_controller
+ 103:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_wait_ready();
+ 475              		.loc 1 103 9
+ 476 0228 FFF7FEFF 		bl	graphic_wait_ready
+ 477              	.L25:
+ 104:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+ 105:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     if(controller & BITMASK_CS2) {
+ 478              		.loc 1 105 19
+ 479 022c BB1D     		adds	r3, r7, #6
+ 480 022e 1B78     		ldrb	r3, [r3]
+ 481 0230 1022     		movs	r2, #16
+ 482 0232 1340     		ands	r3, r2
+ 483              		.loc 1 105 7
+ 484 0234 04D0     		beq	.L26
+ 106:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         select_controller(BITMASK_CS2);
+ 485              		.loc 1 106 9
+ 486 0236 1020     		movs	r0, #16
+ 487 0238 FFF7FEFF 		bl	select_controller
+ 107:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_wait_ready();
+ 488              		.loc 1 107 9
+ 489 023c FFF7FEFF 		bl	graphic_wait_ready
+ 490              	.L26:
+ 108:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+ 109:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     GPIO_E->odr_high = 0;
+ 491              		.loc 1 109 11
+ 492 0240 064B     		ldr	r3, .L27
+ 493              		.loc 1 109 22
+ 494 0242 0022     		movs	r2, #0
+ 495 0244 5A75     		strb	r2, [r3, #21]
+ 110:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_E);
+ 496              		.loc 1 110 5
+ 497 0246 4020     		movs	r0, #64
+ 498 0248 FFF7FEFF 		bl	graphic_ctrl_bit_set
+ 111:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     select_controller(0);
+ 499              		.loc 1 111 5
+ 500 024c 0020     		movs	r0, #0
+ 501 024e FFF7FEFF 		bl	select_controller
+ 112:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 502              		.loc 1 112 1
+ 503 0252 C046     		nop
+ 504 0254 BD46     		mov	sp, r7
+ 505 0256 02B0     		add	sp, sp, #8
+ 506              		@ sp needed
+ 507 0258 80BD     		pop	{r7, pc}
+ 508              	.L28:
+ 509 025a C046     		.align	2
+ 510              	.L27:
+ 511 025c 00100240 		.word	1073876992
+ 512              		.cfi_endproc
+ 513              	.LFE5:
+ 515              		.align	1
+ 516              		.global	graphic_write_command
+ 517              		.syntax unified
+ 518              		.code	16
+ 519              		.thumb_func
+ 520              		.fpu softvfp
+ 522              	graphic_write_command:
+ 523              	.LFB6:
+ 113:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+ 114:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void graphic_write_command(uint8_t command, uint8_t controller) {
+ 524              		.loc 1 114 65
+ 525              		.cfi_startproc
+ 526              		@ args = 0, pretend = 0, frame = 8
+ 527              		@ frame_needed = 1, uses_anonymous_args = 0
+ 528 0260 80B5     		push	{r7, lr}
+ 529              		.cfi_def_cfa_offset 8
+ 530              		.cfi_offset 7, -8
+ 531              		.cfi_offset 14, -4
+ 532 0262 82B0     		sub	sp, sp, #8
+ 533              		.cfi_def_cfa_offset 16
+ 534 0264 00AF     		add	r7, sp, #0
+ 535              		.cfi_def_cfa_register 7
+ 536 0266 0200     		movs	r2, r0
+ 537 0268 FB1D     		adds	r3, r7, #7
+ 538 026a 1A70     		strb	r2, [r3]
+ 539 026c BB1D     		adds	r3, r7, #6
+ 540 026e 0A1C     		adds	r2, r1, #0
+ 541 0270 1A70     		strb	r2, [r3]
+ 115:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_E);
+ 542              		.loc 1 115 5
+ 543 0272 4020     		movs	r0, #64
+ 544 0274 FFF7FEFF 		bl	graphic_ctrl_bit_clear
+ 116:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     select_controller(controller);
+ 545              		.loc 1 116 5
+ 546 0278 BB1D     		adds	r3, r7, #6
+ 547 027a 1B78     		ldrb	r3, [r3]
+ 548 027c 1800     		movs	r0, r3
+ 549 027e FFF7FEFF 		bl	select_controller
+ 117:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_RS | BITMASK_RW);
+ 550              		.loc 1 117 5
+ 551 0282 0320     		movs	r0, #3
+ 552 0284 FFF7FEFF 		bl	graphic_ctrl_bit_clear
+ 118:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write(command, controller);
+ 553              		.loc 1 118 5
+ 554 0288 BB1D     		adds	r3, r7, #6
+ 555 028a 1A78     		ldrb	r2, [r3]
+ 556 028c FB1D     		adds	r3, r7, #7
+ 557 028e 1B78     		ldrb	r3, [r3]
+ 558 0290 1100     		movs	r1, r2
+ 559 0292 1800     		movs	r0, r3
+ 560 0294 FFF7FEFF 		bl	graphic_write
+ 119:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 561              		.loc 1 119 1
+ 562 0298 C046     		nop
+ 563 029a BD46     		mov	sp, r7
+ 564 029c 02B0     		add	sp, sp, #8
+ 565              		@ sp needed
+ 566 029e 80BD     		pop	{r7, pc}
+ 567              		.cfi_endproc
+ 568              	.LFE6:
+ 570              		.align	1
+ 571              		.global	graphic_write_data
+ 572              		.syntax unified
+ 573              		.code	16
+ 574              		.thumb_func
+ 575              		.fpu softvfp
+ 577              	graphic_write_data:
+ 578              	.LFB7:
+ 120:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+ 121:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void graphic_write_data(uint8_t data, uint8_t controller) {
+ 579              		.loc 1 121 59
+ 580              		.cfi_startproc
+ 581              		@ args = 0, pretend = 0, frame = 8
+ 582              		@ frame_needed = 1, uses_anonymous_args = 0
+ 583 02a0 80B5     		push	{r7, lr}
+ 584              		.cfi_def_cfa_offset 8
+ 585              		.cfi_offset 7, -8
+ 586              		.cfi_offset 14, -4
+ 587 02a2 82B0     		sub	sp, sp, #8
+ 588              		.cfi_def_cfa_offset 16
+ 589 02a4 00AF     		add	r7, sp, #0
+ 590              		.cfi_def_cfa_register 7
+ 591 02a6 0200     		movs	r2, r0
+ 592 02a8 FB1D     		adds	r3, r7, #7
+ 593 02aa 1A70     		strb	r2, [r3]
+ 594 02ac BB1D     		adds	r3, r7, #6
+ 595 02ae 0A1C     		adds	r2, r1, #0
+ 596 02b0 1A70     		strb	r2, [r3]
+ 122:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_E);
+ 597              		.loc 1 122 5
+ 598 02b2 4020     		movs	r0, #64
+ 599 02b4 FFF7FEFF 		bl	graphic_ctrl_bit_clear
+ 123:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     select_controller(controller);
+ 600              		.loc 1 123 5
+ 601 02b8 BB1D     		adds	r3, r7, #6
+ 602 02ba 1B78     		ldrb	r3, [r3]
+ 603 02bc 1800     		movs	r0, r3
+ 604 02be FFF7FEFF 		bl	select_controller
+ 124:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_RW);
+ 605              		.loc 1 124 5
+ 606 02c2 0220     		movs	r0, #2
+ 607 02c4 FFF7FEFF 		bl	graphic_ctrl_bit_clear
+ 125:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_RS);
+ 608              		.loc 1 125 5
+ 609 02c8 0120     		movs	r0, #1
+ 610 02ca FFF7FEFF 		bl	graphic_ctrl_bit_set
+ 126:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write(data, controller);
+ 611              		.loc 1 126 5
+ 612 02ce BB1D     		adds	r3, r7, #6
+ 613 02d0 1A78     		ldrb	r2, [r3]
+ 614 02d2 FB1D     		adds	r3, r7, #7
+ 615 02d4 1B78     		ldrb	r3, [r3]
+ 616 02d6 1100     		movs	r1, r2
+ 617 02d8 1800     		movs	r0, r3
+ 618 02da FFF7FEFF 		bl	graphic_write
+ 127:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 619              		.loc 1 127 1
+ 620 02de C046     		nop
+ 621 02e0 BD46     		mov	sp, r7
+ 622 02e2 02B0     		add	sp, sp, #8
+ 623              		@ sp needed
+ 624 02e4 80BD     		pop	{r7, pc}
+ 625              		.cfi_endproc
+ 626              	.LFE7:
+ 628              		.align	1
+ 629              		.global	graphic_read_data
+ 630              		.syntax unified
+ 631              		.code	16
+ 632              		.thumb_func
+ 633              		.fpu softvfp
+ 635              	graphic_read_data:
+ 636              	.LFB8:
+ 128:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+ 129:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** uint8_t graphic_read_data(uint8_t controller) {
+ 637              		.loc 1 129 47
+ 638              		.cfi_startproc
+ 639              		@ args = 0, pretend = 0, frame = 8
+ 640              		@ frame_needed = 1, uses_anonymous_args = 0
+ 641 02e6 80B5     		push	{r7, lr}
+ 642              		.cfi_def_cfa_offset 8
+ 643              		.cfi_offset 7, -8
+ 644              		.cfi_offset 14, -4
+ 645 02e8 82B0     		sub	sp, sp, #8
+ 646              		.cfi_def_cfa_offset 16
+ 647 02ea 00AF     		add	r7, sp, #0
+ 648              		.cfi_def_cfa_register 7
+ 649 02ec 0200     		movs	r2, r0
+ 650 02ee FB1D     		adds	r3, r7, #7
+ 651 02f0 1A70     		strb	r2, [r3]
+ 130:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     (void) graphic_read(controller);
+ 652              		.loc 1 130 12
+ 653 02f2 FB1D     		adds	r3, r7, #7
+ 654 02f4 1B78     		ldrb	r3, [r3]
+ 655 02f6 1800     		movs	r0, r3
+ 656 02f8 FFF7FEFF 		bl	graphic_read
+ 131:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     return graphic_read(controller);
+ 657              		.loc 1 131 12
+ 658 02fc FB1D     		adds	r3, r7, #7
+ 659 02fe 1B78     		ldrb	r3, [r3]
+ 660 0300 1800     		movs	r0, r3
+ 661 0302 FFF7FEFF 		bl	graphic_read
+ 662 0306 0300     		movs	r3, r0
+ 132:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 663              		.loc 1 132 1
+ 664 0308 1800     		movs	r0, r3
+ 665 030a BD46     		mov	sp, r7
+ 666 030c 02B0     		add	sp, sp, #8
+ 667              		@ sp needed
+ 668 030e 80BD     		pop	{r7, pc}
+ 669              		.cfi_endproc
+ 670              	.LFE8:
+ 672              		.align	1
+ 673              		.global	pixel
+ 674              		.syntax unified
+ 675              		.code	16
+ 676              		.thumb_func
+ 677              		.fpu softvfp
+ 679              	pixel:
+ 680              	.LFB9:
+ 133:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+ 134:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void pixel(uint8_t x, uint8_t y, bool set) {
+ 681              		.loc 1 134 44
+ 682              		.cfi_startproc
+ 683              		@ args = 0, pretend = 0, frame = 16
+ 684              		@ frame_needed = 1, uses_anonymous_args = 0
+ 685 0310 F0B5     		push	{r4, r5, r6, r7, lr}
+ 686              		.cfi_def_cfa_offset 20
+ 687              		.cfi_offset 4, -20
+ 688              		.cfi_offset 5, -16
+ 689              		.cfi_offset 6, -12
+ 690              		.cfi_offset 7, -8
+ 691              		.cfi_offset 14, -4
+ 692 0312 85B0     		sub	sp, sp, #20
+ 693              		.cfi_def_cfa_offset 40
+ 694 0314 00AF     		add	r7, sp, #0
+ 695              		.cfi_def_cfa_register 7
+ 696 0316 0400     		movs	r4, r0
+ 697 0318 0800     		movs	r0, r1
+ 698 031a 1100     		movs	r1, r2
+ 699 031c FB1D     		adds	r3, r7, #7
+ 700 031e 221C     		adds	r2, r4, #0
+ 701 0320 1A70     		strb	r2, [r3]
+ 702 0322 BB1D     		adds	r3, r7, #6
+ 703 0324 021C     		adds	r2, r0, #0
+ 704 0326 1A70     		strb	r2, [r3]
+ 705 0328 7B1D     		adds	r3, r7, #5
+ 706 032a 0A1C     		adds	r2, r1, #0
+ 707 032c 1A70     		strb	r2, [r3]
+ 135:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     // Create bitmask for the pixel
+ 136:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     uint8_t index, mask, controller;
+ 137:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     index = (y-1) / 8;
+ 708              		.loc 1 137 15
+ 709 032e BB1D     		adds	r3, r7, #6
+ 710 0330 1B78     		ldrb	r3, [r3]
+ 711 0332 013B     		subs	r3, r3, #1
+ 712              		.loc 1 137 19
+ 713 0334 002B     		cmp	r3, #0
+ 714 0336 00DA     		bge	.L34
+ 715 0338 0733     		adds	r3, r3, #7
+ 716              	.L34:
+ 717 033a DB10     		asrs	r3, r3, #3
+ 718 033c 1A00     		movs	r2, r3
+ 719              		.loc 1 137 11
+ 720 033e 0D23     		movs	r3, #13
+ 721 0340 FB18     		adds	r3, r7, r3
+ 722 0342 1A70     		strb	r2, [r3]
+ 138:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     mask = 0x1 << ((y-1) % 8);
+ 723              		.loc 1 138 22
+ 724 0344 BB1D     		adds	r3, r7, #6
+ 725 0346 1B78     		ldrb	r3, [r3]
+ 726 0348 013B     		subs	r3, r3, #1
+ 727              		.loc 1 138 26
+ 728 034a 3E4A     		ldr	r2, .L40
+ 729 034c 1340     		ands	r3, r2
+ 730 034e 04D5     		bpl	.L35
+ 731 0350 013B     		subs	r3, r3, #1
+ 732 0352 0822     		movs	r2, #8
+ 733 0354 5242     		rsbs	r2, r2, #0
+ 734 0356 1343     		orrs	r3, r2
+ 735 0358 0133     		adds	r3, r3, #1
+ 736              	.L35:
+ 737 035a 1A00     		movs	r2, r3
+ 738              		.loc 1 138 16
+ 739 035c 0123     		movs	r3, #1
+ 740 035e 9340     		lsls	r3, r3, r2
+ 741 0360 1A00     		movs	r2, r3
+ 742              		.loc 1 138 10
+ 743 0362 0F23     		movs	r3, #15
+ 744 0364 FB18     		adds	r3, r7, r3
+ 745 0366 1A70     		strb	r2, [r3]
+ 139:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     if (x > 64) {
+ 746              		.loc 1 139 8
+ 747 0368 FB1D     		adds	r3, r7, #7
+ 748 036a 1B78     		ldrb	r3, [r3]
+ 749 036c 402B     		cmp	r3, #64
+ 750 036e 09D9     		bls	.L36
+ 140:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         controller = BITMASK_CS2;
+ 751              		.loc 1 140 20
+ 752 0370 0E23     		movs	r3, #14
+ 753 0372 FB18     		adds	r3, r7, r3
+ 754 0374 1022     		movs	r2, #16
+ 755 0376 1A70     		strb	r2, [r3]
+ 141:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         x -= 65;
+ 756              		.loc 1 141 11
+ 757 0378 FB1D     		adds	r3, r7, #7
+ 758 037a FA1D     		adds	r2, r7, #7
+ 759 037c 1278     		ldrb	r2, [r2]
+ 760 037e 413A     		subs	r2, r2, #65
+ 761 0380 1A70     		strb	r2, [r3]
+ 762 0382 08E0     		b	.L37
+ 763              	.L36:
+ 142:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }else {
+ 143:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         controller = BITMASK_CS1;
+ 764              		.loc 1 143 20
+ 765 0384 0E23     		movs	r3, #14
+ 766 0386 FB18     		adds	r3, r7, r3
+ 767 0388 0822     		movs	r2, #8
+ 768 038a 1A70     		strb	r2, [r3]
+ 144:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         x--;
+ 769              		.loc 1 144 10
+ 770 038c FB1D     		adds	r3, r7, #7
+ 771 038e 1A78     		ldrb	r2, [r3]
+ 772 0390 FB1D     		adds	r3, r7, #7
+ 773 0392 013A     		subs	r2, r2, #1
+ 774 0394 1A70     		strb	r2, [r3]
+ 775              	.L37:
+ 145:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+ 146:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     
+ 147:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_command(LCD_SET_ADD | x, controller);
+ 776              		.loc 1 147 5
+ 777 0396 FB1D     		adds	r3, r7, #7
+ 778 0398 1B78     		ldrb	r3, [r3]
+ 779 039a 4022     		movs	r2, #64
+ 780 039c 1343     		orrs	r3, r2
+ 781 039e DAB2     		uxtb	r2, r3
+ 782 03a0 0E25     		movs	r5, #14
+ 783 03a2 7B19     		adds	r3, r7, r5
+ 784 03a4 1B78     		ldrb	r3, [r3]
+ 785 03a6 1900     		movs	r1, r3
+ 786 03a8 1000     		movs	r0, r2
+ 787 03aa FFF7FEFF 		bl	graphic_write_command
+ 148:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_command(LCD_SET_PAGE | index, controller);
+ 788              		.loc 1 148 5
+ 789 03ae 0D23     		movs	r3, #13
+ 790 03b0 FB18     		adds	r3, r7, r3
+ 791 03b2 1B78     		ldrb	r3, [r3]
+ 792 03b4 4822     		movs	r2, #72
+ 793 03b6 5242     		rsbs	r2, r2, #0
+ 794 03b8 1343     		orrs	r3, r2
+ 795 03ba DAB2     		uxtb	r2, r3
+ 796 03bc 7B19     		adds	r3, r7, r5
+ 797 03be 1B78     		ldrb	r3, [r3]
+ 798 03c0 1900     		movs	r1, r3
+ 799 03c2 1000     		movs	r0, r2
+ 800 03c4 FFF7FEFF 		bl	graphic_write_command
+ 149:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     uint8_t temp = graphic_read_data(controller);
+ 801              		.loc 1 149 20
+ 802 03c8 0C26     		movs	r6, #12
+ 803 03ca BC19     		adds	r4, r7, r6
+ 804 03cc 7B19     		adds	r3, r7, r5
+ 805 03ce 1B78     		ldrb	r3, [r3]
+ 806 03d0 1800     		movs	r0, r3
+ 807 03d2 FFF7FEFF 		bl	graphic_read_data
+ 808 03d6 0300     		movs	r3, r0
+ 809 03d8 2370     		strb	r3, [r4]
+ 150:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_command(LCD_SET_ADD | x, controller);
+ 810              		.loc 1 150 5
+ 811 03da FB1D     		adds	r3, r7, #7
+ 812 03dc 1B78     		ldrb	r3, [r3]
+ 813 03de 4022     		movs	r2, #64
+ 814 03e0 1343     		orrs	r3, r2
+ 815 03e2 DAB2     		uxtb	r2, r3
+ 816 03e4 7B19     		adds	r3, r7, r5
+ 817 03e6 1B78     		ldrb	r3, [r3]
+ 818 03e8 1900     		movs	r1, r3
+ 819 03ea 1000     		movs	r0, r2
+ 820 03ec FFF7FEFF 		bl	graphic_write_command
+ 151:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     if (set) {
+ 821              		.loc 1 151 8
+ 822 03f0 7B1D     		adds	r3, r7, #5
+ 823 03f2 1B78     		ldrb	r3, [r3]
+ 824 03f4 002B     		cmp	r3, #0
+ 825 03f6 08D0     		beq	.L38
+ 152:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         mask |= temp;
+ 826              		.loc 1 152 14
+ 827 03f8 0F22     		movs	r2, #15
+ 828 03fa BB18     		adds	r3, r7, r2
+ 829 03fc B918     		adds	r1, r7, r2
+ 830 03fe BA19     		adds	r2, r7, r6
+ 831 0400 0978     		ldrb	r1, [r1]
+ 832 0402 1278     		ldrb	r2, [r2]
+ 833 0404 0A43     		orrs	r2, r1
+ 834 0406 1A70     		strb	r2, [r3]
+ 835 0408 0DE0     		b	.L39
+ 836              	.L38:
+ 153:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }else {
+ 154:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         mask = ~mask & temp;
+ 837              		.loc 1 154 22
+ 838 040a 0F21     		movs	r1, #15
+ 839 040c 7B18     		adds	r3, r7, r1
+ 840 040e 1B78     		ldrb	r3, [r3]
+ 841 0410 5BB2     		sxtb	r3, r3
+ 842 0412 DB43     		mvns	r3, r3
+ 843 0414 5BB2     		sxtb	r3, r3
+ 844 0416 0C22     		movs	r2, #12
+ 845 0418 BA18     		adds	r2, r7, r2
+ 846 041a 1278     		ldrb	r2, [r2]
+ 847 041c 52B2     		sxtb	r2, r2
+ 848 041e 1340     		ands	r3, r2
+ 849 0420 5AB2     		sxtb	r2, r3
+ 850              		.loc 1 154 14
+ 851 0422 7B18     		adds	r3, r7, r1
+ 852 0424 1A70     		strb	r2, [r3]
+ 853              	.L39:
+ 155:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+ 156:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_data(mask, controller);
+ 854              		.loc 1 156 5
+ 855 0426 0E23     		movs	r3, #14
+ 856 0428 FB18     		adds	r3, r7, r3
+ 857 042a 1A78     		ldrb	r2, [r3]
+ 858 042c 0F23     		movs	r3, #15
+ 859 042e FB18     		adds	r3, r7, r3
+ 860 0430 1B78     		ldrb	r3, [r3]
+ 861 0432 1100     		movs	r1, r2
+ 862 0434 1800     		movs	r0, r3
+ 863 0436 FFF7FEFF 		bl	graphic_write_data
+ 157:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 864              		.loc 1 157 1
+ 865 043a C046     		nop
+ 866 043c BD46     		mov	sp, r7
+ 867 043e 05B0     		add	sp, sp, #20
+ 868              		@ sp needed
+ 869 0440 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 870              	.L41:
+ 871 0442 C046     		.align	2
+ 872              	.L40:
+ 873 0444 07000080 		.word	-2147483641
+ 874              		.cfi_endproc
+ 875              	.LFE9:
+ 877              		.align	1
+ 878              		.global	graphic_clear_screen
+ 879              		.syntax unified
+ 880              		.code	16
+ 881              		.thumb_func
+ 882              		.fpu softvfp
+ 884              	graphic_clear_screen:
+ 885              	.LFB10:
+ 158:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+ 159:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void graphic_clear_screen(void) {
+ 886              		.loc 1 159 33
+ 887              		.cfi_startproc
+ 888              		@ args = 0, pretend = 0, frame = 8
+ 889              		@ frame_needed = 1, uses_anonymous_args = 0
+ 890 0448 80B5     		push	{r7, lr}
+ 891              		.cfi_def_cfa_offset 8
+ 892              		.cfi_offset 7, -8
+ 893              		.cfi_offset 14, -4
+ 894 044a 82B0     		sub	sp, sp, #8
+ 895              		.cfi_def_cfa_offset 16
+ 896 044c 00AF     		add	r7, sp, #0
+ 897              		.cfi_def_cfa_register 7
+ 898              	.LBB2:
+ 160:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     for (uint8_t page = 0; page < 8; page++ ) {
+ 899              		.loc 1 160 18
+ 900 044e FB1D     		adds	r3, r7, #7
+ 901 0450 0022     		movs	r2, #0
+ 902 0452 1A70     		strb	r2, [r3]
+ 903              		.loc 1 160 5
+ 904 0454 23E0     		b	.L43
+ 905              	.L46:
+ 161:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_write_command(LCD_SET_PAGE | page, BITMASK_CS1 | BITMASK_CS2);
+ 906              		.loc 1 161 9
+ 907 0456 FB1D     		adds	r3, r7, #7
+ 908 0458 1B78     		ldrb	r3, [r3]
+ 909 045a 4822     		movs	r2, #72
+ 910 045c 5242     		rsbs	r2, r2, #0
+ 911 045e 1343     		orrs	r3, r2
+ 912 0460 DBB2     		uxtb	r3, r3
+ 913 0462 1821     		movs	r1, #24
+ 914 0464 1800     		movs	r0, r3
+ 915 0466 FFF7FEFF 		bl	graphic_write_command
+ 162:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_write_command(LCD_SET_ADD  | 0, BITMASK_CS1 | BITMASK_CS2);
+ 916              		.loc 1 162 9
+ 917 046a 1821     		movs	r1, #24
+ 918 046c 4020     		movs	r0, #64
+ 919 046e FFF7FEFF 		bl	graphic_write_command
+ 920              	.LBB3:
+ 163:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         for (uint8_t add = 0; add < 64; add++) {
+ 921              		.loc 1 163 22
+ 922 0472 BB1D     		adds	r3, r7, #6
+ 923 0474 0022     		movs	r2, #0
+ 924 0476 1A70     		strb	r2, [r3]
+ 925              		.loc 1 163 9
+ 926 0478 08E0     		b	.L44
+ 927              	.L45:
+ 164:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****             graphic_write_data(0, BITMASK_CS1 | BITMASK_CS2);
+ 928              		.loc 1 164 13 discriminator 3
+ 929 047a 1821     		movs	r1, #24
+ 930 047c 0020     		movs	r0, #0
+ 931 047e FFF7FEFF 		bl	graphic_write_data
+ 163:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         for (uint8_t add = 0; add < 64; add++) {
+ 932              		.loc 1 163 44 discriminator 3
+ 933 0482 BB1D     		adds	r3, r7, #6
+ 934 0484 1A78     		ldrb	r2, [r3]
+ 935 0486 BB1D     		adds	r3, r7, #6
+ 936 0488 0132     		adds	r2, r2, #1
+ 937 048a 1A70     		strb	r2, [r3]
+ 938              	.L44:
+ 163:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         for (uint8_t add = 0; add < 64; add++) {
+ 939              		.loc 1 163 9 discriminator 1
+ 940 048c BB1D     		adds	r3, r7, #6
+ 941 048e 1B78     		ldrb	r3, [r3]
+ 942 0490 3F2B     		cmp	r3, #63
+ 943 0492 F2D9     		bls	.L45
+ 944              	.LBE3:
+ 160:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_write_command(LCD_SET_PAGE | page, BITMASK_CS1 | BITMASK_CS2);
+ 945              		.loc 1 160 42 discriminator 2
+ 946 0494 FB1D     		adds	r3, r7, #7
+ 947 0496 1A78     		ldrb	r2, [r3]
+ 948 0498 FB1D     		adds	r3, r7, #7
+ 949 049a 0132     		adds	r2, r2, #1
+ 950 049c 1A70     		strb	r2, [r3]
+ 951              	.L43:
+ 160:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         graphic_write_command(LCD_SET_PAGE | page, BITMASK_CS1 | BITMASK_CS2);
+ 952              		.loc 1 160 5 discriminator 1
+ 953 049e FB1D     		adds	r3, r7, #7
+ 954 04a0 1B78     		ldrb	r3, [r3]
+ 955 04a2 072B     		cmp	r3, #7
+ 956 04a4 D7D9     		bls	.L46
+ 957              	.LBE2:
+ 165:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****         }
+ 166:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     }
+ 167:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }
+ 958              		.loc 1 167 1
+ 959 04a6 C046     		nop
+ 960 04a8 C046     		nop
+ 961 04aa BD46     		mov	sp, r7
+ 962 04ac 02B0     		add	sp, sp, #8
+ 963              		@ sp needed
+ 964 04ae 80BD     		pop	{r7, pc}
+ 965              		.cfi_endproc
+ 966              	.LFE10:
+ 968              		.align	1
+ 969              		.global	graphic_init
+ 970              		.syntax unified
+ 971              		.code	16
+ 972              		.thumb_func
+ 973              		.fpu softvfp
+ 975              	graphic_init:
+ 976              	.LFB11:
+ 168:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+ 169:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** 
+ 170:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** void graphic_init(void) {
+ 977              		.loc 1 170 25
+ 978              		.cfi_startproc
+ 979              		@ args = 0, pretend = 0, frame = 0
+ 980              		@ frame_needed = 1, uses_anonymous_args = 0
+ 981 04b0 80B5     		push	{r7, lr}
+ 982              		.cfi_def_cfa_offset 8
+ 983              		.cfi_offset 7, -8
+ 984              		.cfi_offset 14, -4
+ 985 04b2 00AF     		add	r7, sp, #0
+ 986              		.cfi_def_cfa_register 7
+ 171:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_E);
+ 987              		.loc 1 171 5
+ 988 04b4 4020     		movs	r0, #64
+ 989 04b6 FFF7FEFF 		bl	graphic_ctrl_bit_set
+ 172:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     delay_micros(10);
+ 990              		.loc 1 172 5
+ 991 04ba 0A20     		movs	r0, #10
+ 992 04bc FFF7FEFF 		bl	delay_micros
+ 173:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_clear(BITMASK_CS1 | BITMASK_CS2 | BITMASK_RESET | BITMASK_E);
+ 993              		.loc 1 173 5
+ 994 04c0 7820     		movs	r0, #120
+ 995 04c2 FFF7FEFF 		bl	graphic_ctrl_bit_clear
+ 174:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     delay_millis(30);
+ 996              		.loc 1 174 5
+ 997 04c6 1E20     		movs	r0, #30
+ 998 04c8 FFF7FEFF 		bl	delay_millis
+ 175:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_ctrl_bit_set(BITMASK_RESET);
+ 999              		.loc 1 175 5
+ 1000 04cc 2020     		movs	r0, #32
+ 1001 04ce FFF7FEFF 		bl	graphic_ctrl_bit_set
+ 176:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     
+ 177:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     // Toggle display
+ 178:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_command(LCD_OFF, BITMASK_CS1 | BITMASK_CS2);
+ 1002              		.loc 1 178 5
+ 1003 04d2 1821     		movs	r1, #24
+ 1004 04d4 3E20     		movs	r0, #62
+ 1005 04d6 FFF7FEFF 		bl	graphic_write_command
+ 179:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_command(LCD_ON, BITMASK_CS1 | BITMASK_CS2);
+ 1006              		.loc 1 179 5
+ 1007 04da 1821     		movs	r1, #24
+ 1008 04dc 3F20     		movs	r0, #63
+ 1009 04de FFF7FEFF 		bl	graphic_write_command
+ 180:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     //Start = 0
+ 181:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_command(LCD_DISP_START, BITMASK_CS1 | BITMASK_CS2);
+ 1010              		.loc 1 181 5
+ 1011 04e2 1821     		movs	r1, #24
+ 1012 04e4 C020     		movs	r0, #192
+ 1013 04e6 FFF7FEFF 		bl	graphic_write_command
+ 182:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     // Add = 0
+ 183:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_command(LCD_SET_ADD, BITMASK_CS1 | BITMASK_CS2);
+ 1014              		.loc 1 183 5
+ 1015 04ea 1821     		movs	r1, #24
+ 1016 04ec 4020     		movs	r0, #64
+ 1017 04ee FFF7FEFF 		bl	graphic_write_command
+ 184:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     // Page = 0
+ 185:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     graphic_write_command(LCD_SET_PAGE, BITMASK_CS1 | BITMASK_CS2);
+ 1018              		.loc 1 185 5
+ 1019 04f2 1821     		movs	r1, #24
+ 1020 04f4 B820     		movs	r0, #184
+ 1021 04f6 FFF7FEFF 		bl	graphic_write_command
+ 186:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     // Deactivate both CS signals
+ 187:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c ****     select_controller(0);
+ 1022              		.loc 1 187 5
+ 1023 04fa 0020     		movs	r0, #0
+ 1024 04fc FFF7FEFF 		bl	select_controller
+ 188:/home/love/Documents/skola/EDA482/LV3/codelite/labb3_3/graphics.c **** }...
+ 1025              		.loc 1 188 1
+ 1026 0500 C046     		nop
+ 1027 0502 BD46     		mov	sp, r7
+ 1028              		@ sp needed
+ 1029 0504 80BD     		pop	{r7, pc}
+ 1030              		.cfi_endproc
+ 1031              	.LFE11:
+ 1033              	.Letext0:
+ 1034              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1035              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1036              		.file 4 "/home/love/Documents/skola/EDA482/libs/include/libGPIO.h"

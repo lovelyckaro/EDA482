@@ -23,6 +23,7 @@ asm volatile(
 int main(void)
 {
     GPIO_output(GPIO_E);
+    graphic_init();
     for (uint8_t x = 0; x < 128; x++) {
         pixel(x, 10, true);
         if (x < 64) {
