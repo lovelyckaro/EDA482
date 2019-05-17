@@ -13,7 +13,8 @@
   <Project Name="md407_static_library_CUSTOM" Path="md407_static_library_CUSTOM/md407_static_library_CUSTOM.project" Active="No"/>
   <Project Name="lcddisplay" Path="lcddisplay/lcddisplay.project" Active="No"/>
   <Project Name="labb3_1" Path="labb3_1/labb3_1.project" Active="No"/>
-  <Project Name="labb3_3" Path="labb3_3/labb3_3.project" Active="Yes"/>
+  <Project Name="labb3_3" Path="labb3_3/labb3_3.project" Active="No"/>
+  <Project Name="flag_change" Path="flag_change/flag_change.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
@@ -31,6 +32,7 @@
       <Project Name="lcddisplay" ConfigName="Debug"/>
       <Project Name="labb3_1" ConfigName="Debug"/>
       <Project Name="labb3_3" ConfigName="Debug"/>
+      <Project Name="flag_change" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
@@ -48,6 +50,7 @@
       <Project Name="lcddisplay" ConfigName="Release"/>
       <Project Name="labb3_1" ConfigName="Release"/>
       <Project Name="labb3_3" ConfigName="Release"/>
+      <Project Name="flag_change" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

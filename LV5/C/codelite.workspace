@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="codelite" Database="" Version="10.0.0">
+  <Project Name="InterruptControl" Path="controlRegister/controlRegister.project" Active="No"/>
+  <Project Name="sysick_irq" Path="sysick_irq/sysick_irq.project" Active="No"/>
+  <Project Name="flipflop_irq" Path="flipflop_irq/flipflop_irq.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Environment/>
+      <Project Name="InterruptControl" ConfigName="Debug"/>
+      <Project Name="sysick_irq" ConfigName="Debug"/>
+      <Project Name="flipflop_irq" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Environment/>
+      <Project Name="InterruptControl" ConfigName="Release"/>
+      <Project Name="sysick_irq" ConfigName="Release"/>
+      <Project Name="flipflop_irq" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

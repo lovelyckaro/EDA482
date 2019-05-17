@@ -1,0 +1,29 @@
+
+invstate.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <main>:
+@ invstate.asm
+main:	lDR	R0,=func1
+20000000:	4802      	ldr	r0, [pc, #8]	; (2000000c <func2+0x2>)
+	BLX	R0
+20000002:	4780      	blx	r0
+	LDR	R0,=func2
+20000004:	4802      	ldr	r0, [pc, #8]	; (20000010 <func2+0x6>)
+	BLX	R0
+20000006:	4780      	blx	r0
+
+20000008 <func1>:
+
+	.thumb_func
+func1:	BX	LR
+20000008:	4770      	bx	lr
+
+2000000a <func2>:
+
+func2:	BX	LR
+2000000a:	4770      	bx	lr
+2000000c:	20000009 	.word	0x20000009
+20000010:	2000000a 	.word	0x2000000a
