@@ -1,8 +1,8 @@
 .PHONY: clean All
 
 All:
-	@echo "----------Building project:[ flag_change - Debug ]----------"
-	@cd "flag_change" && "$(MAKE)" -f  "flag_change.mk" && "$(MAKE)" -f  "flag_change.mk" PostBuild
+	@echo "----------Building project:[ GPIO - Release ]----------"
+	@cd "GPIO" && "$(MAKE)" -f  "GPIO.mk" && "$(MAKE)" -f  "GPIO.mk" PostBuild
 clean:
-	@echo "----------Cleaning project:[ flag_change - Debug ]----------"
-	@cd "flag_change" && "$(MAKE)" -f  "flag_change.mk" clean
+	@echo "----------Cleaning project:[ GPIO - Release ]----------"
+	@cd "GPIO" && "$(MAKE)" -f  "GPIO.mk" clean

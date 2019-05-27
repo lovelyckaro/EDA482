@@ -132,13 +132,14 @@
  139              	delay_millis:
  140              		@ args = 0, pretend = 0, frame = 0
  141              		@ frame_needed = 0, uses_anonymous_args = 0
- 142 0084 10B5     		push	{r4, lr}
- 143 0086 4301     		lsls	r3, r0, #5
- 144 0088 1B1A     		subs	r3, r3, r0
- 145 008a 9B00     		lsls	r3, r3, #2
- 146 008c 1818     		adds	r0, r3, r0
- 147 008e C000     		lsls	r0, r0, #3
- 148 0090 FFF7FEFF 		bl	delay_micros
- 149              		@ sp needed
- 150 0094 10BD     		pop	{r4, pc}
- 152 0096 C046     		.ident	"GCC: (Arch Repository) 8.3.0"
+ 142 0084 0200     		movs	r2, r0
+ 143 0086 10B5     		push	{r4, lr}
+ 144 0088 4001     		lsls	r0, r0, #5
+ 145 008a 801A     		subs	r0, r0, r2
+ 146 008c 8000     		lsls	r0, r0, #2
+ 147 008e 8018     		adds	r0, r0, r2
+ 148 0090 C000     		lsls	r0, r0, #3
+ 149 0092 FFF7FEFF 		bl	delay_micros
+ 150              		@ sp needed
+ 151 0096 10BD     		pop	{r4, pc}
+ 153              		.ident	"GCC: (Arch Repository) 9.1.0"

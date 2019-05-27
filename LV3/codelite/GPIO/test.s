@@ -21,8 +21,8 @@
   22              		@ args = 0, pretend = 0, frame = 0
   23              		@ frame_needed = 0, uses_anonymous_args = 0
   24              		@ link register save eliminated.
-  25 0000 0160     		str	r1, [r0]
-  26              		@ sp needed
+  25              		@ sp needed
+  26 0000 0160     		str	r1, [r0]
   27 0002 7047     		bx	lr
   29              		.align	1
   30              		.p2align 2,,3
@@ -48,8 +48,8 @@
   51 0018 034B     		ldr	r3, .L10+8
   52 001a 1943     		orrs	r1, r3
   53              	.L5:
-  54 001c 0160     		str	r1, [r0]
-  55              		@ sp needed
+  54              		@ sp needed
+  55 001c 0160     		str	r1, [r0]
   56 001e 7047     		bx	lr
   57              	.L11:
   58              		.align	2
@@ -150,11 +150,11 @@
  161 007a F021     		movs	r1, #240
  162 007c AA25     		movs	r5, #170
  163 007e AA26     		movs	r6, #170
- 164 0080 0901     		lsls	r1, r1, #4
- 165 0082 FF23     		movs	r3, #255
- 166 0084 2D04     		lsls	r5, r5, #16
- 167 0086 F605     		lsls	r6, r6, #23
- 168 0088 014C     		ldr	r4, .L22+4
+ 164 0080 FF23     		movs	r3, #255
+ 165 0082 034C     		ldr	r4, .L22+4
+ 166 0084 0901     		lsls	r1, r1, #4
+ 167 0086 2D04     		lsls	r5, r5, #16
+ 168 0088 F605     		lsls	r6, r6, #23
  169 008a E9E7     		b	.L20
  170              	.L23:
  171              		.align	2
@@ -370,83 +370,62 @@
  391              	.L63:
  392 0198 ABAA5455 		.word	1431612075
  393 019c 55550000 		.word	21845
- 395              		.align	1
- 396              		.p2align 2,,3
- 397              		.global	GPIO_put_seven_seg
- 398              		.syntax unified
- 399              		.code	16
- 400              		.thumb_func
- 401              		.fpu softvfp
- 403              	GPIO_put_seven_seg:
- 404              		@ args = 0, pretend = 0, frame = 16
- 405              		@ frame_needed = 0, uses_anonymous_args = 0
- 406 01a0 F0B5     		push	{r4, r5, r6, r7, lr}
- 407 01a2 85B0     		sub	sp, sp, #20
- 408 01a4 6C46     		mov	r4, sp
- 409 01a6 8C46     		mov	ip, r1
- 410 01a8 2500     		movs	r5, r4
- 411 01aa 0A4B     		ldr	r3, .L70
- 412 01ac 1033     		adds	r3, r3, #16
- 413 01ae C2CB     		ldmia	r3!, {r1, r6, r7}
- 414 01b0 C2C5     		stmia	r5!, {r1, r6, r7}
- 415 01b2 6146     		mov	r1, ip
- 416 01b4 1B68     		ldr	r3, [r3]
- 417 01b6 2B60     		str	r3, [r5]
- 418 01b8 4B1E     		subs	r3, r1, #1
- 419 01ba 9941     		sbcs	r1, r1, r3
- 420 01bc 4118     		adds	r1, r0, r1
- 421 01be 1431     		adds	r1, r1, #20
- 422 01c0 0F2A     		cmp	r2, #15
- 423 01c2 03D8     		bhi	.L68
- 424 01c4 A35C     		ldrb	r3, [r4, r2]
- 425 01c6 0B70     		strb	r3, [r1]
- 426              	.L65:
- 427 01c8 05B0     		add	sp, sp, #20
- 428              		@ sp needed
- 429 01ca F0BD     		pop	{r4, r5, r6, r7, pc}
- 430              	.L68:
- 431 01cc 0023     		movs	r3, #0
- 432 01ce 0B70     		strb	r3, [r1]
- 433 01d0 FAE7     		b	.L65
- 434              	.L71:
- 435 01d2 C046     		.align	2
- 436              	.L70:
- 437 01d4 00000000 		.word	.LANCHOR0
- 439              		.section	.rodata
- 440              		.align	2
- 441              		.set	.LANCHOR0,. + 0
- 442              	.LC0:
- 443 0000 01       		.byte	1
- 444 0001 02       		.byte	2
- 445 0002 03       		.byte	3
- 446 0003 0A       		.byte	10
- 447 0004 04       		.byte	4
- 448 0005 05       		.byte	5
- 449 0006 06       		.byte	6
- 450 0007 0B       		.byte	11
- 451 0008 07       		.byte	7
- 452 0009 08       		.byte	8
- 453 000a 09       		.byte	9
- 454 000b 0C       		.byte	12
- 455 000c 0E       		.byte	14
- 456 000d 00       		.byte	0
- 457 000e 0F       		.byte	15
- 458 000f 0D       		.byte	13
- 459              	.LC1:
- 460 0010 3F       		.byte	63
- 461 0011 06       		.byte	6
- 462 0012 5B       		.byte	91
- 463 0013 4F       		.byte	79
- 464 0014 66       		.byte	102
- 465 0015 6D       		.byte	109
- 466 0016 7D       		.byte	125
- 467 0017 07       		.byte	7
- 468 0018 7F       		.byte	127
- 469 0019 6F       		.byte	111
- 470 001a 77       		.byte	119
- 471 001b 7C       		.byte	124
- 472 001c 39       		.byte	57
- 473 001d 5E       		.byte	94
- 474 001e 79       		.byte	121
- 475 001f 71       		.byte	113
- 476              		.ident	"GCC: (Arch Repository) 8.3.0"
+ 395              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 396              		.align	2
+ 397              	.LC3:
+ 398 0000 3F065B4F 		.ascii	"?\006[Ofm}\007\177ow|9^yq\000"
+ 398      666D7D07 
+ 398      7F6F777C 
+ 398      395E7971 
+ 398      00
+ 399              		.text
+ 400              		.align	1
+ 401              		.p2align 2,,3
+ 402              		.global	GPIO_put_seven_seg
+ 403              		.syntax unified
+ 404              		.code	16
+ 405              		.thumb_func
+ 406              		.fpu softvfp
+ 408              	GPIO_put_seven_seg:
+ 409              		@ args = 0, pretend = 0, frame = 16
+ 410              		@ frame_needed = 0, uses_anonymous_args = 0
+ 411 01a0 F0B5     		push	{r4, r5, r6, r7, lr}
+ 412 01a2 85B0     		sub	sp, sp, #20
+ 413 01a4 6C46     		mov	r4, sp
+ 414 01a6 8C46     		mov	ip, r1
+ 415 01a8 2500     		movs	r5, r4
+ 416 01aa 094B     		ldr	r3, .L70
+ 417 01ac C2CB     		ldmia	r3!, {r1, r6, r7}
+ 418 01ae C2C5     		stmia	r5!, {r1, r6, r7}
+ 419 01b0 6146     		mov	r1, ip
+ 420 01b2 1B68     		ldr	r3, [r3]
+ 421 01b4 2B60     		str	r3, [r5]
+ 422 01b6 4B1E     		subs	r3, r1, #1
+ 423 01b8 9941     		sbcs	r1, r1, r3
+ 424 01ba 4118     		adds	r1, r0, r1
+ 425 01bc 1431     		adds	r1, r1, #20
+ 426 01be 0F2A     		cmp	r2, #15
+ 427 01c0 03D8     		bhi	.L68
+ 428 01c2 A35C     		ldrb	r3, [r4, r2]
+ 429 01c4 0B70     		strb	r3, [r1]
+ 430              	.L65:
+ 431 01c6 05B0     		add	sp, sp, #20
+ 432              		@ sp needed
+ 433 01c8 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 434              	.L68:
+ 435 01ca 0023     		movs	r3, #0
+ 436 01cc 0B70     		strb	r3, [r1]
+ 437 01ce FAE7     		b	.L65
+ 438              	.L71:
+ 439              		.align	2
+ 440              	.L70:
+ 441 01d0 00000000 		.word	.LC3
+ 443              		.section	.rodata
+ 444              		.align	2
+ 445              		.set	.LANCHOR0,. + 0
+ 446              	.LC0:
+ 447 0000 0102030A 		.ascii	"\001\002\003\012"
+ 448 0004 0405060B 		.ascii	"\004\005\006\013"
+ 449 0008 0708090C 		.ascii	"\007\010\011\014"
+ 450 000c 0E000F0D 		.ascii	"\016\000\017\015"
+ 451              		.ident	"GCC: (Arch Repository) 9.1.0"

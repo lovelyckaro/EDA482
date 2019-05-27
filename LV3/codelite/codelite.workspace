@@ -5,7 +5,7 @@
   <Project Name="delay" Path="delay/delay.project" Active="No"/>
   <Project Name="asciidisplay" Path="asciidisplay/asciidisplay.project" Active="No"/>
   <Project Name="keypad" Path="keypad/keypad.project" Active="No"/>
-  <Project Name="GPIO" Path="GPIO/GPIO.project" Active="No"/>
+  <Project Name="GPIO" Path="GPIO/GPIO.project" Active="Yes"/>
   <Project Name="delay" Path="delay/delay.project" Active="No"/>
   <Project Name="usesDelay" Path="usesDelay/usesDelay.project" Active="No"/>
   <Project Name="md407_startup_with_libraries" Path="md407_startup_with_libraries/md407_startup_with_libraries.project" Active="No"/>
@@ -14,9 +14,9 @@
   <Project Name="lcddisplay" Path="lcddisplay/lcddisplay.project" Active="No"/>
   <Project Name="labb3_1" Path="labb3_1/labb3_1.project" Active="No"/>
   <Project Name="labb3_3" Path="labb3_3/labb3_3.project" Active="No"/>
-  <Project Name="flag_change" Path="flag_change/flag_change.project" Active="Yes"/>
+  <Project Name="flag_change" Path="flag_change/flag_change.project" Active="No"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="basic_io" ConfigName="Debug"/>
       <Project Name="basic_io_labb1" ConfigName="Debug"/>
