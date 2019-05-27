@@ -72,6 +72,7 @@ int main(void) {
     delay(DELAY_COUNT);
     GPIO_D->odr_low = 0xFF;
     while (true) {
+        
         if(systick_flag) {
             break;
         }

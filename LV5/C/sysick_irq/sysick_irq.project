@@ -139,4 +139,6 @@ ARM_GCC_M4FPLIB=$(GccArmDir)/lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m]]>
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>
