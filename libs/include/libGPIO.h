@@ -5,6 +5,8 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#ifndef LIB_GPIO
+#define LIB_GPIO
 
 #define GPIO_D ((volatile GPIO*) 0x40020C00)
 #define GPIO_E ((volatile GPIO*) 0x40021000)
@@ -38,3 +40,4 @@ uint8_t GPIO_read_keypad(volatile GPIO* port, bool high);
 // Seven segment display
 void GPIO_init_seven_seg(volatile GPIO* port, bool high);
 void GPIO_put_seven_seg(volatile GPIO* port, bool high, uint8_t value); // Print value to seven_seg display, values over 15 clear display
+#endif
